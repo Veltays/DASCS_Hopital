@@ -22,10 +22,10 @@ bool CBH(char *requete, char *reponse, int socket)
     // ***** LOGIN ******************************************
     if (strcmp(ptr, "LOGIN") == 0)
     {
-        char user[50], password[50];
-        strcpy(user, strtok(NULL, "#"));
-        strcpy(password, strtok(NULL, "#"));
-        printf("\t[THREAD %p] LOGIN de %s\n", pthread_self(), user);
+        char firstname[50], lastname[50], password[50];
+        strcpy(firstname, strtok(NULL, "#"));
+        strcpy(lastname, strtok(NULL, "#"));
+        printf("\t[THREAD %p] LOGIN de %s -- %s\n", pthread_self(), firstname, lastname);
         if (estPresent(socket) >= 0) // client déjà loggé
         {
             sprintf(reponse, "LOGIN#ko#Client déjà loggé !");

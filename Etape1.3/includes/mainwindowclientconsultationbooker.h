@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <string>
+
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -51,12 +52,15 @@ public:
     int dialogInputInt(const string& title,const string& question);
 
 
+
+
+
 private slots:
     void on_pushButtonLogin_clicked();
     void on_pushButtonLogout_clicked();
     void on_pushButtonRechercher_clicked();
     void on_pushButtonReserver_clicked();
-
+    
 private:
     Ui::MainWindowClientConsultationBooker *ui;
 };

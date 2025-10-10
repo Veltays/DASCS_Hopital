@@ -62,10 +62,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/student/Bureau/ne/DASCS_Hopital/Etape1.3
+CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build
+CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.3/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/client.dir/depend.make
@@ -78,59 +78,73 @@ include CMakeFiles/client.dir/flags.make
 
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: client_autogen/mocs_compilation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o -c /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o -c /home/student/Bureau/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp
 
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp > CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp > CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.i
 
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp -o CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp -o CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.s
+
+CMakeFiles/client.dir/sources/main.cpp.o: CMakeFiles/client.dir/flags.make
+CMakeFiles/client.dir/sources/main.cpp.o: ../sources/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/sources/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/sources/main.cpp.o -c /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/main.cpp
+
+CMakeFiles/client.dir/sources/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/sources/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/main.cpp > CMakeFiles/client.dir/sources/main.cpp.i
+
+CMakeFiles/client.dir/sources/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/sources/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/main.cpp -o CMakeFiles/client.dir/sources/main.cpp.s
 
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../sources/mainwindowclientconsultationbooker.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o -c /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o -c /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp
 
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp > CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp > CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.i
 
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp -o CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp -o CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.s
 
 CMakeFiles/client.dir/sources/TCP.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/sources/TCP.cpp.o: ../sources/TCP.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/client.dir/sources/TCP.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/sources/TCP.cpp.o -c /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/TCP.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/client.dir/sources/TCP.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/sources/TCP.cpp.o -c /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.cpp
 
 CMakeFiles/client.dir/sources/TCP.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/sources/TCP.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/TCP.cpp > CMakeFiles/client.dir/sources/TCP.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.cpp > CMakeFiles/client.dir/sources/TCP.cpp.i
 
 CMakeFiles/client.dir/sources/TCP.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/sources/TCP.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/TCP.cpp -o CMakeFiles/client.dir/sources/TCP.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.cpp -o CMakeFiles/client.dir/sources/TCP.cpp.s
 
 CMakeFiles/client.dir/sources/CBH.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/sources/CBH.cpp.o: ../sources/CBH.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/client.dir/sources/CBH.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/sources/CBH.cpp.o -c /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/CBH.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/client.dir/sources/CBH.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/sources/CBH.cpp.o -c /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.cpp
 
 CMakeFiles/client.dir/sources/CBH.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/sources/CBH.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/CBH.cpp > CMakeFiles/client.dir/sources/CBH.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.cpp > CMakeFiles/client.dir/sources/CBH.cpp.i
 
 CMakeFiles/client.dir/sources/CBH.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/sources/CBH.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/CBH.cpp -o CMakeFiles/client.dir/sources/CBH.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.cpp -o CMakeFiles/client.dir/sources/CBH.cpp.s
 
 # Object files for target client
 client_OBJECTS = \
 "CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o" \
+"CMakeFiles/client.dir/sources/main.cpp.o" \
 "CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o" \
 "CMakeFiles/client.dir/sources/TCP.cpp.o" \
 "CMakeFiles/client.dir/sources/CBH.cpp.o"
@@ -139,6 +153,7 @@ client_OBJECTS = \
 client_EXTERNAL_OBJECTS =
 
 bin/client: CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o
+bin/client: CMakeFiles/client.dir/sources/main.cpp.o
 bin/client: CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o
 bin/client: CMakeFiles/client.dir/sources/TCP.cpp.o
 bin/client: CMakeFiles/client.dir/sources/CBH.cpp.o
@@ -147,7 +162,7 @@ bin/client: /usr/lib64/libQt5Widgets.so.5.12.5
 bin/client: /usr/lib64/libQt5Gui.so.5.12.5
 bin/client: /usr/lib64/libQt5Core.so.5.12.5
 bin/client: CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable bin/client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable bin/client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -160,6 +175,6 @@ CMakeFiles/client.dir/clean:
 .PHONY : CMakeFiles/client.dir/clean
 
 CMakeFiles/client.dir/depend:
-	cd /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/student/Bureau/ne/DASCS_Hopital/Etape1.3 /home/student/Bureau/ne/DASCS_Hopital/Etape1.3 /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/student/Bureau/DASCS_Hopital/Etape1.3/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/student/Bureau/DASCS_Hopital/Etape1.3 /home/student/Bureau/DASCS_Hopital/Etape1.3 /home/student/Bureau/DASCS_Hopital/Etape1.3/build /home/student/Bureau/DASCS_Hopital/Etape1.3/build /home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/client.dir/depend
 

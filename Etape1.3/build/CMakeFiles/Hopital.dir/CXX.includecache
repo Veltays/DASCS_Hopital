@@ -10,8 +10,6 @@
 
 ../includes/TCP.h
 
-../includes/client.h
-
 ../includes/mainwindowclientconsultationbooker.h
 QMainWindow
 -
@@ -52,7 +50,21 @@ QtWidgets/QTableWidget
 QtWidgets/QWidget
 -
 
-/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/Client.cpp
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp
+mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.h
+ui_mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/ui_mainwindowclientconsultationbooker.h
+QInputDialog
+-
+QMessageBox
+-
+iostream
+-
+TCP.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.h
+CBH.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.h
 stdio.h
 -
 stdlib.h
@@ -63,26 +75,6 @@ string.h
 -
 signal.h
 -
-TCP.h
-/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/TCP.h
-CBH.h
-/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/CBH.h
-client.h
-/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/client.h
-
-/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp
-mainwindowclientconsultationbooker.h
-/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.h
-ui_mainwindowclientconsultationbooker.h
-/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/ui_mainwindowclientconsultationbooker.h
-QInputDialog
--
-QMessageBox
--
-iostream
--
-Client.cpp
-/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/Client.cpp
 
 /usr/include/qt5/QtCore/QDate
 qdatetime.h

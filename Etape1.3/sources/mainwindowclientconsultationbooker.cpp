@@ -3,9 +3,30 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <iostream>
+
+#include "TCP.h"
+#include "CBH.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <signal.h>
+
+
+int TryLogin();
+void Echange(char* requete, char* reponse);
+
+
 using namespace std;
 
-#include "Client.cpp"
+int sClient;
+char* myIp = "127.0.0.1";
+int portClient = 6767;
+
+
+
+
+
 
 MainWindowClientConsultationBooker::MainWindowClientConsultationBooker(QWidget *parent)
     : QMainWindow(parent)
@@ -43,6 +64,7 @@ MainWindowClientConsultationBooker::MainWindowClientConsultationBooker(QWidget *
     //this->addComboBoxDoctors("--- TOUS ---");
     this->addComboBoxDoctors("Martin Claire");
     this->addComboBoxDoctors("Maboul Paul");
+
 }
 
 MainWindowClientConsultationBooker::~MainWindowClientConsultationBooker()
@@ -250,6 +272,20 @@ int MainWindowClientConsultationBooker::dialogInputInt(const string& title,const
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
 {
+
+
+    // login
+
+    if(TryLogin())
+        cout << "Connexion au serveur reussie" << endl;
+    else
+        cout << "Connexion au serveur echouee" << endl;
+
+
+    
+
+
+
     string lastName = this->getLastName();
     string firstName = this->getFirstName();
     int patientId = this->getPatientId();
@@ -260,13 +296,32 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
     cout << "patientId = " << patientId << endl;
     cout << "newPatient = " << newPatient << endl;
 
+    string req = "LOGIN#" + lastName + "#" + firstName;
+
     char requetes[200], reponse[200];
-    snprintf(requetes, sizeof(requetes), "LOGIN#%s#%s", lastName, firstName);
+
+    strncpy(requetes, req.c_str(), sizeof(requetes)-1);
+    requetes[sizeof(requetes)-1] = '\0';
 
     Echange(requetes,reponse);
 
     loginOk();
 }
+
+
+
+int TryLogin()
+{
+
+    if ((sClient = ClientSocket(myIp, portClient)) == -1)
+    {
+        perror("Erreur de ClientSocket");
+        exit(1);
+    }
+
+    return true;
+}
+
 
 void MainWindowClientConsultationBooker::on_pushButtonLogout_clicked()
 {
@@ -291,4 +346,34 @@ void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
     int selectedTow = this->getSelectionIndexTableConsultations();
 
     cout << "selectedRow = " << selectedTow << endl;
+}
+
+
+
+
+
+void Echange(char *requete, char *reponse)
+{
+    int nbEcrits, nbLus;
+    // ***** Envoi de la requete ****************************
+    if ((nbEcrits = Send(sClient, requete, strlen(requete))) == -1)
+    {
+        perror("Erreur de Send");
+        close(sClient);
+        exit(1);
+    }
+    // ***** Attente de la reponse **************************
+    if ((nbLus = Receive(sClient, reponse)) < 0)
+    {
+        perror("Erreur de Receive");
+        close(sClient);
+        exit(1);
+    }
+    if (nbLus == 0)
+    {
+        printf("Serveur arrete, pas de reponse reçue...\n");
+        close(sClient);
+        exit(1);
+    }
+    reponse[nbLus] = 0;
 }

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CreationBD_autogen/include -I/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/includes -I/usr/include/mysql
+CXX_INCLUDES = -I/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CreationBD_autogen/include -I/home/student/Bureau/DASCS_Hopital/Etape1.3/includes -I/usr/include/mysql
 
 CXX_FLAGS = -std=gnu++11
 
