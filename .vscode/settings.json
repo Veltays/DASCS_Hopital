@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "iostream": "cpp",
+        "system_error": "cpp"
     }
 }

@@ -68,14 +68,7 @@ bool CBH(char *requete, char *reponse, int socket)
 
 bool CBH_Login(const char *user, const char *password)
 {
-    if (strcmp(user,"wagner")==0 && strcmp(password,"abc123")==0) 
-    {
-        return true;
-    }
-    if (strcmp(user,"charlet")==0 && strcmp(password,"xyz456")==0) 
-    {
-        return true;
-    }
+    
     return false;
 }
 
