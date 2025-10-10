@@ -455,18 +455,5 @@ void Echange(char *requete, char *reponse)
     }
     else{
         cout << "[CLIENT] Reponse recue = " << reponse << endl;
-        
     }
-
-
-
-
-    // ***** Fin de connexion ? ****************************
-    if (nbLus == 0)
-    {
-        printf("[CLIENT] Serveur arrete, pas de reponse reçue...\n");
-        close(sClient);
-        exit(1);
-    }
-    reponse[nbLus] = 0;
 }

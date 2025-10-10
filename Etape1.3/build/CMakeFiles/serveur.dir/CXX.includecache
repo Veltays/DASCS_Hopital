@@ -6,23 +6,37 @@
 
 #IncludeRegexTransform: 
 
-../includes/AccessBD.h
+../includes/CBH.h
 patient.h
 ../includes/patient.h
-mysql/mysql.h
--
+
+../includes/TCP.h
 
 ../includes/patient.h
 
-/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/AccessBD.cpp
-AccessBD.h
-/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/AccessBD.h
+../includes/serveur.h
+pthread.h
+-
+signal.h
+-
+
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/serveur_Reservation.cpp
 stdio.h
 -
 stdlib.h
 -
-cstring
+unistd.h
 -
-patient.h
-/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/patient.h
+string.h
+-
+signal.h
+-
+pthread.h
+-
+serveur.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/serveur.h
+TCP.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.h
+CBH.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.h
 

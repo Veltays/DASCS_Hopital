@@ -5,12 +5,12 @@
 #include <signal.h>
 #include <pthread.h>
 
-#include "serveur.h" 
+#include "serveur.h"
 #include "TCP.h"
 #include "CBH.h"
 
 // --- Définitions (une seule fois, ici) ---
-int sEcouteS= -1;
+int sEcouteS = -1;
 int socketsAcceptees[TAILLE_FILE_ATTENTE];
 int indiceEcriture = 0, indiceLecture = 0;
 pthread_mutex_t mutexSocketsAcceptees;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     }
 
     // Creation de la socket d'écoute
-    if ((sEcouteS= ServerSocket(atoi(argv[1]))) == -1)
+    if ((sEcouteS = ServerSocket(atoi(argv[1]))) == -1)
     {
         perror("[SERVEUR] Erreur de ServeurSocket");
         exit(1);
@@ -107,7 +107,6 @@ void *FctThreadClient(void *p)
     }
 }
 
-
 void TraitementConnexion(int sService)
 {
     char requete[200], reponse[200];
@@ -153,8 +152,8 @@ void TraitementConnexion(int sService)
         if (!onContinue)
             printf("[THREAD %p] Fin de connexion de la socket %d\n %d\n", pthread_self(), sService);
     }
+    close(sService);
 }
-
 
 void HandlerSIGINT(int s)
 {

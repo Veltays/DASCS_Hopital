@@ -54,12 +54,14 @@ bool CBH(char *requete, char *reponse, int socket)
                 printf("[THREAD %p] Connexion patient\n", pthread_self());
                 sprintf(reponse, "LOGIN#OK");
                 ajoute(socket);
+                return true;
             }
             else if (ResultOrID > 0)
             {
                 printf("[THREAD %p] Ajout d'un nouveau patient\n", pthread_self());
                 sprintf(reponse, "LOGIN#OK#%d", ResultOrID);
                 ajoute(socket);
+                return true;
             }
             else
             {
