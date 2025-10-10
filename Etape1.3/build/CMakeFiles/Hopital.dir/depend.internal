@@ -236,6 +236,7 @@ CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o
  ../includes/CBH.h
  ../includes/TCP.h
  ../includes/mainwindowclientconsultationbooker.h
+ ../includes/patient.h
  ../includes/ui_mainwindowclientconsultationbooker.h
  /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp
  /usr/include/qt5/QtCore/QDate

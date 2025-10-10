@@ -7,6 +7,8 @@
 #IncludeRegexTransform: 
 
 ../includes/CBH.h
+patient.h
+../includes/patient.h
 
 ../includes/TCP.h
 
@@ -15,6 +17,8 @@ QMainWindow
 -
 string
 -
+
+../includes/patient.h
 
 ../includes/ui_mainwindowclientconsultationbooker.h
 QtCore/QDate
@@ -48,6 +52,50 @@ QtWidgets/QStatusBar
 QtWidgets/QTableWidget
 -
 QtWidgets/QWidget
+-
+
+/home/student/Bureau/DASCS_Hopital/Etape1.3/build/client_autogen/CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
+../../../includes/mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/includes/mainwindowclientconsultationbooker.h
+QtCore/qbytearray.h
+-
+QtCore/qmetatype.h
+-
+
+/home/student/Bureau/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp
+CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
+/home/student/Bureau/DASCS_Hopital/Etape1.3/build/client_autogen/CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
+
+/home/student/Bureau/DASCS_Hopital/Etape1.3/includes/mainwindowclientconsultationbooker.h
+QMainWindow
+-
+string
+-
+
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.cpp
+stdio.h
+-
+unistd.h
+-
+stdlib.h
+-
+string.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+netdb.h
+-
+arpa/inet.h
+-
+TCP.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.h
+
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/main.cpp
+mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.h
+QApplication
 -
 
 /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp

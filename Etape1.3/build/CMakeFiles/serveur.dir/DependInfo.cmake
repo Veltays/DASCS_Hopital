@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/serveur_autogen/mocs_compilation.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.o"
+  "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/AccessBD.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/serveur.dir/sources/AccessBD.cpp.o"
   "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/serveur.dir/sources/CBH.cpp.o"
   "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/serveur.dir/sources/TCP.cpp.o"
   "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/serveur_Reservation.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o"

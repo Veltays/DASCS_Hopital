@@ -341,6 +341,33 @@ serveur_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.s
 .PHONY : serveur_autogen/mocs_compilation.cpp.s
 
+sources/AccessBD.o: sources/AccessBD.cpp.o
+
+.PHONY : sources/AccessBD.o
+
+# target to build an object file
+sources/AccessBD.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/AccessBD.cpp.o
+.PHONY : sources/AccessBD.cpp.o
+
+sources/AccessBD.i: sources/AccessBD.cpp.i
+
+.PHONY : sources/AccessBD.i
+
+# target to preprocess a source file
+sources/AccessBD.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/AccessBD.cpp.i
+.PHONY : sources/AccessBD.cpp.i
+
+sources/AccessBD.s: sources/AccessBD.cpp.s
+
+.PHONY : sources/AccessBD.s
+
+# target to generate assembly for a file
+sources/AccessBD.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/AccessBD.cpp.s
+.PHONY : sources/AccessBD.cpp.s
+
 sources/CBH.o: sources/CBH.cpp.o
 
 .PHONY : sources/CBH.o
@@ -543,6 +570,9 @@ help:
 	@echo "... serveur_autogen/mocs_compilation.o"
 	@echo "... serveur_autogen/mocs_compilation.i"
 	@echo "... serveur_autogen/mocs_compilation.s"
+	@echo "... sources/AccessBD.o"
+	@echo "... sources/AccessBD.i"
+	@echo "... sources/AccessBD.s"
 	@echo "... sources/CBH.o"
 	@echo "... sources/CBH.i"
 	@echo "... sources/CBH.s"
