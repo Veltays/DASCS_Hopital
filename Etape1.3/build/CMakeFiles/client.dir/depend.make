@@ -7,11 +7,14 @@ CMakeFiles/client.dir/sources/CBH.cpp.o: ../includes/CBH.h
 CMakeFiles/client.dir/sources/CBH.cpp.o: ../includes/TCP.h
 CMakeFiles/client.dir/sources/CBH.cpp.o: ../sources/CBH.cpp
 
-CMakeFiles/client.dir/sources/Client.cpp.o: ../includes/CBH.h
-CMakeFiles/client.dir/sources/Client.cpp.o: ../includes/TCP.h
-CMakeFiles/client.dir/sources/Client.cpp.o: ../includes/client.h
-CMakeFiles/client.dir/sources/Client.cpp.o: ../sources/Client.cpp
-
 CMakeFiles/client.dir/sources/TCP.cpp.o: ../includes/TCP.h
 CMakeFiles/client.dir/sources/TCP.cpp.o: ../sources/TCP.cpp
+
+CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/CBH.h
+CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/TCP.h
+CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/client.h
+CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/mainwindowclientconsultationbooker.h
+CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/ui_mainwindowclientconsultationbooker.h
+CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../sources/Client.cpp
+CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../sources/mainwindowclientconsultationbooker.cpp
 

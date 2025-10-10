@@ -57,10 +57,15 @@ target_link_libraries(serveur pthread)
 
 # ================== Client (console) ==================
 add_executable(client
-    sources/Client.cpp
+    sources/mainwindowclientconsultationbooker.cpp
     ${COMMON_SOURCES}
 )
-target_link_libraries(client pthread)
+target_link_libraries(client
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
+    pthread
+)
 
 # ================== CreationBD (outil MySQL) ==================
 add_executable(CreationBD

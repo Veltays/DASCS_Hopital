@@ -4,8 +4,8 @@ file(REMOVE_RECURSE
   "client_autogen"
   "CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
   "CMakeFiles/client.dir/sources/CBH.cpp.o"
-  "CMakeFiles/client.dir/sources/Client.cpp.o"
   "CMakeFiles/client.dir/sources/TCP.cpp.o"
+  "CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o"
   "bin/client"
   "bin/client.pdb"
 )

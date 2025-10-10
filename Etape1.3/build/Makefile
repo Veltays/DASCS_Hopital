@@ -67,10 +67,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.3
+CMAKE_SOURCE_DIR = /home/student/Bureau/ne/DASCS_Hopital/Etape1.3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.3/build
+CMAKE_BINARY_DIR = /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles /home/student/Bureau/DASCS_Hopital/Etape1.3/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -374,33 +374,6 @@ sources/CBH.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBH.cpp.s
 .PHONY : sources/CBH.cpp.s
 
-sources/Client.o: sources/Client.cpp.o
-
-.PHONY : sources/Client.o
-
-# target to build an object file
-sources/Client.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/Client.cpp.o
-.PHONY : sources/Client.cpp.o
-
-sources/Client.i: sources/Client.cpp.i
-
-.PHONY : sources/Client.i
-
-# target to preprocess a source file
-sources/Client.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/Client.cpp.i
-.PHONY : sources/Client.cpp.i
-
-sources/Client.s: sources/Client.cpp.s
-
-.PHONY : sources/Client.s
-
-# target to generate assembly for a file
-sources/Client.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/Client.cpp.s
-.PHONY : sources/Client.cpp.s
-
 sources/CreationBD.o: sources/CreationBD.cpp.o
 
 .PHONY : sources/CreationBD.o
@@ -494,6 +467,7 @@ sources/mainwindowclientconsultationbooker.o: sources/mainwindowclientconsultati
 
 # target to build an object file
 sources/mainwindowclientconsultationbooker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hopital.dir/build.make CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o
 .PHONY : sources/mainwindowclientconsultationbooker.cpp.o
 
@@ -503,6 +477,7 @@ sources/mainwindowclientconsultationbooker.i: sources/mainwindowclientconsultati
 
 # target to preprocess a source file
 sources/mainwindowclientconsultationbooker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hopital.dir/build.make CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.i
 .PHONY : sources/mainwindowclientconsultationbooker.cpp.i
 
@@ -512,6 +487,7 @@ sources/mainwindowclientconsultationbooker.s: sources/mainwindowclientconsultati
 
 # target to generate assembly for a file
 sources/mainwindowclientconsultationbooker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hopital.dir/build.make CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.s
 .PHONY : sources/mainwindowclientconsultationbooker.cpp.s
 
@@ -573,9 +549,6 @@ help:
 	@echo "... sources/CBH.o"
 	@echo "... sources/CBH.i"
 	@echo "... sources/CBH.s"
-	@echo "... sources/Client.o"
-	@echo "... sources/Client.i"
-	@echo "... sources/Client.s"
 	@echo "... sources/CreationBD.o"
 	@echo "... sources/CreationBD.i"
 	@echo "... sources/CreationBD.s"

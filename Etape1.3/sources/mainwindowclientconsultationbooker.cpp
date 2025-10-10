@@ -5,6 +5,8 @@
 #include <iostream>
 using namespace std;
 
+#include "Client.cpp"
+
 MainWindowClientConsultationBooker::MainWindowClientConsultationBooker(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowClientConsultationBooker)
@@ -257,6 +259,11 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
     cout << "FirstName = " << firstName << endl;
     cout << "patientId = " << patientId << endl;
     cout << "newPatient = " << newPatient << endl;
+
+    char requetes[200], reponse[200];
+    snprintf(requetes, sizeof(requetes), "LOGIN#%s#%s", lastName, firstName);
+
+    Echange(requetes,reponse);
 
     loginOk();
 }

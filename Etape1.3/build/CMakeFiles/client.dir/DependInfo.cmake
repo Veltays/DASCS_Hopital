@@ -4,17 +4,30 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
-  "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/sources/CBH.cpp.o"
-  "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/Client.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/sources/Client.cpp.o"
-  "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.cpp" "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/sources/TCP.cpp.o"
+  "/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/client_autogen/mocs_compilation.cpp" "/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
+  "/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/CBH.cpp" "/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/sources/CBH.cpp.o"
+  "/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/TCP.cpp" "/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/sources/TCP.cpp.o"
+  "/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/sources/mainwindowclientconsultationbooker.cpp" "/home/student/Bureau/ne/DASCS_Hopital/Etape1.3/build/CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_CXX
+  "QT_CORE_LIB"
+  "QT_GUI_LIB"
+  "QT_NO_DEBUG"
+  "QT_WIDGETS_LIB"
+  )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "client_autogen/include"
   "../includes"
+  "/usr/include/qt5"
+  "/usr/include/qt5/QtCore"
+  "/usr/lib64/qt5/mkspecs/linux-g++"
+  "/usr/include/qt5/QtGui"
+  "/usr/include/qt5/QtWidgets"
   )
 
 # Targets to which this target links.
