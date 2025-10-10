@@ -7,18 +7,6 @@ CMakeFiles/serveur.dir/sources/AccessBD.cpp.o
  ../includes/AccessBD.h
  ../includes/patient.h
  /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/AccessBD.cpp
- /usr/include/mysql/errmsg.h
- /usr/include/mysql/field_types.h
- /usr/include/mysql/my_command.h
- /usr/include/mysql/my_compress.h
- /usr/include/mysql/my_list.h
- /usr/include/mysql/mysql.h
- /usr/include/mysql/mysql/client_plugin.h
- /usr/include/mysql/mysql/plugin_auth_common.h
- /usr/include/mysql/mysql/udf_registration_types.h
- /usr/include/mysql/mysql_com.h
- /usr/include/mysql/mysql_time.h
- /usr/include/mysql/mysql_version.h
 CMakeFiles/serveur.dir/sources/CBH.cpp.o
  ../includes/AccessBD.h
  ../includes/CBH.h

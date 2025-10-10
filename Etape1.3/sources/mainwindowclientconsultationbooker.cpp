@@ -20,7 +20,7 @@ void Echange(char* requete, char* reponse);
 using namespace std;
 
 int sClient;
-char* myIp = "127.0.0.1";
+char myIp[50] = "127.0.0.1";
 int portClient = 6767;
 
 
@@ -272,14 +272,13 @@ int MainWindowClientConsultationBooker::dialogInputInt(const string& title,const
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
 {
+    char requetes[200], reponse[200];
 
-
-    // login
-
+    // tente une connexion au serveur
     if(TryLogin())
-        cout << "Connexion au serveur reussie" << endl;
+        cout << "[CLIENT] Connexion au serveur reussie" << endl;
     else
-        cout << "Connexion au serveur echouee" << endl;
+        cout << "[CLIENT] Connexion au serveur echouee" << endl;
 
 
     string lastName = this->getLastName();
@@ -287,11 +286,13 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
     int patientId = this->getPatientId();
     bool newPatient = this->isNewPatientSelected();
 
-    cout << "lastName = " << lastName << endl;
-    cout << "FirstName = " << firstName << endl;
-    cout << "patientId = " << patientId << endl;
-    cout << "newPatient = " << newPatient << endl;
+    cout << "[CLIENT] lastName = " << lastName << endl;
+    cout << "[CLIENT] FirstName = " << firstName << endl;
+    cout << "[CLIENT] patientId = " << patientId << endl;
+    cout << "[CLIENT] newPatient = " << newPatient << endl;
 
+
+    
     string req;
     if(newPatient==0)
     {
@@ -302,14 +303,69 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
         req = "LOGIN#" + lastName + "#" + firstName + "#" + to_string(-1);
     }
 
-    char requetes[200], reponse[200];
 
     strncpy(requetes, req.c_str(), sizeof(requetes)-1);
-    requetes[sizeof(requetes)-1] = '\0';
 
+    requetes[sizeof(requetes)-1] = '\0';
     Echange(requetes,reponse);
 
-    loginOk();
+
+    // traite de la réponse
+    // cas 1 LOGIN#OK 
+    char* ptr = strtok(reponse, "#");
+    char ResLogin[50];
+    char NewId[50];
+    
+
+
+
+    strcpy(ResLogin,strtok(NULL, "#"));
+    printf("[CLIENT] ResLogin = %s\n", ResLogin);
+
+
+
+
+
+    if(strcmp(ResLogin,"ko")==0)
+    {
+        strcpy(NewId, strtok(NULL, "#"));
+        printf("[CLIENT] Nouvelle ID = %s\n", NewId);
+        // ptr vaut le NOUVEAU_ID ou le MESSAGE d'erreur
+        string message = NewId;
+        dialogError("Erreur de login",message);
+        return;
+    }
+    else if(strcmp(ResLogin,"OK")==0)
+    {
+
+        printf("[CLIENT] Login OK\n");
+        if(newPatient==1)
+        {
+            strcpy(NewId,strtok(NULL, "#"));
+            printf("[CLIENT] Nouvelle ID = %s\n", NewId);
+            // ptr vaut le NOUVEAU_ID ou le MESSAGE d'erreur
+            // nouveau patient, on affiche la nouvelle ID
+            printf("[CLIENT] Nouveau patient, nouvelle ID = %s\n", NewId);
+            int NewIDInt = atoi(NewId);
+            this->setPatientId(NewIDInt);
+            string message = "Bienvenue ! Votre identifiant patient est : " + to_string(NewIDInt);
+            dialogMessage("Login OK",message);
+        }
+        dialogMessage("Login OK","Bienvenue " + firstName + " " + lastName + " !");
+        loginOk();
+    }
+    else
+    {
+        string message = "Reponse du serveur inconnue !";
+        dialogError("Erreur de login",message);
+        return;
+    }
+
+
+
+
+
+
 }
 
 
@@ -319,7 +375,7 @@ int TryLogin()
 
     if ((sClient = ClientSocket(myIp, portClient)) == -1)
     {
-        perror("Erreur de ClientSocket");
+        perror("[CLIENT] Erreur de ClientSocket");
         exit(1);
     }
 
@@ -329,7 +385,17 @@ int TryLogin()
 
 void MainWindowClientConsultationBooker::on_pushButtonLogout_clicked()
 {
+    string req;
+    char requetes[200], reponse[200];
+    req = "LOGOUT#";
+    strncpy(requetes, req.c_str(), sizeof(requetes)-1);
+
+    Echange(requetes,reponse);
+
     logoutOk();
+    
+    
+
 }
 
 void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
@@ -339,18 +405,20 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     string startDate = this->getStartDate();
     string endDate = this->getEndDate();
 
-    cout << "specialty = " << specialty << endl;
-    cout << "doctor = " << doctor << endl;
-    cout << "startDate = " << startDate << endl;
-    cout << "endDate = " << endDate << endl;
+    cout << "[CLIENT] specialty = " << specialty << endl;
+    cout << "[CLIENT] doctor = " << doctor << endl;
+    cout << "[CLIENT] startDate = " << startDate << endl;
+    cout << "[CLIENT] endDate = " << endDate << endl;
 }
 
 void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
 {
-    int selectedTow = this->getSelectionIndexTableConsultations();
+    int selectedRow = this->getSelectionIndexTableConsultations();
 
-    cout << "selectedRow = " << selectedTow << endl;
+    cout << "[CLIENT] selectedRow = " << selectedRow << endl;
 }
+
+
 
 
 
@@ -358,24 +426,45 @@ void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
 
 void Echange(char *requete, char *reponse)
 {
+
     int nbEcrits, nbLus;
+
+
+
     // ***** Envoi de la requete ****************************
     if ((nbEcrits = Send(sClient, requete, strlen(requete))) == -1)
     {
-        perror("Erreur de Send");
+        perror("[CLIENT] Erreur de Send");
         close(sClient);
         exit(1);
     }
+    else
+    {
+        cout << "[CLIENT] Requete envoyee = " << requete << endl;
+    }
+
+
+
+
     // ***** Attente de la reponse **************************
     if ((nbLus = Receive(sClient, reponse)) < 0)
     {
-        perror("Erreur de Receive");
+        perror("[CLIENT] Erreur de Receive");
         close(sClient);
         exit(1);
     }
+    else{
+        cout << "[CLIENT] Reponse recue = " << reponse << endl;
+        
+    }
+
+
+
+
+    // ***** Fin de connexion ? ****************************
     if (nbLus == 0)
     {
-        printf("Serveur arrete, pas de reponse reçue...\n");
+        printf("[CLIENT] Serveur arrete, pas de reponse reçue...\n");
         close(sClient);
         exit(1);
     }

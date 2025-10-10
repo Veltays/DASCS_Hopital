@@ -22,4 +22,7 @@ bool CBH_BOOK_CONSULTATION(int idConsultation,int idPatient,char* reponse);
 void CBH_Close();
 
 
+int getCommandReceive(char* ptr);
+
+
 #endif // CBH_H

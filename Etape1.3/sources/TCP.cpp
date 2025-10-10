@@ -17,11 +17,11 @@ int sEcoute;
 int CreationSocket()
 {
 
-    printf("pid = %d\n", getpid());
+    printf("[TCP] pid = %d\n", getpid());
     // Creation de la socket
     if ((sEcoute = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
-        perror("Erreur de socket()");
+        perror("[TCP] Erreur de socket()");
         exit(1);
     }
 
@@ -29,11 +29,11 @@ int CreationSocket()
     // Active SO_REUSEADDR pour pouvoir réutiliser le port rapidement   --> permet d'éviter l'erreur "Address already in use" lors du redémarrage rapide du serveur
     if (setsockopt(sEcoute, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
     {
-        perror("setsockopt");
+        perror("[TCP] setsockopt");
         exit(EXIT_FAILURE);
     }
 
-    printf("socket creee = %d\n", sEcoute);
+    printf("[TCP] Le socket a ete cree = %d\n", sEcoute);
     return sEcoute;
 }
 
@@ -65,7 +65,7 @@ struct addrinfo *creationAdresse(int portSer)
                     port, sizeof(port),
                     NI_NUMERICHOST | NI_NUMERICSERV) == 0)
     {
-        printf("Mon Adresse IP: %s -- Mon Port: %s\n", host, port);
+        printf("[TCP] \n\t  -- Mon Adresse IP: %s \n\t  -- Mon Port: %s\n", host, port);
     }
 
     return results; // à libérer plus tard avec freeaddrinfo(results)
@@ -76,11 +76,11 @@ void bindServeurToSocket(int sEcoute, struct addrinfo *results)
 
     if (bind(sEcoute, results->ai_addr, results->ai_addrlen) < 0)
     {
-        perror("Erreur de bind()");
+        perror("[TCP] Erreur de bind()");
         exit(1);
     }
     freeaddrinfo(results);
-    printf("bind() reussi !\n");
+    printf("[TCP] bind() reussi !\n");
 }
 
 void ListenOnSocket(int sEcoute)
@@ -92,7 +92,7 @@ void ListenOnSocket(int sEcoute)
         perror("Erreur de listen()");
         exit(1);
     }
-    printf("listen() reussi !\n");
+    printf("[TCP] listen() reussi !\n");
 }
 
 int ServerSocket(int portSer)
@@ -127,11 +127,11 @@ int AcceptClient(int sEcoute)
     int sService;
     if ((sService = accept(sEcoute, NULL, NULL)) == -1)
     {
-        perror("Erreur de accept()");
+        perror("[TCP] Erreur de accept()");
         exit(1);
     }
-    printf("accept() reussi !\n");
-    printf("socket de service = %d\n", sService);
+    printf("[TCP] accept() reussi !\n");
+    printf("[TCP] socket de service = %d\n", sService);
 
     return sService;
 }
@@ -143,7 +143,7 @@ void GetClientIP(int sService, char *ipClient)
     socklen_t adrClientLen = sizeof(struct sockaddr_in); // nécessaire
     getpeername(sService, (struct sockaddr *)&adrClient, &adrClientLen);
     getnameinfo((struct sockaddr *)&adrClient, adrClientLen, host, NI_MAXHOST, port, NI_MAXSERV, NI_NUMERICSERV | NI_NUMERICHOST);
-    printf("Client connecte --> Adresse IP: %s -- Port: %s\n", host, port);
+    printf("[TCP] Client connecte \n\t  -- Adresse IP: %s \n\t  -- Port: %s\n", host, port);
 }
 
 #pragma endregion Accept
@@ -157,7 +157,7 @@ int CreationSocketClient(char *port)
     int sClient;
     if ((sClient = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
-        perror("Erreur de socket()");
+        perror("[TCP] Erreur de socket()");
         return -1;
     }
     return sClient;
@@ -175,7 +175,7 @@ struct addrinfo *ConstructionAdresseClient(char *ipServeur, char *port)
 
     if (getaddrinfo(ipServeur, port, &hints, &results) != 0)
     {
-        perror("Erreur de getaddrinfo()");
+        perror("[TCP] Erreur de getaddrinfo()");
     }
 
     return results;
@@ -186,7 +186,7 @@ void ConnectToServer(int sClient, struct addrinfo *results)
     // Demande de connexion
     if (connect(sClient, results->ai_addr, results->ai_addrlen) == -1)
     {
-        perror("Erreur de connect()");
+        perror("[TCP] Erreur de connect()");
         close(sClient);
         freeaddrinfo(results);
     }
@@ -218,8 +218,8 @@ int ClientSocket(char *ipServeur, int portServeur)
 int Send(int sSocket, char *data, int taille)
 {
 
-    printf("Send() called with taille=%d\n", taille);
-    printf("Data to send: --%d -- %s--\n", taille, data);
+    printf("[TCP] Send() called with taille=%d\n", taille);
+    printf("[TCP] -- Data to send: \n\t -- %d \n\t -- %s\n", taille, data);
 
     // Concatenation taille + données
     // taille ||
@@ -227,21 +227,21 @@ int Send(int sSocket, char *data, int taille)
     char buffer[9999]; // 4 chiffres
 
     sprintf(buffer, "%04d", taille);
-    printf("%s\n", buffer); // affiche 0013
+    printf("[TCP] Taille de la chaine : %s\n", buffer); // affiche 0013
 
     strcpy(buffer + 4, data);
 
     int nbEcrits = write(sSocket, buffer, 4 + taille); // envoi de la taille + données
 
-    printf("Write returned %d\n", nbEcrits);
+    printf("[TCP] Write returned %d\n", nbEcrits);
     
     if (nbEcrits != 4 + taille)
     {
-        perror("Erreur d’envoi des données");
+        perror("[TCP] Erreur d’envoi des données");
         return -1;
     }
 
-    printf("Send() → taille=%d, envoyés=%d, data=%s--\n", taille, nbEcrits,data);
+    printf("[TCP] Send() \n\t -- taille = %d, \n\t -- envoyés = %d, \n\t -- data = %s-- \n", taille, nbEcrits,data);
     return nbEcrits;
 }
 
@@ -251,17 +251,17 @@ int Send(int sSocket, char *data, int taille)
 
 int Receive(int sSocket, char *data)
 {
-    printf("Receive() called on socket %d\n", sSocket);
+    printf("[TCP] Receive() called on socket %d\n", sSocket);
 
     char tailleStr[5]; // 4 chiffres
 
     int n = read(sSocket, tailleStr, 4);
 
-    printf("Read returned %d\n", n);
+    printf("[TCP] Read returned %d\n", n);
 
     tailleStr[4] = '\0';
 
-    printf("Received tailleStr: --%s--\n", tailleStr);
+    printf("[TCP] Received tailleStr: %s\n", tailleStr);
 
     int taille = atoi(tailleStr);
 
@@ -270,7 +270,7 @@ int Receive(int sSocket, char *data)
     data[taille] = '\0'; // ajout du \0
     //affiche les data lu
 
-    printf("Data received: --%s--\n", data);
+    printf("[TCP] Data received: %s\n", data);
 
     return taille;
 
