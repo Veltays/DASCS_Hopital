@@ -2,8 +2,15 @@
 #define CBH_H
 #define NB_MAX_CLIENTS 20
 
+
+typedef struct Patient {
+    const char* firstname;
+    const char* lastname;
+    const char* birthdate; // ou nullptr si inconnu
+} Patient;
+
 bool CBH(char* requete, char* reponse,int socket);
-bool CBH_Login(const char* user,const char* password);
+int CBH_Login(const char* firstname,const char* lastname,const char* PatientId);
 bool CBH_Logout(int socket);
 
 int estPresent(int socket);

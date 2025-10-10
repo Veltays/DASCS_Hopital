@@ -3,9 +3,22 @@
 
 CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.o: serveur_autogen/mocs_compilation.cpp
 
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../includes/AccessBD.h
 CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../includes/CBH.h
 CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../includes/TCP.h
 CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../sources/CBH.cpp
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/errmsg.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/field_types.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/my_command.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/my_compress.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/my_list.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/mysql.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/mysql/client_plugin.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/mysql/plugin_auth_common.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/mysql/udf_registration_types.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/mysql_com.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/mysql_time.h
+CMakeFiles/serveur.dir/sources/CBH.cpp.o: /usr/include/mysql/mysql_version.h
 
 CMakeFiles/serveur.dir/sources/TCP.cpp.o: ../includes/TCP.h
 CMakeFiles/serveur.dir/sources/TCP.cpp.o: ../sources/TCP.cpp

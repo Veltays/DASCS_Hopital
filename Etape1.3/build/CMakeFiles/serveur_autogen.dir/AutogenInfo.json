@@ -22,6 +22,7 @@
 	"MOC_INCLUDES" : 
 	[
 		"/home/student/Bureau/DASCS_Hopital/Etape1.3/includes",
+		"/usr/include/mysql",
 		"/usr/include/c++/8",
 		"/usr/include/c++/8/x86_64-redhat-linux",
 		"/usr/include/c++/8/backward",

@@ -1,0 +1,119 @@
+#include "AccessBD.h"
+
+int estPresent(const char *nom)
+{
+    MYSQL *connexion;
+
+    connexion = mysql_init(NULL);
+
+    if (mysql_real_connect(connexion, "localhost") == NULL)
+    {
+        fprintf(stderr, "Erreur de connexion à la BD: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    char requete[256];
+    sprintf(requete, "select * from patients");
+    // id, last_name, first_name
+
+    if (mysql_query(connexion, requete) != 0)
+    {
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    // affichage du resultat
+    MYSQL_RES *ResultSet;
+
+    if ((ResultatSet = mysql_store_result(connexion) == NULL))
+    {
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+}
+
+int AddNewPatient(const char *lastname, const char *firstname, const char *birthdate)
+{
+    MYSQL *connexion;
+    connexion = mysql_init(NULL);
+
+    // Connexion à la base de données
+    if (mysql_real_connect(connexion,
+                           "localhost",
+                           "Student",
+                           "PassStudent1_",
+                           "PourStudent",
+                           0, NULL, 0) == NULL)
+    {
+        fprintf(stderr, "Erreur de connexion à la BD: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+    printf("Connexion établie avec succès à la BD.\n");
+
+    char requete[256];
+    sprintf(requete, "insert into patients values(NULL,'%s','%s','%s');");
+
+    if (mysql_query(connexion, requete) != 0)
+    {
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+    printf("Insertion OK.\n");
+
+    // Déconnexion de la base de données
+    mysql_close(connexion);
+    exit(0);
+}
+
+char *getPatientById(int id)
+{
+    MYSQL *connexion;
+    connexion = mysql_init(NULL);
+
+    // Connexion à la base de données
+    if (mysql_real_connect(connexion,
+                           "localhost",
+                           "Student",
+                           "PassStudent1_",
+                           "PourStudent",
+                           0, NULL, 0) == NULL)
+    {
+        fprintf(stderr, "Erreur de connexion à la BD: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+    printf("Connexion établie avec succès à la BD.\n");
+
+    char requete[256];
+    sprintf(requete, "select * from patients where id=%d;", id);
+
+    if (mysql_query(connexion, requete) != 0)
+    {
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+    printf("Requête OK.\n");
+
+    // affichage du resultat
+    MYSQL_RES *ResultSet;
+
+    if ((ResultSet = mysql_store_result(connexion)) == NULL)
+    {
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    MYSQL_ROW row;
+    row = mysql_fetch_row(ResultSet);
+    if (row == NULL)
+    {
+        return nullptr;
+    }
+    else
+    {
+        return row;
+    }
+
+    // Déconnexion de la base de données
+    mysql_close(connexion);
+    return nullptr;
+}

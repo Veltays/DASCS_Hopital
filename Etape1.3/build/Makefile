@@ -347,8 +347,6 @@ sources/CBH.o: sources/CBH.cpp.o
 
 # target to build an object file
 sources/CBH.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/CBH.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hopital.dir/build.make CMakeFiles/Hopital.dir/sources/CBH.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBH.cpp.o
 .PHONY : sources/CBH.cpp.o
 
@@ -358,8 +356,6 @@ sources/CBH.i: sources/CBH.cpp.i
 
 # target to preprocess a source file
 sources/CBH.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/CBH.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hopital.dir/build.make CMakeFiles/Hopital.dir/sources/CBH.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBH.cpp.i
 .PHONY : sources/CBH.cpp.i
 
@@ -369,8 +365,6 @@ sources/CBH.s: sources/CBH.cpp.s
 
 # target to generate assembly for a file
 sources/CBH.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/CBH.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hopital.dir/build.make CMakeFiles/Hopital.dir/sources/CBH.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBH.cpp.s
 .PHONY : sources/CBH.cpp.s
 

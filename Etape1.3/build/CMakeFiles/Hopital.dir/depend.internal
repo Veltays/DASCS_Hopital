@@ -112,10 +112,6 @@ CMakeFiles/Hopital.dir/Hopital_autogen/mocs_compilation.cpp.o
  /usr/include/qt5/QtWidgets/qtwidgets-config.h
  /usr/include/qt5/QtWidgets/qtwidgetsglobal.h
  /usr/include/qt5/QtWidgets/qwidget.h
-CMakeFiles/Hopital.dir/sources/CBH.cpp.o
- ../includes/CBH.h
- ../includes/TCP.h
- /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.cpp
 CMakeFiles/Hopital.dir/sources/TCP.cpp.o
  ../includes/TCP.h
  /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.cpp

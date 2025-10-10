@@ -74,7 +74,6 @@
 	"SETTINGS_FILE" : "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/Hopital_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.cpp", "Mu" ],
 		[ "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.cpp", "Mu" ],
 		[ "/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/main.cpp", "Mu" ],
 		[

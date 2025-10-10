@@ -112,10 +112,6 @@ CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: /usr/include/qt5/Qt
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: /usr/include/qt5/QtWidgets/qtwidgetsglobal.h
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: /usr/include/qt5/QtWidgets/qwidget.h
 
-CMakeFiles/client.dir/sources/CBH.cpp.o: ../includes/CBH.h
-CMakeFiles/client.dir/sources/CBH.cpp.o: ../includes/TCP.h
-CMakeFiles/client.dir/sources/CBH.cpp.o: ../sources/CBH.cpp
-
 CMakeFiles/client.dir/sources/TCP.cpp.o: ../includes/TCP.h
 CMakeFiles/client.dir/sources/TCP.cpp.o: ../sources/TCP.cpp
 

@@ -282,10 +282,6 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
         cout << "Connexion au serveur echouee" << endl;
 
 
-    
-
-
-
     string lastName = this->getLastName();
     string firstName = this->getFirstName();
     int patientId = this->getPatientId();
@@ -296,7 +292,15 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
     cout << "patientId = " << patientId << endl;
     cout << "newPatient = " << newPatient << endl;
 
-    string req = "LOGIN#" + lastName + "#" + firstName;
+    string req;
+    if(newPatient==0)
+    {
+        req = "LOGIN#" + lastName + "#" + firstName + "#" + to_string(patientId) + "#" +  "0";
+    }
+    else
+    {
+        req = "LOGIN#" + lastName + "#" + firstName + "#" + to_string(-1) + "#" + "1";;
+    }
 
     char requetes[200], reponse[200];
 
