@@ -295,11 +295,11 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
     string req;
     if(newPatient==0)
     {
-        req = "LOGIN#" + lastName + "#" + firstName + "#" + to_string(patientId) + "#" +  "0";
+        req = "LOGIN#" + lastName + "#" + firstName + "#" + to_string(patientId);
     }
     else
     {
-        req = "LOGIN#" + lastName + "#" + firstName + "#" + to_string(-1) + "#" + "1";;
+        req = "LOGIN#" + lastName + "#" + firstName + "#" + to_string(-1);
     }
 
     char requetes[200], reponse[200];

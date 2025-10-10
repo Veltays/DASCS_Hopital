@@ -21,6 +21,8 @@ stdlib.h
 -
 mysql.h
 -
+cstring
+-
 patient.h
 /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/patient.h
 

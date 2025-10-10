@@ -64,7 +64,7 @@
 		"/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CreationBD_autogen/mocs_compilation.cpp"
 	],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 1,
+	"PARALLEL" : 2,
 	"PARSE_CACHE_FILE" : "/home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles/client_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "/usr/lib64/qt5/bin/moc",
 	"QT_UIC_EXECUTABLE" : "",

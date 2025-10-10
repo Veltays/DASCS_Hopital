@@ -131,9 +131,8 @@ int CBH_Login(const char *firstname, const char *lastname, const char *PatientId
     }
     else
     {
-        const Patient* p = getPatientById(atoi(PatientId));
-        if (!p) return -1;
-        if (strcmp(p->firstname, firstname) == 0 && strcmp(p->lastname, lastname) == 0)
+        Patient p = getPatientById(atoi(PatientId));
+        if (strcmp(p.firstname, firstname) == 0 && strcmp(p.lastname, lastname) == 0)
             return 0;
         else
             return -1;
