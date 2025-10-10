@@ -1,4 +1,7 @@
 #include "AccessBD.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <mysql.h>
 
 int estPresent(const char *nom)
 {
@@ -65,7 +68,7 @@ int AddNewPatient(const char *lastname, const char *firstname, const char *birth
     exit(0);
 }
 
-char *getPatientById(int id)
+Patient* getPatientById(int id)
 {
     MYSQL *connexion;
     connexion = mysql_init(NULL);

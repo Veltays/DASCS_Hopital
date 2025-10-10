@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_AUTOMOC ON)    # Qt MOC auto
-set(CMAKE_AUTOUIC OFF)   # Pas de .ui dans le projet
+set(CMAKE_AUTOUIC OFF)   # Pas de .ui dans le projet (tu fournis déjà un ui_*.h)
 set(CMAKE_AUTORCC ON)
 
 # === Qt ===
@@ -15,6 +15,11 @@ find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 
 # === Dossiers d'include communs ===
 set(PROJECT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/includes)
+
+# === MySQL (adapté à ta VM) ===
+set(MYSQL_INCLUDE_DIR /usr/include/mysql)
+set(MYSQL_LIB_DIR     /usr/lib64/mysql)
+set(MYSQL_LIBS        mysqlclient pthread z m rt ssl crypto dl)
 
 # === Sources partagés (réseau uniquement) ===
 set(SHARED_SOURCES
@@ -24,6 +29,7 @@ set(SHARED_SOURCES
 # === Sources serveur (accès BD) ===
 set(SERVER_SOURCES
     sources/CBH.cpp
+    sources/AccessBD.cpp        # <-- important : ajoute les fonctions BD ici
 )
 
 # ------------------------------------------------------------
@@ -43,9 +49,7 @@ target_sources(Hopital PRIVATE
 
 target_include_directories(Hopital PRIVATE ${PROJECT_INCLUDE_DIR})
 target_link_libraries(Hopital
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
+    Qt5::Core Qt5::Gui Qt5::Widgets
 )
 
 # ------------------------------------------------------------
@@ -59,21 +63,10 @@ add_executable(serveur
 
 target_include_directories(serveur PRIVATE
     ${PROJECT_INCLUDE_DIR}
-    /usr/include/mysql
+    ${MYSQL_INCLUDE_DIR}
 )
-
-target_link_directories(serveur PRIVATE /usr/lib64/mysql)
-
-target_link_libraries(serveur
-    pthread
-    mysqlclient
-    z
-    m
-    rt
-    ssl
-    crypto
-    dl
-)
+target_link_directories(serveur PRIVATE ${MYSQL_LIB_DIR})
+target_link_libraries(serveur ${MYSQL_LIBS})
 
 # ------------------------------------------------------------
 # client (GUI Qt)
@@ -98,9 +91,7 @@ set_source_files_properties(
 
 target_include_directories(client PRIVATE ${PROJECT_INCLUDE_DIR})
 target_link_libraries(client
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
+    Qt5::Core Qt5::Gui Qt5::Widgets
     pthread
 )
 
@@ -113,21 +104,10 @@ add_executable(CreationBD
 
 target_include_directories(CreationBD PRIVATE
     ${PROJECT_INCLUDE_DIR}
-    /usr/include/mysql
+    ${MYSQL_INCLUDE_DIR}
 )
-
-target_link_directories(CreationBD PRIVATE /usr/lib64/mysql)
-
-target_link_libraries(CreationBD
-    mysqlclient
-    pthread
-    z
-    m
-    rt
-    ssl
-    crypto
-    dl
-)
+target_link_directories(CreationBD PRIVATE ${MYSQL_LIB_DIR})
+target_link_libraries(CreationBD ${MYSQL_LIBS})
 
 # ------------------------------------------------------------
 # Répertoire de sortie pour tous les binaires
