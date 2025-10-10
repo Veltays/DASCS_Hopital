@@ -42,8 +42,23 @@ int main(int argc, char *argv[])
     printf("password: ");
     fgets(password, 50, stdin);
     password[strlen(password) - 1] = 0;
-    if (!CBH_Login(user, password))
+    
+
+    // envoie des données au client
+
+    char requetes[200], reponse[200];
+    snprintf(requetes, sizeof(requetes), "LOGIN#%s#%s", user, password);
+
+    Echange(requetes, reponse);
+
+    printf("Reponse du serveur : %s\n", reponse);
+
+    if (strcmp(reponse, "LOGIN#OK") != 0)
+    {
+        printf("Erreur de login.\n");
         exit(1);
+    }
+
     printf("Login reussi.\n");
 }
 

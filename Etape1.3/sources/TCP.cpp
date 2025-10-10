@@ -232,6 +232,9 @@ int Send(int sSocket, char *data, int taille)
     strcpy(buffer + 4, data);
 
     int nbEcrits = write(sSocket, buffer, 4 + taille); // envoi de la taille + données
+
+    printf("Write returned %d\n", nbEcrits);
+    
     if (nbEcrits != 4 + taille)
     {
         perror("Erreur d’envoi des données");
@@ -249,20 +252,25 @@ int Send(int sSocket, char *data, int taille)
 int Receive(int sSocket, char *data)
 {
     printf("Receive() called on socket %d\n", sSocket);
-    printf("Data received: --%s--\n", data);
 
-    char tailleStr[4]; // 4 chiffres
+    char tailleStr[5]; // 4 chiffres
 
     int n = read(sSocket, tailleStr, 4);
 
+    printf("Read returned %d\n", n);
+
     tailleStr[4] = '\0';
+
+    printf("Received tailleStr: --%s--\n", tailleStr);
+
     int taille = atoi(tailleStr);
 
     read(sSocket, data, taille);
 
     data[taille] = '\0'; // ajout du \0
     //affiche les data lu
-    printf("%s", data);
+
+    printf("Data received: --%s--\n", data);
 
     return taille;
 

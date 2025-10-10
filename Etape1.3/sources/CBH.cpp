@@ -35,7 +35,7 @@ bool CBH(char *requete, char *reponse, int socket)
         {
             if (CBH_Login(user, password))
             {
-                sprintf(reponse, "LOGIN#ok");
+                sprintf(reponse, "LOGIN#OK");
                 ajoute(socket);
             }
             else
@@ -68,7 +68,7 @@ bool CBH(char *requete, char *reponse, int socket)
 
 bool CBH_Login(const char *user, const char *password)
 {
-    if (strcmp(user,"wagner")==0 && strcmp(password,"abc123")==0) 
+    if (strcmp(user,"yassine")==0 && strcmp(password,"gran")==0) 
     {
         return true;
     }
