@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/student/Bureau/DASCSLabo/Etape1.2/build/serveur_autogen/include -I/home/student/Bureau/DASCSLabo/Etape1.2/includes
+CXX_INCLUDES = -I/home/student/Bureau/DASCS_Hopital/Etape1.3/build/serveur_autogen/include -I/home/student/Bureau/DASCS_Hopital/Etape1.3/includes
 
 CXX_FLAGS = -std=gnu++11
 

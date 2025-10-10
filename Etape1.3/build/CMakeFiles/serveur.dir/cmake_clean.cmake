@@ -5,7 +5,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.o"
   "CMakeFiles/serveur.dir/sources/CBH.cpp.o"
   "CMakeFiles/serveur.dir/sources/TCP.cpp.o"
-  "CMakeFiles/serveur.dir/sources/serveur.cpp.o"
+  "CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o"
   "bin/serveur"
   "bin/serveur.pdb"
 )

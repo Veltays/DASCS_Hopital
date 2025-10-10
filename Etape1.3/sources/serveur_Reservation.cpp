@@ -10,7 +10,7 @@
 #include "CBH.h"
 
 // --- Définitions (une seule fois, ici) ---
-int sEcoute = -1;
+int sEcouteS= -1;
 int socketsAcceptees[TAILLE_FILE_ATTENTE];
 int indiceEcriture = 0, indiceLecture = 0;
 pthread_mutex_t mutexSocketsAcceptees;
@@ -18,6 +18,7 @@ pthread_cond_t condSocketsAcceptees;
 
 int main(int argc, char *argv[])
 {
+
     if (argc != 2)
     {
         printf("Erreur...\n");
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
     }
 
     // Creation de la socket d'écoute
-    if ((sEcoute = ServerSocket(atoi(argv[1]))) == -1)
+    if ((sEcouteS= ServerSocket(atoi(argv[1]))) == -1)
     {
         perror("Erreur de ServeurSocket");
         exit(1);

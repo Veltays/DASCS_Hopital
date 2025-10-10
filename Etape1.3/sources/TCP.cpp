@@ -17,21 +17,6 @@ int sEcoute;
 int CreationSocket()
 {
 
-    /* ---------------------------
-    ? Construction du socket
-    * on déclare un socket d'écoute (serveur)
-         * on déclare un int pour la socket d'écoute ( il va récupérer un descripteur de fichier)
-         * on affiche le PID du processus
-         * on crée la socket avec la fonction socket (AF_INET, SOCK_STREAM, 0)
-             - AF_INET : famille d'adresse IPv4
-             - SOCK_STREAM : type de socket (flux de données) (TCP)
-             - 0 : protocole (0 pour choisir le protocole par défaut) (il va mettre TCP car SOCK_STREAM)
-         * on vérifie que la création de la socket s'est bien passée (si -1)
-             - si erreur on affiche un message d'erreur avec perror
-             - on quitte le programme avec exit(1)
-    on affiche le descripteur de fichier de la socket
-    ------------------------------ */
-
     printf("pid = %d\n", getpid());
     // Creation de la socket
     if ((sEcoute = socket(AF_INET, SOCK_STREAM, 0)) == -1)
@@ -42,7 +27,8 @@ int CreationSocket()
 
     int opt = 1;
     // Active SO_REUSEADDR pour pouvoir réutiliser le port rapidement   --> permet d'éviter l'erreur "Address already in use" lors du redémarrage rapide du serveur
-    if (setsockopt(sEcoute, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+    if (setsockopt(sEcoute, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
+    {
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }
@@ -87,18 +73,6 @@ struct addrinfo *creationAdresse(int portSer)
 
 void bindServeurToSocket(int sEcoute, struct addrinfo *results)
 {
-    /* ---------------------------
-    ? Liaison de la socket à l'adresse
-    * on tente de lier la socket à l'adresse avec bind
-        - 1er argument : sEcoute (le descripteur de fichier de la socket)
-        - 2ème argument : results->ai_addr (l'adresse obtenue par getaddrinfo)
-        - 3ème argument : results->ai_addrlen (la taille de l'adresse)
-        ! On vérifie que bind s'est bien passé (si < 0)
-            - si erreur on affiche un message d'erreur avec perror
-            - on quitte le programme avec exit(1)
-    * on libère la mémoire allouée pour les résultats de getaddrinfo avec free
-    * on affiche un message pour indiquer que bind a réussi
-    ------------------------------ */
 
     if (bind(sEcoute, results->ai_addr, results->ai_addrlen) < 0)
     {
@@ -111,16 +85,6 @@ void bindServeurToSocket(int sEcoute, struct addrinfo *results)
 
 void ListenOnSocket(int sEcoute)
 {
-    /* ---------------------------
-    ? Mise à l'écoute de la socket
-    * On tente de mettre le socket en écoute avec listen
-        - 1er argument : sEcoute (le descripteur de fichier de la socket)
-        - 2ème argument : SOMAXCONN (le nombre maximum de connexions en attente) -> 128 par défaut
-        ! On vérifie que listen s'est bien passé (si < 0)
-            - si erreur on affiche un message d'erreur avec perror
-            - on quitte le programme avec exit(1)
-    * on affiche un message pour indiquer que listen a réussi
-    ------------------------------ */
 
     // Mise à l'écoute de la socket
     if (listen(sEcoute, SOMAXCONN) == -1)
@@ -160,19 +124,6 @@ int Accept(int sEcoute, char *ipClient)
 
 int AcceptClient(int sEcoute)
 {
-    /* ---------------------------
-    ? Attente d'une connexion
-    * On déclare un int pour la socket de service (la socket qui va gérer la connexion avec le client)
-    * On tente d'accepter une connexion avec accept
-        - 1er argument : sEcoute (le descripteur de fichier de la socket d'écoute)
-        - 2ème argument : NULL (on ne veut pas récupérer l'adresse du client)
-        - 3ème argument : NULL (on ne veut pas récupérer la taille de l'adresse du client)
-        ! On vérifie que accept s'est bien passé (si -1)
-            - si erreur on affiche un message d'erreur avec perror
-            - on quitte le programme avec exit(1)
-    * on affiche un message pour indiquer que accept a réussi
-    * on affiche le descripteur de fichier de la socket de service
-    ------------------------------ */
     int sService;
     if ((sService = accept(sEcoute, NULL, NULL)) == -1)
     {
@@ -187,26 +138,6 @@ int AcceptClient(int sEcoute)
 
 void GetClientIP(int sService, char *ipClient)
 {
-
-    /* ---------------------------
-    ? Recuperation d'information sur le client connecte
-    * On déclare une structure sockaddr_in pour l'adresse du client
-    * On déclare une socklen_t pour la taille de l'adresse du client (nécessaire)
-    * On appelle la fonction getpeername pour récupérer l'adresse du client grâce à la socket de service
-        - 1er argument : sService (le descripteur de fichier de la socket de service)
-        - 2ème argument : (struct sockaddr *)&adrClient (l'adresse du client)
-        - 3ème argument : &adrClientLen (la taille de l'adresse du client)
-
-    * On appelle la fonction getnameinfo pour afficher l'adresse IP et le port du client grâce à son adresse récupérée avec getpeername
-        - 1er argument : (struct sockaddr *)&adrClient (l'adresse du client
-        - 2ème argument : adrClientLen (la taille de l'adresse du client)
-        - 3ème argument : host (le tableau pour stocker l'adresse IP)
-        - 4ème argument : NI_MAXHOST (la taille du tableau pour l'adresse IP
-        - 5ème argument : port (le tableau pour stocker le port)
-        - 6ème argument : NI_MAXSERV (la taille du tableau pour le port)
-        - 7ème argument : NI_NUMERICSERV | NI_NUMERICHOST (pour afficher l'adresse et le port sous forme numérique)
-    * On affiche l'adresse IP et le port du client
-    ------------------------------ */
 
     struct sockaddr_in adrClient;
     socklen_t adrClientLen = sizeof(struct sockaddr_in); // nécessaire
@@ -286,26 +217,28 @@ int ClientSocket(char *ipServeur, int portServeur)
 
 int Send(int sSocket, char *data, int taille)
 {
-    int nbEcrits;
-    int tailleReseau = htonl(taille); // conversion taille en format réseau
 
-    // 1. envoyer la taille (4 octets)
-    nbEcrits = write(sSocket, &tailleReseau, sizeof(int));
-    if (nbEcrits != sizeof(int))
-    {
-        perror("Erreur d’envoi de l’entête");
-        return -1;
-    }
+    printf("Send() called with taille=%d\n", taille);
+    printf("Data to send: --%d -- %s--\n", taille, data);
 
-    // 2. envoyer les données utiles
-    nbEcrits = write(sSocket, data, taille);
-    if (nbEcrits != taille)
+    // Concatenation taille + données
+    // taille ||
+    // 0000   || data
+    char buffer[9999]; // 4 chiffres
+
+    sprintf(buffer, "%04d", taille);
+    printf("%s\n", buffer); // affiche 0013
+
+    strcpy(buffer + 4, data);
+
+    int nbEcrits = write(sSocket, buffer, 4 + taille); // envoi de la taille + données
+    if (nbEcrits != 4 + taille)
     {
         perror("Erreur d’envoi des données");
         return -1;
     }
 
-    printf("Send() → taille=%d, envoyés=%d, data=--%.*s--\n", taille, nbEcrits, taille, data);
+    printf("Send() → taille=%d, envoyés=%d, data=%s--\n", taille, nbEcrits,data);
     return nbEcrits;
 }
 
@@ -315,44 +248,24 @@ int Send(int sSocket, char *data, int taille)
 
 int Receive(int sSocket, char *data)
 {
-    int nbLus;
-    int tailleReseau;
-    int taille;
+    printf("Receive() called on socket %d\n", sSocket);
+    printf("Data received: --%s--\n", data);
 
-    // Lire l’entête (4 octets) en boucle
-    int lus = 0;
-    while (lus < sizeof(int)) {
-        nbLus = read(sSocket, ((char*)&tailleReseau) + lus, sizeof(int) - lus);
-        if (nbLus <= 0) {
-            perror("Erreur de lecture de l’entête");
-            return -1;
-        }
-        lus += nbLus;
-    }
+    char tailleStr[4]; // 4 chiffres
 
-    taille = ntohl(tailleReseau);
+    int n = read(sSocket, tailleStr, 4);
 
-    if (taille > TAILLE_MAX_DATA) {
-        fprintf(stderr, "Erreur : taille reçue (%d) > TAILLE_MAX_DATA\n", taille);
-        return -1;
-    }
+    tailleStr[4] = '\0';
+    int taille = atoi(tailleStr);
 
-    // Lire exactement "taille" octets
-    int totalLus = 0;
-    while (totalLus < taille) {
-        nbLus = read(sSocket, data + totalLus, taille - totalLus);
-        if (nbLus <= 0) {
-            perror("Erreur de lecture des données");
-            return -1;
-        }
-        totalLus += nbLus;
-    }
+    read(sSocket, data, taille);
 
-    // Terminer la chaîne reçue (si c'est du texte)
-    data[totalLus] = '\0';
+    data[taille] = '\0'; // ajout du \0
+    //affiche les data lu
+    printf("%s", data);
 
-    printf("Receive() → taille=%d, lus=%d, data=--%s--\n", taille, totalLus, data);
-    return totalLus;
+    return taille;
+
 }
 
 #pragma endregion Receive

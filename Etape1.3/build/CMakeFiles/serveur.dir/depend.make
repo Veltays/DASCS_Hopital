@@ -10,8 +10,8 @@ CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../sources/CBH.cpp
 CMakeFiles/serveur.dir/sources/TCP.cpp.o: ../includes/TCP.h
 CMakeFiles/serveur.dir/sources/TCP.cpp.o: ../sources/TCP.cpp
 
-CMakeFiles/serveur.dir/sources/serveur.cpp.o: ../includes/CBH.h
-CMakeFiles/serveur.dir/sources/serveur.cpp.o: ../includes/TCP.h
-CMakeFiles/serveur.dir/sources/serveur.cpp.o: ../includes/serveur.h
-CMakeFiles/serveur.dir/sources/serveur.cpp.o: ../sources/serveur.cpp
+CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/CBH.h
+CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/TCP.h
+CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/serveur.h
+CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../sources/serveur_Reservation.cpp
 

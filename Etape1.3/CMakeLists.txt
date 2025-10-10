@@ -50,7 +50,7 @@ target_link_libraries(Hopital
 
 # ================== Serveur (console) ==================
 add_executable(serveur
-    sources/serveur.cpp
+    sources/serveur_Reservation.cpp
     ${COMMON_SOURCES}
 )
 target_link_libraries(serveur pthread)

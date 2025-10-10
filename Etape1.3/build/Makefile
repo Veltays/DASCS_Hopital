@@ -67,10 +67,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/student/Bureau/DASCSLabo/Etape1.2
+CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/student/Bureau/DASCSLabo/Etape1.2/build
+CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.3/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCSLabo/Etape1.2/build/CMakeFiles /home/student/Bureau/DASCSLabo/Etape1.2/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles /home/student/Bureau/DASCS_Hopital/Etape1.3/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCSLabo/Etape1.2/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.3/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -515,32 +515,32 @@ sources/mainwindowclientconsultationbooker.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hopital.dir/build.make CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.s
 .PHONY : sources/mainwindowclientconsultationbooker.cpp.s
 
-sources/serveur.o: sources/serveur.cpp.o
+sources/serveur_Reservation.o: sources/serveur_Reservation.cpp.o
 
-.PHONY : sources/serveur.o
+.PHONY : sources/serveur_Reservation.o
 
 # target to build an object file
-sources/serveur.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/serveur.cpp.o
-.PHONY : sources/serveur.cpp.o
+sources/serveur_Reservation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o
+.PHONY : sources/serveur_Reservation.cpp.o
 
-sources/serveur.i: sources/serveur.cpp.i
+sources/serveur_Reservation.i: sources/serveur_Reservation.cpp.i
 
-.PHONY : sources/serveur.i
+.PHONY : sources/serveur_Reservation.i
 
 # target to preprocess a source file
-sources/serveur.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/serveur.cpp.i
-.PHONY : sources/serveur.cpp.i
+sources/serveur_Reservation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.i
+.PHONY : sources/serveur_Reservation.cpp.i
 
-sources/serveur.s: sources/serveur.cpp.s
+sources/serveur_Reservation.s: sources/serveur_Reservation.cpp.s
 
-.PHONY : sources/serveur.s
+.PHONY : sources/serveur_Reservation.s
 
 # target to generate assembly for a file
-sources/serveur.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/serveur.cpp.s
-.PHONY : sources/serveur.cpp.s
+sources/serveur_Reservation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.s
+.PHONY : sources/serveur_Reservation.cpp.s
 
 # Help Target
 help:
@@ -588,9 +588,9 @@ help:
 	@echo "... sources/mainwindowclientconsultationbooker.o"
 	@echo "... sources/mainwindowclientconsultationbooker.i"
 	@echo "... sources/mainwindowclientconsultationbooker.s"
-	@echo "... sources/serveur.o"
-	@echo "... sources/serveur.i"
-	@echo "... sources/serveur.s"
+	@echo "... sources/serveur_Reservation.o"
+	@echo "... sources/serveur_Reservation.i"
+	@echo "... sources/serveur_Reservation.s"
 .PHONY : help
 
 
