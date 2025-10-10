@@ -1,11 +1,14 @@
 #ifndef PATIENT_H
 #define PATIENT_H
 
-typedef struct Patient {
-    char* firstname;
-    char* lastname;
-    char* birthdate; // peut être nullptr si inconnu
+
+typedef struct {
+    int  id;
+    char lastname[64];
+    char firstname[64];
+    char birthdate[11]; // "YYYY-MM-DD" + '\0'
 } Patient;
+
 
 
 #endif

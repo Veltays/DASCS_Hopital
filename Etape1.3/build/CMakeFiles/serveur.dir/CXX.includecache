@@ -10,7 +10,19 @@
 patient.h
 ../includes/patient.h
 
+../includes/CBH.h
+patient.h
 ../includes/patient.h
+
+../includes/TCP.h
+
+../includes/patient.h
+
+../includes/serveur.h
+pthread.h
+-
+signal.h
+-
 
 /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/AccessBD.cpp
 AccessBD.h
@@ -25,6 +37,44 @@ cstring
 -
 patient.h
 /home/student/Bureau/DASCS_Hopital/Etape1.3/sources/patient.h
+
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.cpp
+CBH.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.h
+TCP.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.h
+string.h
+-
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+pthread.h
+-
+AccessBD.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/AccessBD.h
+
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/serveur_Reservation.cpp
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+string.h
+-
+signal.h
+-
+pthread.h
+-
+serveur.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/serveur.h
+TCP.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/TCP.h
+CBH.h
+/home/student/Bureau/DASCS_Hopital/Etape1.3/sources/CBH.h
 
 /usr/include/mysql/errmsg.h
 

@@ -153,8 +153,6 @@ Patient getPatientById(int id)
         strcpy(retour.firstname, row[0]);
         strcpy(retour.lastname, row[1]);
         strcpy(retour.birthdate,row[2]);
-
-
     }
 
 
