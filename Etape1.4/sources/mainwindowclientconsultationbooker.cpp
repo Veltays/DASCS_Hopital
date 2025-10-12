@@ -415,11 +415,11 @@ int MainWindowClientConsultationBooker::fetchDoctors()
     {
         compteur++;
         
-        if (compteur % 3 == 2) // lastname
+        if (compteur % 3 == 2)
         {
             strcpy(firstname, token);
         }
-        else if (compteur % 3 == 0) // firstname
+        else if (compteur % 3 == 0)
         {
             strcpy(lastname, token);
 
@@ -469,6 +469,20 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     cout << "[CLIENT] doctor = " << doctor << endl;
     cout << "[CLIENT] startDate = " << startDate << endl;
     cout << "[CLIENT] endDate = " << endDate << endl;
+
+    string requete;
+
+    requete = "SEARCH_CONSULTATIONS" + "#" + specialty + "#" + doctor + "#" + startDate + "#" + endDate;
+
+    strncpy(requetes, req.c_str(), sizeof(requetes) - 1);
+
+    requetes[sizeof(requetes) - 1] = '\0';
+    
+
+    Echange(requete,reponse);
+
+
+
 }
 
 void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()

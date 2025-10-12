@@ -226,3 +226,45 @@ void retourDocteur(char * reponse)
     mysql_close(connexion);
 
 }
+
+void retourConsultations(char * reponse,char* specialty,char* doctor, char * startDate, char* endDate))
+{
+    //connexion à la bad
+    MYSQL * connexion = connectToDatabase();
+
+    MYSQL_RES * Resultat;
+    MYSQL_ROW ligne;
+
+    //Construction + envoi de la requête de sélection
+    char requete[256];
+    sprintf(requete,"SELECT c.id, d.first_name, d.last_name, s.name, c.date, c.hour FROM consultations inner join doctors on c.doctor_id = d.id inner join specialties on d.specialty_id = s.id
+    where s.name = %s AND  d.firstname|| || d.lastname LIKE %s AND c.date BETWEEn (%s AND %s;");
+    // id de la consultation, nom du médecin, nom de la specialite, date, heure
+
+    if (mysql_query(connexion, requete) != 0)
+    {
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    if ((Resultat = mysql_store_result(connexion)) == NULL)
+    {
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    int nbChamps = mysql_num_fields(Resultat);
+    char retour[2048]= "";
+    while ((ligne = mysql_fetch_row(Resultat)) != NULL)
+    {
+        for (int i = 0; i < nbChamps; i++)
+        {
+            strcat(retour,ligne[i]);
+            strcat(retour,"#");
+        }
+    }
+
+    strcpy(reponse,retour);
+    mysql_close(connexion);
+
+}
