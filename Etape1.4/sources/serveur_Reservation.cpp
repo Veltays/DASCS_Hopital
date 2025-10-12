@@ -4,10 +4,13 @@
 #include <string.h>
 #include <signal.h>
 #include <pthread.h>
-
+#include <string>
 #include "serveur.h"
 #include "TCP.h"
 #include "CBH.h"
+#include "AccessBD.h"
+
+using namespace std;
 
 // --- Définitions (une seule fois, ici) ---
 int sEcouteS = -1;
@@ -60,6 +63,7 @@ int main(int argc, char *argv[])
     int sService;
     char ipClient[50];
     printf("[SERVEUR] Demarrage du serveur.\n");
+    
     while (1)
     {
         printf("[THREAD %p] Attente d'une connexion...\n", pthread_self());

@@ -1,10 +1,11 @@
 #include "AccessBD.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstring> 
+#include <cstring>
 #include "patient.h"
+#include <string.h>
 
-
+using namespace std;
 
 
 MYSQL *connectToDatabase(void)
@@ -37,7 +38,7 @@ int estPresent(const char *nom)
 
     // Construction + envoi de la requete de sélection
     char requete[256];
-    sprintf(requete, "SELECT * FROM patients"); // id, last_name, first_name
+    sprintf(requete, "SELECT * FROM patients;"); // id, last_name, first_name, birthdate
 
 
     if (mysql_query(connexion, requete) != 0)
@@ -98,8 +99,6 @@ int AddNewPatient(const char *lastname, const char *firstname, const char *birth
 }
 
 
-
-
 Patient getPatientById(int id)
 {
     MYSQL_ROW row;
@@ -148,4 +147,94 @@ Patient getPatientById(int id)
     // Déconnexion de la base de données
     mysql_close(connexion);
     return retour;
+}
+
+void retourSpecialite(char* reponse)
+{
+    // Connexion à la base de donnée
+    printf("coucou");
+    MYSQL *connexion = connectToDatabase();
+    printf("salut");
+    MYSQL_RES * Resultat;
+    printf("bonjour");
+    MYSQL_ROW ligne;
+
+    //Construction + envoi de la requête de sélection
+    printf("pipi");
+    char requete[256];
+    sprintf(requete,"SELECT * FROM specialties;");
+    printf("%s",requete);
+
+    if (mysql_query(connexion, requete) != 0)
+    {
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    printf("requete effectuee avec succes");
+    if ((Resultat = mysql_store_result(connexion)) == NULL)
+    {
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    int nbChamps = mysql_num_fields(Resultat);
+    char retour[2048] = "";
+    printf("caca");
+    while ((ligne = mysql_fetch_row(Resultat)) != NULL)
+    {
+        for (int i = 0; i < nbChamps; i++)
+        {
+            strcat(retour,ligne[i]);
+            strcat(retour,"#");
+        }
+    }
+
+    strcpy(reponse,retour);  
+
+    //Deconnexion de la base de donnnée
+    mysql_close(connexion);
+    //exit(0);
+
+}
+
+void retourDocteur()
+{
+    // Connexion à la base de donnée
+    MYSQL *connexion = connectToDatabase();
+
+    MYSQL_RES * Resultat;
+    MYSQL_ROW ligne;
+
+    //Construction + envoi de la requête de sélection
+    char requete[256];
+    sprintf(requete,"SELECT id, last_name, first_name FROM doctors;");
+
+    if (mysql_query(connexion, requete) != 0)
+    {
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    if ((Resultat = mysql_store_result(connexion)) == NULL)
+    {
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        exit(1);
+    }
+
+    int nbChamps = mysql_num_fields(Resultat);
+    while ((ligne = mysql_fetch_row(Resultat)) != NULL)
+    {
+        for (int i = 0; i < nbChamps; i++)
+        {
+            printf(" %s", ligne[i]);
+        }
+
+        printf("\n");
+    }
+
+    //Deconnexion de la base de donnnée
+    mysql_close(connexion);
+    exit(0);
+
 }

@@ -11,9 +11,11 @@
 #include <unistd.h>
 #include <string.h>
 #include <signal.h>
+#include "AccessBD.h"
 
 
 int TryLogin();
+int fetchData();
 void Echange(char* requete, char* reponse);
 
 
@@ -22,11 +24,6 @@ using namespace std;
 int sClient;
 char myIp[50] = "127.0.0.1";
 int portClient = 6767;
-
-
-
-
-
 
 MainWindowClientConsultationBooker::MainWindowClientConsultationBooker(QWidget *parent)
     : QMainWindow(parent)
@@ -51,19 +48,6 @@ MainWindowClientConsultationBooker::MainWindowClientConsultationBooker(QWidget *
     int columnWidths[] = {40, 150, 200, 150, 100};
     for (int col = 0; col < 5; ++col)
         ui->tableWidgetConsultations->setColumnWidth(col, columnWidths[col]);
-
-    // Exemples d'utilisation (à supprimer)
-    this->addTupleTableConsultations(1,"Neurologie","Martin Claire","2025-10-01", "09:00");
-    this->addTupleTableConsultations(2,"Cardiologie","Lemoine Bernard","2025-10-06", "10:15");
-    this->addTupleTableConsultations(3,"Dermatologie","Maboul Paul","2025-10-23", "14:30");
-
-    //this->addComboBoxSpecialties("--- TOUTES ---");
-    this->addComboBoxSpecialties("Dermatologie");
-    this->addComboBoxSpecialties("Cardiologie");
-
-    //this->addComboBoxDoctors("--- TOUS ---");
-    this->addComboBoxDoctors("Martin Claire");
-    this->addComboBoxDoctors("Maboul Paul");
 
 }
 
@@ -353,6 +337,8 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
         }
         dialogMessage("Login OK","Bienvenue " + firstName + " " + lastName + " !");
         loginOk();
+
+        fetchData();
     }
     else
     {
@@ -361,14 +347,25 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
         return;
     }
 
-
-
-
-
-
 }
 
+int MainWindowClientConsultationBooker::fetchData()
+{
+    char reponse[200]; char requete[200];
+    string req = "GET_SPECIALTIES";
+    strncpy(requete, req.c_str(), sizeof(requete)-1);
 
+    requete[sizeof(requete)-1] = '\0';
+    Echange(requete,reponse);
+
+    //decomposition
+
+    
+
+    //dans reponse yaura la grosse chaine et c ici que jv la démonter tia capté
+    this->addComboBoxSpecialties(reponse);
+    return 0;
+}
 
 int TryLogin()
 {
@@ -417,12 +414,6 @@ void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
 
     cout << "[CLIENT] selectedRow = " << selectedRow << endl;
 }
-
-
-
-
-
-
 
 void Echange(char *requete, char *reponse)
 {

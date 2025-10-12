@@ -23,7 +23,7 @@ bool CBH(char *requete, char *reponse, int socket)
 
     // ***** Récupération nom de la requete *****************
     char *ptr = strtok(requete, "#");
-
+    printf("%s",ptr);
     int cmd;
     char firstname[50], lastname[50], PatientId[50];
     char specialty[50], doctor[50], startDate[50], endDate[50];
@@ -82,12 +82,12 @@ bool CBH(char *requete, char *reponse, int socket)
         break;
 
     case CMD_GET_SPECIALTIES:
-        if (CBH_Get_Specialites(reponse) == false)
-        {
-
-            return false;
-        }
-        sprintf(reponse, "GET_SPECIALTIES#ok");
+        // recupere la chaine de accesBD dans reponse puis renvoyer au serveur qui lui renvoie au client
+        char buffer[2048];
+        printf("je rentre dans blabla");
+        retourSpecialite(buffer);
+        strcpy(reponse,buffer);
+        return true;
         break;
 
     case CMD_GET_DOCTORS:

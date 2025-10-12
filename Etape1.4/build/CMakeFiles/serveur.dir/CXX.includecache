@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../includes/AccessBD.h
+patient.h
+../includes/patient.h
+cstring
+-
+mysql/mysql.h
+-
+
+../includes/CBH.h
+patient.h
+../includes/patient.h
+
+../includes/TCP.h
+
+../includes/patient.h
+
+/home/student/Bureau/dernier/DASCS_Hopital/Etape1.4/sources/CBH.cpp
+CBH.h
+/home/student/Bureau/dernier/DASCS_Hopital/Etape1.4/sources/CBH.h
+TCP.h
+/home/student/Bureau/dernier/DASCS_Hopital/Etape1.4/sources/TCP.h
+string.h
+-
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+pthread.h
+-
+AccessBD.h
+/home/student/Bureau/dernier/DASCS_Hopital/Etape1.4/sources/AccessBD.h
+
