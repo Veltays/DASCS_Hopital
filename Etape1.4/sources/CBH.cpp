@@ -31,6 +31,7 @@ bool CBH(char *requete, char *reponse, int socket)
 
     int idConsultation;
     int idPatient;
+    char buffer[2048];
 
     switch (cmd = getCommandReceive(ptr))
     {
@@ -83,19 +84,15 @@ bool CBH(char *requete, char *reponse, int socket)
 
     case CMD_GET_SPECIALTIES:
         // recupere la chaine de accesBD dans reponse puis renvoyer au serveur qui lui renvoie au client
-        char buffer[2048];
-        printf("je rentre dans blabla");
         retourSpecialite(buffer);
         strcpy(reponse,buffer);
         return true;
         break;
 
     case CMD_GET_DOCTORS:
-        if (CBH_Get_Doctors(reponse) == false)
-        {
-            return false;
-        }
-        sprintf(reponse, "GET_DOCTORS#ok");
+        retourDocteur(buffer);
+        strcpy(reponse,buffer);
+        return true;
         break;
 
     case CMD_SEARCH_CONSULTATIONS:

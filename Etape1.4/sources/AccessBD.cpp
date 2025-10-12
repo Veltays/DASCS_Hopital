@@ -152,18 +152,13 @@ Patient getPatientById(int id)
 void retourSpecialite(char* reponse)
 {
     // Connexion à la base de donnée
-    printf("coucou");
     MYSQL *connexion = connectToDatabase();
-    printf("salut");
     MYSQL_RES * Resultat;
-    printf("bonjour");
     MYSQL_ROW ligne;
 
     //Construction + envoi de la requête de sélection
-    printf("pipi");
     char requete[256];
     sprintf(requete,"SELECT * FROM specialties;");
-    printf("%s",requete);
 
     if (mysql_query(connexion, requete) != 0)
     {
@@ -171,7 +166,6 @@ void retourSpecialite(char* reponse)
         exit(1);
     }
 
-    printf("requete effectuee avec succes");
     if ((Resultat = mysql_store_result(connexion)) == NULL)
     {
         fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
@@ -180,7 +174,6 @@ void retourSpecialite(char* reponse)
 
     int nbChamps = mysql_num_fields(Resultat);
     char retour[2048] = "";
-    printf("caca");
     while ((ligne = mysql_fetch_row(Resultat)) != NULL)
     {
         for (int i = 0; i < nbChamps; i++)
@@ -191,14 +184,10 @@ void retourSpecialite(char* reponse)
     }
 
     strcpy(reponse,retour);  
-
-    //Deconnexion de la base de donnnée
     mysql_close(connexion);
-    //exit(0);
-
 }
 
-void retourDocteur()
+void retourDocteur(char * reponse)
 {
     // Connexion à la base de donnée
     MYSQL *connexion = connectToDatabase();
@@ -208,7 +197,7 @@ void retourDocteur()
 
     //Construction + envoi de la requête de sélection
     char requete[256];
-    sprintf(requete,"SELECT id, last_name, first_name FROM doctors;");
+    sprintf(requete,"SELECT id, first_name, last_name FROM doctors;");
 
     if (mysql_query(connexion, requete) != 0)
     {
@@ -223,18 +212,17 @@ void retourDocteur()
     }
 
     int nbChamps = mysql_num_fields(Resultat);
+    char retour[2048]= "";
     while ((ligne = mysql_fetch_row(Resultat)) != NULL)
     {
         for (int i = 0; i < nbChamps; i++)
         {
-            printf(" %s", ligne[i]);
+            strcat(retour,ligne[i]);
+            strcat(retour,"#");
         }
-
-        printf("\n");
     }
 
-    //Deconnexion de la base de donnnée
+    strcpy(reponse,retour);
     mysql_close(connexion);
-    exit(0);
 
 }

@@ -8,18 +8,15 @@ int estPresent(const char * nom);
 
 MYSQL *connectToDatabase(void);
 
-
-
 int getLastIdOfPatient();
-
 
 Patient getPatientById(int id);
 
 // Crée un patient, retourne le nouvel ID (>0) ou -1 en cas d’erreur.
 int AddNewPatient(const char* firstname, const char* lastname, const char* birthdate);
 
-
 void retourSpecialite(char * r);
 
-void retourDocteur(); //id|lastname|firstname
+void retourDocteur(char *r );
+
 #endif
