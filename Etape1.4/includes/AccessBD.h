@@ -21,5 +21,6 @@ bool retourDocteur(char *r );
 
 bool retourConsultations(char * r,char* specialty,char* doctor, char * startDate, char* endDate);
 
-bool modifyConsultation(char * reponse, int id, char * raison);
+bool modifyConsultation(char * reponse, int idConsultation, char * raison, int idPatient);
+
 #endif

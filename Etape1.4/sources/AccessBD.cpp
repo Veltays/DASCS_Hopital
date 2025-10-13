@@ -40,7 +40,6 @@ int estPresent(const char *nom)
     char requete[256];
     sprintf(requete, "SELECT * FROM patients;"); // id, last_name, first_name, birthdate
 
-
     if (mysql_query(connexion, requete) != 0)
     {
         fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
@@ -76,7 +75,6 @@ int AddNewPatient(const char *lastname, const char *firstname, const char *birth
     MYSQL *connexion = connectToDatabase();
     printf("[ACCESSBD] Connexion établie avec succès à la BD.\n");
 
-
     char requete[256];
     sprintf(requete, "INSERT INTO patients VALUES(NULL,'%s','%s',NULL);", lastname, firstname);
 
@@ -91,7 +89,6 @@ int AddNewPatient(const char *lastname, const char *firstname, const char *birth
 
     int IdOfUser = mysql_insert_id(connexion);
     mysql_close(connexion);
-
 
     // permet de recuperer le dernier id apres l'insert
     return IdOfUser;
@@ -135,6 +132,7 @@ Patient getPatientById(int id)
     {
         exit(0);
     }
+
     else
     {
         retour.id = atoi(row[0]);
@@ -289,7 +287,7 @@ bool retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
 
 }
 
-bool modifyConsultation(char * reponse, int idConsultation, char * raison)
+bool modifyConsultation(char * reponse, int idConsultation, char * raison, int idPatient)
 {
     //connexion à la bad
     MYSQL * connexion = connectToDatabase();
@@ -299,5 +297,33 @@ bool modifyConsultation(char * reponse, int idConsultation, char * raison)
 
     //Construction + envoi de la requete
     char requete[512];
-    sprintf(requete,"UPDATE");
+    sprintf(requete,"UPDATE table_consultations SET reason = '%s', id_patient = %d WHERE id = %d AND id_patient IS NULL",raison,idPatient,idConsultation);
+
+    if (mysql_query(connexion, requete) != 0)
+    {
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        return false;
+    }
+
+    if ((Resultat = mysql_store_result(connexion)) == NULL)
+    {
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        return false;
+    }
+
+    my_ulonglong nbLignes = mysql_affected_rows(connexion);
+
+    if (nbLignes == 0)
+    {
+        strcpy(reponse,"NON");
+        return false;
+    }
+    
+    else
+    {
+        strcpy(reponse,"OUI");
+    }
+
+    mysql_close(connexion);
+    return true;
 }
