@@ -1,0 +1,7 @@
+#define NB_MAX_CLIENTS 20
+#define PORT_RESERVATION 6767
+
+
+
+
+

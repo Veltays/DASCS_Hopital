@@ -6,9 +6,9 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "AccessBD.h"
+#include "configReseau.h"
 
 pthread_mutex_t mutexClients = PTHREAD_MUTEX_INITIALIZER;
-int clients[NB_MAX_CLIENTS];
 int nbClients = 0;
 
 const int CMD_LOGIN = 1;
@@ -18,6 +18,19 @@ const int CMD_GET_DOCTORS = 4;
 const int CMD_SEARCH_CONSULTATIONS = 5;
 const int CMD_BOOK_CONSULTATION = 6;
 
+
+
+
+
+typedef struct {
+    int  socket;
+    int idPatient;
+} ClientStocker;
+
+ClientStocker clients[NB_MAX_CLIENTS];
+
+
+
 bool CBH(char *requete, char *reponse, int socket)
 {
 
@@ -25,7 +38,7 @@ bool CBH(char *requete, char *reponse, int socket)
     char *ptr = strtok(requete, "#");
     printf("%s",ptr);
     int cmd;
-    char firstname[50], lastname[50], PatientId[50];
+    char firstname[50], lastname[50], PatientId[50], raison[200];
     char specialty[50], doctor[50], startDate[50], endDate[50];
     int ResultOrID;
 
@@ -54,14 +67,14 @@ bool CBH(char *requete, char *reponse, int socket)
             {
                 printf("[THREAD %p] Connexion patient\n", pthread_self());
                 sprintf(reponse, "LOGIN#OK");
-                ajoute(socket);
+                ajoute(socket, atoi(PatientId));
                 return true;
             }
             else if (ResultOrID > 0)
             {
                 printf("[THREAD %p] Ajout d'un nouveau patient\n", pthread_self());
                 sprintf(reponse, "LOGIN#OK#%d", ResultOrID);
-                ajoute(socket);
+                ajoute(socket, ResultOrID);
                 return true;
             }
             else
@@ -83,15 +96,18 @@ bool CBH(char *requete, char *reponse, int socket)
         break;
 
     case CMD_GET_SPECIALTIES:
-        // recupere la chaine de accesBD dans reponse puis renvoyer au serveur qui lui renvoie au client
-        retourSpecialite(reponse);
-        
+        if(CBH_Get_Specialites(reponse) == false)
+        {
+            return false;
+        }
         return true;
         break;
 
     case CMD_GET_DOCTORS:
-        retourDocteur(reponse);
-        
+        if(CBH_Get_Doctors(reponse) == false)
+        {
+            return false;
+        }
         return true;
         break;
 
@@ -115,13 +131,15 @@ bool CBH(char *requete, char *reponse, int socket)
 
     case CMD_BOOK_CONSULTATION:
         idConsultation = atoi(strtok(NULL, "#"));
-        idPatient = atoi(strtok(NULL, "#"));
+        strcpy(raison, strtok(NULL, "#"));
+        idPatient = getIdPatientFromSocket(socket);
+            
+
         printf("[THREAD %p] BOOK_CONSULTATION de %d -- %d\n", pthread_self(), idConsultation, idPatient);
-        if (CBH_BOOK_CONSULTATION(idConsultation, idPatient, reponse) == false)
+        if (CBH_BOOK_CONSULTATION(idConsultation,raison, idPatient, reponse) == false)
         {
             return false;
         }
-        sprintf(reponse, "BOOK_CONSULTATION#ok");
         return true;
         break;
     default:
@@ -161,21 +179,15 @@ bool CBH_Logout(int socket)
     return true;
 }
 
-void CBH_Close()
-{
-    pthread_mutex_lock(&mutexClients);
-    for (int i = 0; i < nbClients; i++)
-        close(clients[i]);
-    pthread_mutex_unlock(&mutexClients);
-}
-
 bool CBH_Get_Specialites(char *reponse)
 {
+    retourSpecialite(reponse);
     return true;
 }
 
 bool CBH_Get_Doctors(char *reponse)
 {
+    retourDocteur(reponse);
     return true;
 }
 
@@ -198,8 +210,18 @@ bool CBH_Search_Consultations(char* buffer,char *specialiter, char *medecin, cha
     return true;
 }
 
-bool CBH_BOOK_CONSULTATION(int idConsultation, int idPatient, char *reponse)
+bool CBH_BOOK_CONSULTATION(int idConsultation,char *raison, int idPatient, char *reponse)
 {
+
+    printf("[THREAD %p] BOOK_CONSULTATION\n", pthread_self());
+    printf("[THREAD %p] ID CONSULTATION : %d\n", pthread_self(), idConsultation);
+    printf("[THREAD %p] ID PATIENT : %d\n", pthread_self(), idPatient);
+
+    if(modifyConsultation(reponse, idConsultation, raison, idPatient) == false)
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -209,7 +231,7 @@ int estPresent(int socket)
     int indice = -1;
     pthread_mutex_lock(&mutexClients);
     for (int i = 0; i < nbClients; i++)
-        if (clients[i] == socket)
+        if (clients[i].socket == socket)
         {
             indice = i;
             break;
@@ -218,10 +240,11 @@ int estPresent(int socket)
     return indice;
 }
 
-void ajoute(int socket)
+void ajoute(int socket, int idPatient)
 {
     pthread_mutex_lock(&mutexClients);
-    clients[nbClients] = socket;
+    clients[nbClients].socket = socket;
+    clients[nbClients].idPatient = idPatient;
     nbClients++;
     pthread_mutex_unlock(&mutexClients);
 }
@@ -237,6 +260,32 @@ void retire(int socket)
     nbClients--;
     pthread_mutex_unlock(&mutexClients);
 }
+
+
+int getIdPatientFromSocket(int socket)
+{
+    int idPatient = -1;
+    pthread_mutex_lock(&mutexClients);
+    for (int i = 0; i < nbClients; i++)
+        if (clients[i].socket == socket)
+        {
+            idPatient = clients[i].idPatient;
+            break;
+        }
+    pthread_mutex_unlock(&mutexClients);
+    return idPatient;
+}
+
+
+void CBH_Close()
+{
+    pthread_mutex_lock(&mutexClients);
+    for (int i = 0; i < nbClients; i++)
+        close(clients[i].socket);
+    pthread_mutex_unlock(&mutexClients);
+}
+
+
 
 
 //***** Fonction de gestions des commandes ******************************

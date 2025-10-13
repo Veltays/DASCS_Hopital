@@ -9,6 +9,7 @@
 #include "TCP.h"
 #include "CBH.h"
 #include "AccessBD.h"
+#include "configReseau.h"
 
 using namespace std;
 
@@ -19,15 +20,8 @@ int indiceEcriture = 0, indiceLecture = 0;
 pthread_mutex_t mutexSocketsAcceptees;
 pthread_cond_t condSocketsAcceptees;
 
-int main(int argc, char *argv[])
+int main()
 {
-
-    if (argc != 2)
-    {
-        printf("[SERVEUR] Erreur...\n");
-        printf("[SERVEUR] USAGE : Serveur portServeur\n");
-        exit(1);
-    }
 
     // Initialisation socketsAcceptees
     pthread_mutex_init(&mutexSocketsAcceptees, NULL);
@@ -47,7 +41,7 @@ int main(int argc, char *argv[])
     }
 
     // Creation de la socket d'écoute
-    if ((sEcouteS = ServerSocket(atoi(argv[1]))) == -1)
+    if ((sEcouteS = ServerSocket(PORT_RESERVATION)) == -1)
     {
         perror("[SERVEUR] Erreur de ServeurSocket");
         exit(1);

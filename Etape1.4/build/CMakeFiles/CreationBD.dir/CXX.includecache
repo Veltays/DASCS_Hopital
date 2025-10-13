@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/build/CreationBD_autogen/mocs_compilation.cpp
+/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CreationBD_autogen/mocs_compilation.cpp
 
-/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/CreationBD.cpp
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CreationBD.cpp
 stdio.h
 -
 stdlib.h

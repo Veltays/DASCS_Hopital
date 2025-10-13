@@ -181,7 +181,7 @@ bool retourSpecialite(char* reponse)
         }
     }
 
-    printf("Retour du retour: %s\n",retour);
+    printf("[ACCESSBD] Retour du retour: %s\n",retour);
 
     strcpy(reponse,retour);  
     mysql_close(connexion);
@@ -266,7 +266,8 @@ bool retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
     char retour[2048]= "";
     if(mysql_num_rows(Resultat)==0)
     {
-        strcpy(retour,"NULL");
+        strcpy(reponse,"NULL");
+        return true;
     }
 
     int nbChamps = mysql_num_fields(Resultat);
@@ -279,6 +280,8 @@ bool retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
             strcat(retour,"#");
         }
     }
+
+    strcat(retour,"END");
 
     strcpy(reponse,retour);
     mysql_close(connexion);
@@ -297,7 +300,7 @@ bool modifyConsultation(char * reponse, int idConsultation, char * raison, int i
 
     //Construction + envoi de la requete
     char requete[512];
-    sprintf(requete,"UPDATE table_consultations SET reason = '%s', id_patient = %d WHERE id = %d AND id_patient IS NULL",raison,idPatient,idConsultation);
+    sprintf(requete,"UPDATE consultations SET reason = '%s', patient_id = %d WHERE id = %d AND patient_id IS NULL",raison,idPatient,idConsultation);
 
     if (mysql_query(connexion, requete) != 0)
     {
@@ -305,24 +308,28 @@ bool modifyConsultation(char * reponse, int idConsultation, char * raison, int i
         return false;
     }
 
-    if ((Resultat = mysql_store_result(connexion)) == NULL)
-    {
-        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
-        return false;
-    }
+
+    printf("[ACCESSBD] requête modifyConsultation envoyée %s \n", requete);
+
+    printf("affected_rows=%llu, mysql_error='%s'\n", mysql_affected_rows(connexion), mysql_error(connexion));
+
+
 
     my_ulonglong nbLignes = mysql_affected_rows(connexion);
 
     if (nbLignes == 0)
     {
-        strcpy(reponse,"NON");
-        return false;
+        printf("[ACCESSBD] Aucune ligne modifiée, la consultation est peut-être déjà réservée.\n");
+        strcpy(reponse,"BOOK_CONSULTATION#NON");
     }
-    
     else
     {
-        strcpy(reponse,"OUI");
+        printf("[ACCESSBD] Consultation réservée avec succès.\n");
+        strcpy(reponse,"BOOK_CONSULTATION#OUI");
+
     }
+
+    
 
     mysql_close(connexion);
     return true;

@@ -235,6 +235,7 @@ CMakeFiles/Hopital.dir/sources/main.cpp.o: /usr/include/qt5/QtWidgets/qwidget.h
 CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/AccessBD.h
 CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/CBH.h
 CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/TCP.h
+CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/configReseau.h
 CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/mainwindowclientconsultationbooker.h
 CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/patient.h
 CMakeFiles/Hopital.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/ui_mainwindowclientconsultationbooker.h

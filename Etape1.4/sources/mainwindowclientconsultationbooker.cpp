@@ -12,6 +12,7 @@
 #include <string.h>
 #include <signal.h>
 #include "AccessBD.h"
+#include "configReseau.h"
 
 int TryLogin();
 int fetchData();
@@ -21,7 +22,7 @@ using namespace std;
 
 int sClient;
 char myIp[50] = "127.0.0.1";
-int portClient = 6767;
+
 
 MainWindowClientConsultationBooker::MainWindowClientConsultationBooker(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClientConsultationBooker)
@@ -110,12 +111,29 @@ void MainWindowClientConsultationBooker::clearTableConsultations()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int MainWindowClientConsultationBooker::getSelectionIndexTableConsultations() const
 {
+    // QModelIndexList list = ui->tableWidgetConsultations->selectionModel()->selectedRows();
+    // if (list.size() == 0)
+    //     return -1;
+    // QModelIndex index = list.at(0);
+    // int ind = index.row();
+    // return ind;
+
     QModelIndexList list = ui->tableWidgetConsultations->selectionModel()->selectedRows();
-    if (list.size() == 0)
+    if (list.isEmpty())
         return -1;
-    QModelIndex index = list.at(0);
-    int ind = index.row();
-    return ind;
+
+    int row = list.at(0).row();                                            // Récupère la ligne sélectionnée
+    QTableWidgetItem *idItem = ui->tableWidgetConsultations->item(row, 0); // Colonne 0 = ID
+
+    if (!idItem)
+        return -1;
+
+    bool ok = false;
+    int id = idItem->text().toInt(&ok);
+    if (!ok)
+        return -1;
+
+    return id; // ⬅️ On renvoie l’ID directement
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -437,7 +455,7 @@ int MainWindowClientConsultationBooker::fetchDoctors()
 int TryLogin()
 {
 
-    if ((sClient = ClientSocket(myIp, portClient)) == -1)
+    if ((sClient = ClientSocket(myIp, PORT_RESERVATION)) == -1)
     {
         perror("[CLIENT] Erreur de ClientSocket");
         exit(1);
@@ -461,7 +479,7 @@ void MainWindowClientConsultationBooker::on_pushButtonLogout_clicked()
 void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
 {
 
-    clearTableConsultations();
+    this->clearTableConsultations();
 
     char reponse[200] = "";
     char requete[200] = "";
@@ -502,16 +520,22 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     token = strtok(reponse, "#");
     printf("[CLIENT] Reponse : %s\n", reponse);
 
+
+
     if (strcmp(reponse,"NULL")==0)
     {
         MainWindowClientConsultationBooker::dialogError("erreur","pas de resultat");
+        return;
         
     }
-    else
+
+ 
+    printf("Reponse recu: %s\n", reponse);
+
+    while (strcmp(token, "END") != 0)
     {
-        while (token != NULL)
-    {
-        switch (field)
+
+       switch (field)
         {
         case 0:
             id = atoi(token);
@@ -536,30 +560,29 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
             snprintf(fullname, sizeof(fullname), "%s %s", firstname, lastname);
 
             // maintenant qu'on a les 6 champs, on appelle une seule fois l'ajout
-
+            printf("Ajout dans la table : %d -- %s -- %s -- %s -- %s\n", id, spec, fullname, date, hour);
+            this->addTupleTableConsultations(id, spec, fullname, date, hour);
             break;
+
         }
+
         field = (field + 1) % 6;
         token = strtok(NULL, "#");
         printf("Token: %s\n", token);
     }
-    this->addTupleTableConsultations(id, spec, fullname, date, hour);
-    
-    }
+
+    printf("Fin de la boucle de traitement des tokens\n");
 
     
 }
 
 void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
 {
-    int selectedRow = this->getSelectionIndexTableConsultations();
-
-    cout << "[CLIENT] selectedRow = " << selectedRow << endl;
 
     char requete[200];
     char reponse[200];
     string req;
-    int id= this->getSelectionIndexTableConsultations() ;
+    int id = this->getSelectionIndexTableConsultations();
     req = "BOOK_CONSULTATION#" + to_string(id)+ "#" + dialogInputText("input","entrer la raison de la consultation");
 
     strncpy(requete, req.c_str(), sizeof(requete) - 1);
@@ -568,7 +591,25 @@ void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
     printf("[CLIENT] Requete : %s\n", requete);
     Echange(requete, reponse);
 
-    // traite de la réponse
+    char *ptr = strtok(reponse, "#");
+    char resBook[50];
+
+
+    strcpy(resBook, strtok(NULL, "#"));
+    printf("[CLIENT] La réservation à bien été effectuée ? --> resBook = %s\n", resBook);
+
+    if(strcmp(resBook,"OUI")==0)
+    {
+        dialogMessage("Réservation","Réservation effectuée avec succès !");
+    }
+    else if(strcmp(resBook,"NON")==0)
+    {
+        dialogError("Réservation","La réservation a échouée, la consultation est peut-être déjà réservée !");
+    }
+    else
+    {
+        dialogError("Réservation","Réponse du serveur inconnue !");
+    }
 
 
 

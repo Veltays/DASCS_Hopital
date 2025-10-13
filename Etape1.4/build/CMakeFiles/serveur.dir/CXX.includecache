@@ -16,9 +16,9 @@ mysql/mysql.h
 
 ../includes/patient.h
 
-/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/AccessBD.cpp
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.cpp
 AccessBD.h
-/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/AccessBD.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.h
 stdio.h
 -
 stdlib.h
@@ -26,7 +26,7 @@ stdlib.h
 cstring
 -
 patient.h
-/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/patient.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/patient.h
 string.h
 -
 
