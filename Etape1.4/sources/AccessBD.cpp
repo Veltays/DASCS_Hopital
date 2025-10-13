@@ -265,8 +265,14 @@ bool retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
         return false;
     }
 
-    int nbChamps = mysql_num_fields(Resultat);
     char retour[2048]= "";
+    if(mysql_num_rows(Resultat)==0)
+    {
+        strcpy(retour,"NULL");
+    }
+
+    int nbChamps = mysql_num_fields(Resultat);
+    
     while ((ligne = mysql_fetch_row(Resultat)) != NULL)
     {
         for (int i = 0; i < nbChamps; i++)
@@ -281,4 +287,17 @@ bool retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
 
     return true;
 
+}
+
+bool modifyConsultation(char * reponse, int idConsultation, char * raison)
+{
+    //connexion à la bad
+    MYSQL * connexion = connectToDatabase();
+
+    MYSQL_RES * Resultat;
+    MYSQL_ROW ligne;
+
+    //Construction + envoi de la requete
+    char requete[512];
+    sprintf(requete,"UPDATE");
 }

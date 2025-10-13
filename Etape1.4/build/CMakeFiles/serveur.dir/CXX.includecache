@@ -14,29 +14,19 @@ cstring
 mysql/mysql.h
 -
 
-../includes/CBH.h
-patient.h
 ../includes/patient.h
 
-../includes/TCP.h
-
-../includes/patient.h
-
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.cpp
-CBH.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.h
-TCP.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.h
-string.h
--
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/AccessBD.cpp
+AccessBD.h
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/AccessBD.h
 stdio.h
 -
 stdlib.h
 -
-unistd.h
+cstring
 -
-pthread.h
+patient.h
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/patient.h
+string.h
 -
-AccessBD.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.h
 

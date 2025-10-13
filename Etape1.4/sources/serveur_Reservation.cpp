@@ -116,6 +116,7 @@ void TraitementConnexion(int sService)
     char requete[200], reponse[200];
     int nbLus, nbEcrits;
     bool onContinue = true;
+    
 
     while (onContinue)
     {

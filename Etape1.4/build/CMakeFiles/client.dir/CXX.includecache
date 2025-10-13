@@ -62,11 +62,11 @@ QtWidgets/QTableWidget
 QtWidgets/QWidget
 -
 
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.cpp
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.cpp
 mainwindowclientconsultationbooker.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.h
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.h
 ui_mainwindowclientconsultationbooker.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/ui_mainwindowclientconsultationbooker.h
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/ui_mainwindowclientconsultationbooker.h
 QInputDialog
 -
 QMessageBox
@@ -74,9 +74,9 @@ QMessageBox
 iostream
 -
 TCP.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.h
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/TCP.h
 CBH.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.h
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/CBH.h
 stdio.h
 -
 stdlib.h
@@ -88,7 +88,7 @@ string.h
 signal.h
 -
 AccessBD.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.h
+/home/student/Bureau/dddd/DASCS_Hopital/Etape1.4/sources/AccessBD.h
 
 /usr/include/qt5/QtCore/QDate
 qdatetime.h

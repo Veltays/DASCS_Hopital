@@ -502,7 +502,14 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     token = strtok(reponse, "#");
     printf("[CLIENT] Reponse : %s\n", reponse);
 
-    while (token != NULL)
+    if (strcmp(reponse,"NULL")==0)
+    {
+        MainWindowClientConsultationBooker::dialogError("erreur","pas de resultat");
+        
+    }
+    else
+    {
+        while (token != NULL)
     {
         switch (field)
         {
@@ -538,6 +545,9 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     }
     this->addTupleTableConsultations(id, spec, fullname, date, hour);
     
+    }
+
+    
 }
 
 void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
@@ -545,6 +555,23 @@ void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
     int selectedRow = this->getSelectionIndexTableConsultations();
 
     cout << "[CLIENT] selectedRow = " << selectedRow << endl;
+
+    char requete[200];
+    char reponse[200];
+    string req;
+    int id= this->getSelectionIndexTableConsultations() ;
+    req = "BOOK_CONSULTATION#" + to_string(id)+ "#" + dialogInputText("input","entrer la raison de la consultation");
+
+    strncpy(requete, req.c_str(), sizeof(requete) - 1);
+
+    requete[sizeof(requete) - 1] = '\0';
+    printf("[CLIENT] Requete : %s\n", requete);
+    Echange(requete, reponse);
+
+    // traite de la réponse
+
+
+
 }
 
 void Echange(char *requete, char *reponse)
