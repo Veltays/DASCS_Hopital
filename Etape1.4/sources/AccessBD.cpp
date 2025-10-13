@@ -227,7 +227,7 @@ void retourDocteur(char * reponse)
 
 }
 
-void retourConsultations(char * reponse,char* specialty,char* doctor, char * startDate, char* endDate))
+void retourConsultations(char * reponse,char* specialty,char* doctor, char * startDate, char* endDate)
 {
     //connexion à la bad
     MYSQL * connexion = connectToDatabase();
@@ -237,8 +237,15 @@ void retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
 
     //Construction + envoi de la requête de sélection
     char requete[256];
-    sprintf(requete,"SELECT c.id, d.first_name, d.last_name, s.name, c.date, c.hour FROM consultations inner join doctors on c.doctor_id = d.id inner join specialties on d.specialty_id = s.id
-    where s.name = %s AND  d.firstname|| || d.lastname LIKE %s AND c.date BETWEEn (%s AND %s;");
+    sprintf(requete,
+        "SELECT c.id, d.first_name, d.last_name, s.name, c.date, c.hour "
+        "FROM consultations c "
+        "INNER JOIN doctors d ON c.doctor_id = d.id "
+        "INNER JOIN specialties s ON d.specialty_id = s.id "
+        "WHERE s.name LIKE '%%%s%%' "
+        "AND CONCAT(d.first_name, ' ', d.last_name) LIKE '%%%s%%' "
+        "AND c.date BETWEEN '%s' AND '%s';",
+        specialty, doctor, startDate, endDate);
     // id de la consultation, nom du médecin, nom de la specialite, date, heure
 
     if (mysql_query(connexion, requete) != 0)

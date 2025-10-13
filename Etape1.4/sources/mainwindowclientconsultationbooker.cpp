@@ -460,6 +460,9 @@ void MainWindowClientConsultationBooker::on_pushButtonLogout_clicked()
 
 void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
 {
+
+    char reponse[200], requete[200];
+    
     string specialty = this->getSelectionSpecialty();
     string doctor = this->getSelectionDoctor();
     string startDate = this->getStartDate();
@@ -470,17 +473,14 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     cout << "[CLIENT] startDate = " << startDate << endl;
     cout << "[CLIENT] endDate = " << endDate << endl;
 
-    string requete;
+    string req;
+    req = "SEARCH_CONSULTATIONS#" + specialty + "#" + doctor + "#" + startDate + "#" + endDate;
 
-    requete = "SEARCH_CONSULTATIONS" + "#" + specialty + "#" + doctor + "#" + startDate + "#" + endDate;
+    strncpy(requete, req.c_str(), sizeof(requete) - 1);
 
-    strncpy(requetes, req.c_str(), sizeof(requetes) - 1);
-
-    requetes[sizeof(requetes) - 1] = '\0';
-    
+    requete[sizeof(requete) - 1] = '\0';
 
     Echange(requete,reponse);
-
 
 
 }
