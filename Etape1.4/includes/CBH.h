@@ -17,7 +17,7 @@ void retire(int socket);
 
 bool CBH_Get_Specialites(char* reponse);
 bool CBH_Get_Doctors(char* reponse);
-bool CBH_Search_Consultations(char* specialiter,char* medecin,char* dateDebut, char*dateFin);
+bool CBH_Search_Consultations(char* buffer, char* specialiter,char* medecin,char* dateDebut, char*dateFin);
 bool CBH_BOOK_CONSULTATION(int idConsultation,int idPatient,char* reponse);
 void CBH_Close();
 

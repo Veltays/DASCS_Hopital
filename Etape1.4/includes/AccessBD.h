@@ -15,8 +15,10 @@ Patient getPatientById(int id);
 // Crée un patient, retourne le nouvel ID (>0) ou -1 en cas d’erreur.
 int AddNewPatient(const char* firstname, const char* lastname, const char* birthdate);
 
-void retourSpecialite(char * r);
+bool retourSpecialite(char * r);
 
-void retourDocteur(char *r );
+bool retourDocteur(char *r );
+
+bool retourConsultations(char * r,char* specialty,char* doctor, char * startDate, char* endDate);
 
 #endif

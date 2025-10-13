@@ -149,7 +149,7 @@ Patient getPatientById(int id)
     return retour;
 }
 
-void retourSpecialite(char* reponse)
+bool retourSpecialite(char* reponse)
 {
     // Connexion à la base de donnée
     MYSQL *connexion = connectToDatabase();
@@ -163,13 +163,13 @@ void retourSpecialite(char* reponse)
     if (mysql_query(connexion, requete) != 0)
     {
         fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
-        exit(1);
+        return false;
     }
 
     if ((Resultat = mysql_store_result(connexion)) == NULL)
     {
         fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
-        exit(1);
+        return false;
     }
 
     int nbChamps = mysql_num_fields(Resultat);
@@ -183,11 +183,14 @@ void retourSpecialite(char* reponse)
         }
     }
 
+    printf("Retour du retour: %s\n",retour);
+
     strcpy(reponse,retour);  
     mysql_close(connexion);
+    return true;
 }
 
-void retourDocteur(char * reponse)
+bool retourDocteur(char * reponse)
 {
     // Connexion à la base de donnée
     MYSQL *connexion = connectToDatabase();
@@ -202,13 +205,13 @@ void retourDocteur(char * reponse)
     if (mysql_query(connexion, requete) != 0)
     {
         fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
-        exit(1);
+        return false;
     }
 
     if ((Resultat = mysql_store_result(connexion)) == NULL)
     {
         fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
-        exit(1);
+        return false;
     }
 
     int nbChamps = mysql_num_fields(Resultat);
@@ -225,9 +228,11 @@ void retourDocteur(char * reponse)
     strcpy(reponse,retour);
     mysql_close(connexion);
 
+    return true;
+
 }
 
-void retourConsultations(char * reponse,char* specialty,char* doctor, char * startDate, char* endDate)
+bool retourConsultations(char * reponse,char* specialty,char* doctor, char * startDate, char* endDate)
 {
     //connexion à la bad
     MYSQL * connexion = connectToDatabase();
@@ -236,7 +241,7 @@ void retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
     MYSQL_ROW ligne;
 
     //Construction + envoi de la requête de sélection
-    char requete[256];
+    char requete[512];
     sprintf(requete,
         "SELECT c.id, d.first_name, d.last_name, s.name, c.date, c.hour "
         "FROM consultations c "
@@ -251,13 +256,13 @@ void retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
     if (mysql_query(connexion, requete) != 0)
     {
         fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
-        exit(1);
+        return false;
     }
 
     if ((Resultat = mysql_store_result(connexion)) == NULL)
     {
         fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
-        exit(1);
+        return false;
     }
 
     int nbChamps = mysql_num_fields(Resultat);
@@ -273,5 +278,7 @@ void retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
 
     strcpy(reponse,retour);
     mysql_close(connexion);
+
+    return true;
 
 }

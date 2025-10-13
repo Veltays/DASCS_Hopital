@@ -414,7 +414,7 @@ int MainWindowClientConsultationBooker::fetchDoctors()
     while (token != NULL)
     {
         compteur++;
-        
+
         if (compteur % 3 == 2)
         {
             strcpy(firstname, token);
@@ -429,9 +429,9 @@ int MainWindowClientConsultationBooker::fetchDoctors()
             this->addComboBoxDoctors(fullname);
         }
 
-        token = strtok(NULL,"#");
+        token = strtok(NULL, "#");
     }
-        return 0;
+    return 0;
 }
 
 int TryLogin()
@@ -461,8 +461,11 @@ void MainWindowClientConsultationBooker::on_pushButtonLogout_clicked()
 void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
 {
 
-    char reponse[200], requete[200];
-    
+    clearTableConsultations();
+
+    char reponse[200] = "";
+    char requete[200] = "";
+
     string specialty = this->getSelectionSpecialty();
     string doctor = this->getSelectionDoctor();
     string startDate = this->getStartDate();
@@ -474,15 +477,67 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     cout << "[CLIENT] endDate = " << endDate << endl;
 
     string req;
+
     req = "SEARCH_CONSULTATIONS#" + specialty + "#" + doctor + "#" + startDate + "#" + endDate;
 
     strncpy(requete, req.c_str(), sizeof(requete) - 1);
 
     requete[sizeof(requete) - 1] = '\0';
+    printf("[CLIENT] Requete : %s\n", requete);
+    Echange(requete, reponse);
 
-    Echange(requete,reponse);
+    // traite de la réponse
 
+    char *token;
+    int compteur = 0;
+    int id;
+    char doc[100];
+    char firstname[100];
+    char lastname[100];
+    char fullname[200];
+    char spec[100];
+    char date[50];
+    char hour[50];
+    int field = 0;
+    token = strtok(reponse, "#");
+    printf("[CLIENT] Reponse : %s\n", reponse);
 
+    while (token != NULL)
+    {
+        switch (field)
+        {
+        case 0:
+            id = atoi(token);
+            break;
+        case 1:
+            // copie sûre
+            strcpy(firstname, token);
+            break;
+        case 2:
+            strcpy(lastname, token);
+            break;
+        case 3:
+            strcpy(spec, token);
+            break;
+        case 4:
+            strcpy(date, token);
+            break;
+        case 5:
+            strcpy(hour, token);
+
+            // compose fullname (prenom + espace + nom) de façon sûre
+            snprintf(fullname, sizeof(fullname), "%s %s", firstname, lastname);
+
+            // maintenant qu'on a les 6 champs, on appelle une seule fois l'ajout
+
+            break;
+        }
+        field = (field + 1) % 6;
+        token = strtok(NULL, "#");
+        printf("Token: %s\n", token);
+    }
+    this->addTupleTableConsultations(id, spec, fullname, date, hour);
+    
 }
 
 void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()

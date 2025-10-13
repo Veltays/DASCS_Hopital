@@ -31,7 +31,7 @@ bool CBH(char *requete, char *reponse, int socket)
 
     int idConsultation;
     int idPatient;
-    char buffer[2048];
+    
 
     switch (cmd = getCommandReceive(ptr))
     {
@@ -84,14 +84,14 @@ bool CBH(char *requete, char *reponse, int socket)
 
     case CMD_GET_SPECIALTIES:
         // recupere la chaine de accesBD dans reponse puis renvoyer au serveur qui lui renvoie au client
-        retourSpecialite(buffer);
-        strcpy(reponse,buffer);
+        retourSpecialite(reponse);
+        
         return true;
         break;
 
     case CMD_GET_DOCTORS:
-        retourDocteur(buffer);
-        strcpy(reponse,buffer);
+        retourDocteur(reponse);
+        
         return true;
         break;
 
@@ -102,11 +102,15 @@ bool CBH(char *requete, char *reponse, int socket)
         strcpy(startDate, strtok(NULL, "#"));
         strcpy(endDate, strtok(NULL, "#"));
         printf("[THREAD %p] SEARCH_CONSULTATIONS de %s -- %s -- %s -- %s\n", pthread_self(), specialty, doctor, startDate, endDate);
-        if (CBH_Search_Consultations(specialty, doctor, startDate, endDate) == false)
+        
+       
+        if (CBH_Search_Consultations(reponse,specialty, doctor, startDate, endDate) == false)
         {
             return false;
         }
-        sprintf(reponse, "SEARCH_CONSULTATIONS#ok");
+        printf("reponse : %s\n",reponse);
+        return true;
+        
         break;
 
     case CMD_BOOK_CONSULTATION:
@@ -175,8 +179,22 @@ bool CBH_Get_Doctors(char *reponse)
     return true;
 }
 
-bool CBH_Search_Consultations(char *specialiter, char *medecin, char *dateDebut, char *dateFin)
+bool CBH_Search_Consultations(char* buffer,char *specialiter, char *medecin, char *dateDebut, char *dateFin)
 {
+
+    printf("[THREAD %p] SEARCH_CONSULTATIONS\n", pthread_self());
+    printf("[THREAD %p] SPECIALITE : %s\n", pthread_self(), specialiter);
+    printf("[THREAD %p] MEDECIN : %s\n", pthread_self(), medecin);
+    printf("[THREAD %p] DATE DEBUT : %s\n", pthread_self(), dateDebut);
+    printf("[THREAD %p] DATE FIN : %s\n", pthread_self(), dateFin);
+
+    if (retourConsultations(buffer,specialiter,medecin,dateDebut,dateFin) == false)
+    {
+        return false;
+    }
+
+    printf("Buffer : %s\n",buffer);
+
     return true;
 }
 
