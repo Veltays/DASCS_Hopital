@@ -188,7 +188,7 @@ void ConnectToServer(int sClient, struct addrinfo *results)
     {
         perror("[TCP] Erreur de connect()");
         close(sClient);
-        freeaddrinfo(results);
+    
     }
 }
 

@@ -64,55 +64,11 @@ QtWidgets/QTableWidget
 QtWidgets/QWidget
 -
 
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/build/client_autogen/CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
-../../../includes/mainwindowclientconsultationbooker.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/includes/mainwindowclientconsultationbooker.h
-QtCore/qbytearray.h
--
-QtCore/qmetatype.h
--
-
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/build/client_autogen/mocs_compilation.cpp
-CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/build/client_autogen/CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
-
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/includes/mainwindowclientconsultationbooker.h
-QMainWindow
--
-string
--
-
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/TCP.cpp
-stdio.h
--
-unistd.h
--
-stdlib.h
--
-string.h
--
-sys/types.h
--
-sys/socket.h
--
-netdb.h
--
-arpa/inet.h
--
-TCP.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/TCP.h
-
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/main.cpp
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.cpp
 mainwindowclientconsultationbooker.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.h
-QApplication
--
-
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.cpp
-mainwindowclientconsultationbooker.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/mainwindowclientconsultationbooker.h
 ui_mainwindowclientconsultationbooker.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/ui_mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/ui_mainwindowclientconsultationbooker.h
 QInputDialog
 -
 QMessageBox
@@ -120,9 +76,9 @@ QMessageBox
 iostream
 -
 TCP.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/TCP.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.h
 CBH.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/CBH.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.h
 stdio.h
 -
 stdlib.h
@@ -134,9 +90,9 @@ string.h
 signal.h
 -
 AccessBD.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/AccessBD.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.h
 configReseau.h
-/home/student/Bureau/dernier vrai vrai/DASCS_Hopital/Etape1.4/sources/configReseau.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/configReseau.h
 
 /usr/include/qt5/QtCore/QDate
 qdatetime.h

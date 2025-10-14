@@ -68,7 +68,7 @@ int main()
             CBH_Close();
             exit(1);
         }
-        printf("[THREAD %p] Connexion acceptée : \n\t -- IP=%s \n\t --socket=%d\n", pthread_self(), ipClient, sService);
+        printf("[THREAD %p] Connexion acceptée : \n\t -- IP=%s \n\t --socket=%d \n", pthread_self(), ipClient, sService);
 
         // Insertion en liste d'attente et réveil d'un thread du pool (Production d'une tâche)
         pthread_mutex_lock(&mutexSocketsAcceptees);
@@ -100,7 +100,7 @@ void *FctThreadClient(void *p)
         pthread_mutex_unlock(&mutexSocketsAcceptees);
 
         // Traitement de la connexion (consommation de la tâche)
-        printf("[THREAD %p] Je m'occupe de la socket %d\n", pthread_self(), sService);
+        printf("[THREAD %p] Je m'occupe de la socket %d, à l'indice %d\n", pthread_self(), sService, indiceLecture);
         TraitementConnexion(sService);
     }
 }

@@ -3,12 +3,10 @@
 
 #include <pthread.h>
 #include <signal.h>
+#include "configReseau.h"
 
 
 
-// --- Constantes du pool ---
-#define NB_THREADS_POOL 2
-#define TAILLE_FILE_ATTENTE 20
 
 
 
