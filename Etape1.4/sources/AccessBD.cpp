@@ -247,7 +247,8 @@ bool retourConsultations(char * reponse,char* specialty,char* doctor, char * sta
         "INNER JOIN specialties s ON d.specialty_id = s.id "
         "WHERE s.name LIKE '%%%s%%' "
         "AND CONCAT(d.first_name, ' ', d.last_name) LIKE '%%%s%%' "
-        "AND c.date BETWEEN '%s' AND '%s';",
+        "AND c.date BETWEEN '%s' AND '%s' "
+        "AND c.patient_id IS NULL;",
         specialty, doctor, startDate, endDate);
     // id de la consultation, nom du médecin, nom de la specialite, date, heure
 
