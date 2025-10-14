@@ -601,6 +601,9 @@ void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
     if(strcmp(resBook,"OUI")==0)
     {
         dialogMessage("Réservation","Réservation effectuée avec succès !");
+        on_pushButtonRechercher_clicked();
+    // requete ou je renvoie tt les données 
+
     }
     else if(strcmp(resBook,"NON")==0)
     {
