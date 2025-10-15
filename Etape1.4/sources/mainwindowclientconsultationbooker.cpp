@@ -21,7 +21,7 @@ void Echange(char *requete, char *reponse);
 using namespace std;
 
 int sClient;
-char myIp[50] = "127.0.0.1";
+char myIp[50] = "192.168.81.254";
 
 
 MainWindowClientConsultationBooker::MainWindowClientConsultationBooker(QWidget *parent)

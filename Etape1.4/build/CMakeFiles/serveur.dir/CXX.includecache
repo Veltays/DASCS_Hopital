@@ -24,35 +24,11 @@ patient.h
 
 ../includes/patient.h
 
-../includes/serveur.h
-pthread.h
--
-signal.h
--
-configReseau.h
-../includes/configReseau.h
-
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/build/serveur_autogen/mocs_compilation.cpp
-
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/AccessBD.cpp
-AccessBD.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/AccessBD.h
-stdio.h
--
-stdlib.h
--
-cstring
--
-patient.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/patient.h
-string.h
--
-
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/CBH.cpp
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.cpp
 CBH.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/CBH.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.h
 TCP.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/TCP.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.h
 string.h
 -
 stdio.h
@@ -64,53 +40,7 @@ unistd.h
 pthread.h
 -
 AccessBD.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/AccessBD.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.h
 configReseau.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/configReseau.h
-
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/TCP.cpp
-stdio.h
--
-unistd.h
--
-stdlib.h
--
-string.h
--
-sys/types.h
--
-sys/socket.h
--
-netdb.h
--
-arpa/inet.h
--
-TCP.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/TCP.h
-
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/serveur_Reservation.cpp
-stdio.h
--
-stdlib.h
--
-unistd.h
--
-string.h
--
-signal.h
--
-pthread.h
--
-string
--
-serveur.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/serveur.h
-TCP.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/TCP.h
-CBH.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/CBH.h
-AccessBD.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/AccessBD.h
-configReseau.h
-/home/student/Bureau/dernier pour de vrai vrai vrai/DASCS_Hopital/Etape1.4/sources/configReseau.h
+/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/configReseau.h
 

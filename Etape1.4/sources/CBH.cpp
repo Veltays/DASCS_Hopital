@@ -92,7 +92,7 @@ bool CBH(char *requete, char *reponse, int socket)
             sprintf(reponse, "LOGOUT#ko#Erreur lors du logout !");
             return false;
         }
-        sprintf(reponse, "LOGOUT#ok");
+        
         break;
 
     case CMD_GET_SPECIALTIES:
