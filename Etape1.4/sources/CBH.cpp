@@ -49,8 +49,8 @@ bool CBH(char *requete, char *reponse, int socket)
     switch (cmd = getCommandReceive(ptr))
     {
     case CMD_LOGIN:
-        strcpy(lastname, strtok(NULL, "#"));
         strcpy(firstname, strtok(NULL, "#"));
+        strcpy(lastname, strtok(NULL, "#"));
         strcpy(PatientId, strtok(NULL, "#"));
         printf("[THREAD %p] LOGIN de %s -- %s\n", pthread_self(), firstname, lastname);
 
