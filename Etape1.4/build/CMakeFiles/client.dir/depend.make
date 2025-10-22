@@ -112,6 +112,9 @@ CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: /usr/include/qt5/Qt
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: /usr/include/qt5/QtWidgets/qtwidgetsglobal.h
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: /usr/include/qt5/QtWidgets/qwidget.h
 
+CMakeFiles/client.dir/sources/AccessFileConfig.cpp.o: ../includes/AccessFileConfig.h
+CMakeFiles/client.dir/sources/AccessFileConfig.cpp.o: ../sources/AccessFileConfig.cpp
+
 CMakeFiles/client.dir/sources/TCP.cpp.o: ../includes/TCP.h
 CMakeFiles/client.dir/sources/TCP.cpp.o: ../sources/TCP.cpp
 
@@ -233,9 +236,9 @@ CMakeFiles/client.dir/sources/main.cpp.o: /usr/include/qt5/QtWidgets/qtwidgetsgl
 CMakeFiles/client.dir/sources/main.cpp.o: /usr/include/qt5/QtWidgets/qwidget.h
 
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/AccessBD.h
+CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/AccessFileConfig.h
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/CBH.h
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/TCP.h
-CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/configReseau.h
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/mainwindowclientconsultationbooker.h
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/patient.h
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o: ../includes/ui_mainwindowclientconsultationbooker.h

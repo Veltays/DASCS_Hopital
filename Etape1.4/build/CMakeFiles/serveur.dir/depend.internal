@@ -7,11 +7,14 @@ CMakeFiles/serveur.dir/sources/AccessBD.cpp.o
  ../includes/AccessBD.h
  ../includes/patient.h
  /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.cpp
+CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o
+ ../includes/AccessFileConfig.h
+ /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessFileConfig.cpp
 CMakeFiles/serveur.dir/sources/CBH.cpp.o
  ../includes/AccessBD.h
+ ../includes/AccessFileConfig.h
  ../includes/CBH.h
  ../includes/TCP.h
- ../includes/configReseau.h
  ../includes/patient.h
  /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.cpp
 CMakeFiles/serveur.dir/sources/TCP.cpp.o
@@ -19,9 +22,9 @@ CMakeFiles/serveur.dir/sources/TCP.cpp.o
  /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.cpp
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o
  ../includes/AccessBD.h
+ ../includes/AccessFileConfig.h
  ../includes/CBH.h
  ../includes/TCP.h
- ../includes/configReseau.h
  ../includes/patient.h
  ../includes/serveur.h
  /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/serveur_Reservation.cpp

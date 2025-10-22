@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "serveur_autogen"
   "CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.o"
   "CMakeFiles/serveur.dir/sources/AccessBD.cpp.o"
+  "CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o"
   "CMakeFiles/serveur.dir/sources/CBH.cpp.o"
   "CMakeFiles/serveur.dir/sources/TCP.cpp.o"
   "CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o"

@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/client_autogen.dir/ParseCache.txt"
   "client_autogen"
   "CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
+  "CMakeFiles/client.dir/sources/AccessFileConfig.cpp.o"
   "CMakeFiles/client.dir/sources/TCP.cpp.o"
   "CMakeFiles/client.dir/sources/main.cpp.o"
   "CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o"

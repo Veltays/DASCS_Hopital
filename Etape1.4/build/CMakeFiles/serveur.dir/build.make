@@ -115,9 +115,22 @@ CMakeFiles/serveur.dir/sources/TCP.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/serveur.dir/sources/TCP.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.cpp -o CMakeFiles/serveur.dir/sources/TCP.cpp.s
 
+CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o: CMakeFiles/serveur.dir/flags.make
+CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o: ../sources/AccessFileConfig.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o -c /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessFileConfig.cpp
+
+CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessFileConfig.cpp > CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.i
+
+CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessFileConfig.cpp -o CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.s
+
 CMakeFiles/serveur.dir/sources/CBH.cpp.o: CMakeFiles/serveur.dir/flags.make
 CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../sources/CBH.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/serveur.dir/sources/CBH.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/serveur.dir/sources/CBH.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/serveur.dir/sources/CBH.cpp.o -c /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.cpp
 
 CMakeFiles/serveur.dir/sources/CBH.cpp.i: cmake_force
@@ -130,7 +143,7 @@ CMakeFiles/serveur.dir/sources/CBH.cpp.s: cmake_force
 
 CMakeFiles/serveur.dir/sources/AccessBD.cpp.o: CMakeFiles/serveur.dir/flags.make
 CMakeFiles/serveur.dir/sources/AccessBD.cpp.o: ../sources/AccessBD.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/serveur.dir/sources/AccessBD.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/serveur.dir/sources/AccessBD.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/serveur.dir/sources/AccessBD.cpp.o -c /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.cpp
 
 CMakeFiles/serveur.dir/sources/AccessBD.cpp.i: cmake_force
@@ -146,6 +159,7 @@ serveur_OBJECTS = \
 "CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.o" \
 "CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o" \
 "CMakeFiles/serveur.dir/sources/TCP.cpp.o" \
+"CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o" \
 "CMakeFiles/serveur.dir/sources/CBH.cpp.o" \
 "CMakeFiles/serveur.dir/sources/AccessBD.cpp.o"
 
@@ -155,11 +169,12 @@ serveur_EXTERNAL_OBJECTS =
 bin/serveur: CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.o
 bin/serveur: CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o
 bin/serveur: CMakeFiles/serveur.dir/sources/TCP.cpp.o
+bin/serveur: CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o
 bin/serveur: CMakeFiles/serveur.dir/sources/CBH.cpp.o
 bin/serveur: CMakeFiles/serveur.dir/sources/AccessBD.cpp.o
 bin/serveur: CMakeFiles/serveur.dir/build.make
 bin/serveur: CMakeFiles/serveur.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable bin/serveur"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable bin/serveur"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/serveur.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

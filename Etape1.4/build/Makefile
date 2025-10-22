@@ -315,6 +315,36 @@ sources/AccessBD.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/AccessBD.cpp.s
 .PHONY : sources/AccessBD.cpp.s
 
+sources/AccessFileConfig.o: sources/AccessFileConfig.cpp.o
+
+.PHONY : sources/AccessFileConfig.o
+
+# target to build an object file
+sources/AccessFileConfig.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/AccessFileConfig.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o
+.PHONY : sources/AccessFileConfig.cpp.o
+
+sources/AccessFileConfig.i: sources/AccessFileConfig.cpp.i
+
+.PHONY : sources/AccessFileConfig.i
+
+# target to preprocess a source file
+sources/AccessFileConfig.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/AccessFileConfig.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.i
+.PHONY : sources/AccessFileConfig.cpp.i
+
+sources/AccessFileConfig.s: sources/AccessFileConfig.cpp.s
+
+.PHONY : sources/AccessFileConfig.s
+
+# target to generate assembly for a file
+sources/AccessFileConfig.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/sources/AccessFileConfig.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.s
+.PHONY : sources/AccessFileConfig.cpp.s
+
 sources/CBH.o: sources/CBH.cpp.o
 
 .PHONY : sources/CBH.o
@@ -506,6 +536,9 @@ help:
 	@echo "... sources/AccessBD.o"
 	@echo "... sources/AccessBD.i"
 	@echo "... sources/AccessBD.s"
+	@echo "... sources/AccessFileConfig.o"
+	@echo "... sources/AccessFileConfig.i"
+	@echo "... sources/AccessFileConfig.s"
 	@echo "... sources/CBH.o"
 	@echo "... sources/CBH.i"
 	@echo "... sources/CBH.s"

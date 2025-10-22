@@ -112,6 +112,9 @@ CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o
  /usr/include/qt5/QtWidgets/qtwidgets-config.h
  /usr/include/qt5/QtWidgets/qtwidgetsglobal.h
  /usr/include/qt5/QtWidgets/qwidget.h
+CMakeFiles/client.dir/sources/AccessFileConfig.cpp.o
+ ../includes/AccessFileConfig.h
+ /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessFileConfig.cpp
 CMakeFiles/client.dir/sources/TCP.cpp.o
  ../includes/TCP.h
  /home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.cpp
@@ -234,9 +237,9 @@ CMakeFiles/client.dir/sources/main.cpp.o
  /usr/include/qt5/QtWidgets/qwidget.h
 CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o
  ../includes/AccessBD.h
+ ../includes/AccessFileConfig.h
  ../includes/CBH.h
  ../includes/TCP.h
- ../includes/configReseau.h
  ../includes/mainwindowclientconsultationbooker.h
  ../includes/patient.h
  ../includes/ui_mainwindowclientconsultationbooker.h

@@ -62,6 +62,10 @@
 			"/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.cpp",
 			"Mu"
 		],
+		[
+			"/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessFileConfig.cpp",
+			"Mu"
+		],
 		[ "/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.cpp", "Mu" ],
 		[ "/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.cpp", "Mu" ],
 		[
