@@ -3,10 +3,9 @@
 
 #include <pthread.h>
 #include <signal.h>
-#include "configReseau.h"
 
 
-
+#define TAILLE_FILE_ATTENTE 20
 
 
 

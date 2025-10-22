@@ -24,6 +24,7 @@ set(MYSQL_LIBS        mysqlclient pthread z m rt ssl crypto dl)
 # === Sources partagées (réseau uniquement) ===
 set(SHARED_SOURCES
     sources/TCP.cpp
+    sources/AccessFileConfig.cpp  
 )
 
 # === Sources serveur (accès BD) ===
@@ -33,7 +34,7 @@ set(SERVER_SOURCES
 )
 
 # ------------------------------------------------------------
-# client (GUI Qt) — seul exécutable Qt
+# client (GUI Qt) 
 # ------------------------------------------------------------
 add_executable(client
     sources/main.cpp

@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "AccessBD.h"
-#include "configReseau.h"
+#include "AccessFileConfig.h"
 
 pthread_mutex_t mutexClients = PTHREAD_MUTEX_INITIALIZER;
 int nbClients = 0;
@@ -18,9 +18,7 @@ const int CMD_GET_DOCTORS = 4;
 const int CMD_SEARCH_CONSULTATIONS = 5;
 const int CMD_BOOK_CONSULTATION = 6;
 
-
-
-
+#define NB_MAX_CLIENTS 20
 
 typedef struct {
     int  socket;
@@ -33,6 +31,7 @@ ClientStocker clients[NB_MAX_CLIENTS];
 
 bool CBH(char *requete, char *reponse, int socket)
 {
+
 
     // ***** Récupération nom de la requete *****************
     char *ptr = strtok(requete, "#");
@@ -284,7 +283,6 @@ void CBH_Close()
         close(clients[i].socket);
     pthread_mutex_unlock(&mutexClients);
 }
-
 
 
 

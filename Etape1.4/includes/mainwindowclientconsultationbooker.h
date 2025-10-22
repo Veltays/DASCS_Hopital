@@ -53,7 +53,7 @@ public:
 
     int fetchSpecialties();
     int fetchDoctors();
-
+    
 
 
 private slots:

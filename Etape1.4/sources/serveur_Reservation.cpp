@@ -9,7 +9,7 @@
 #include "TCP.h"
 #include "CBH.h"
 #include "AccessBD.h"
-#include "configReseau.h"
+#include "AccessFileConfig.h"
 
 using namespace std;
 
@@ -17,11 +17,26 @@ using namespace std;
 int sEcouteS = -1;
 int socketsAcceptees[TAILLE_FILE_ATTENTE];
 int indiceEcriture = 0, indiceLecture = 0;
+
+char portStr[10];
+char NbThreadsPoolStr[10];
+
+int portReservation;
+int NbThreadsPool;
+
 pthread_mutex_t mutexSocketsAcceptees;
 pthread_cond_t condSocketsAcceptees;
 
 int main()
 {
+
+    if (!getConfigValue("PORT_RESERVATION", portStr))
+        return false;
+    if (!getConfigValue("NB_THREADS_POOL", NbThreadsPoolStr))
+        return false;
+
+    portReservation = atoi(portStr);
+    NbThreadsPool = atoi(NbThreadsPoolStr);
 
     // Initialisation socketsAcceptees
     pthread_mutex_init(&mutexSocketsAcceptees, NULL);
@@ -41,7 +56,7 @@ int main()
     }
 
     // Creation de la socket d'écoute
-    if ((sEcouteS = ServerSocket(PORT_RESERVATION)) == -1)
+    if ((sEcouteS = ServerSocket(portReservation)) == -1)
     {
         perror("[SERVEUR] Erreur de ServeurSocket");
         exit(1);
@@ -50,14 +65,14 @@ int main()
     // Creation du pool de threads
     printf("[SERVEUR] Création du pool de threads.\n");
     pthread_t th;
-    for (int i = 0; i < NB_THREADS_POOL; i++)
+    for (int i = 0; i < NbThreadsPool; i++)
         pthread_create(&th, NULL, FctThreadClient, NULL);
 
     // Mise en boucle du serveur
     int sService;
     char ipClient[50];
     printf("[SERVEUR] Demarrage du serveur.\n");
-    
+
     while (1)
     {
         printf("[THREAD %p] Attente d'une connexion...\n", pthread_self());
@@ -110,7 +125,6 @@ void TraitementConnexion(int sService)
     char requete[200], reponse[200];
     int nbLus, nbEcrits;
     bool onContinue = true;
-    
 
     while (onContinue)
     {

@@ -12,17 +12,17 @@
 #include <string.h>
 #include <signal.h>
 #include "AccessBD.h"
-#include "configReseau.h"
+#include "AccessFileConfig.h"
 
-int TryLogin();
+bool TryLogin();
 int fetchData();
 void Echange(char *requete, char *reponse);
 
 using namespace std;
 
 int sClient;
-char myIp[50] = "192.168.81.254";
-
+char myIp[50];
+int portReservation;
 
 MainWindowClientConsultationBooker::MainWindowClientConsultationBooker(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClientConsultationBooker)
@@ -322,7 +322,7 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
     cout << "[CLIENT] newPatient = " << newPatient << endl;
 
     string req;
-    if (newPatient == 0)
+    if (newPatient == false)
     {
         req = "LOGIN#" + lastName + "#" + firstName + "#" + to_string(patientId);
     }
@@ -383,6 +383,28 @@ void MainWindowClientConsultationBooker::on_pushButtonLogin_clicked()
         return;
     }
 }
+
+bool TryLogin()
+{
+    char myIp[64];
+    char portStr[32];
+
+    if (!getConfigValue("IP_SERVER", myIp))
+        return false;
+    if (!getConfigValue("PORT_RESERVATION", portStr))
+        return false;
+
+    int portReservation = atoi(portStr);
+
+    sClient = ClientSocket(myIp, portReservation);
+    if (sClient == -1)
+    {
+        perror("[CLIENT] Erreur de ClientSocket");
+        return false;
+    }
+    return true;
+}
+
 
 int MainWindowClientConsultationBooker::fetchSpecialties()
 {
@@ -452,18 +474,6 @@ int MainWindowClientConsultationBooker::fetchDoctors()
     return 0;
 }
 
-int TryLogin()
-{
-
-    if ((sClient = ClientSocket(myIp, PORT_RESERVATION)) == -1)
-    {
-        perror("[CLIENT] Erreur de ClientSocket");
-        exit(1);
-    }
-
-    return true;
-}
-
 void MainWindowClientConsultationBooker::on_pushButtonLogout_clicked()
 {
     string req;
@@ -520,22 +530,18 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     token = strtok(reponse, "#");
     printf("[CLIENT] Reponse : %s\n", reponse);
 
-
-
-    if (strcmp(reponse,"NULL")==0)
+    if (strcmp(reponse, "NULL") == 0)
     {
-        MainWindowClientConsultationBooker::dialogError("erreur","pas de resultat");
+        MainWindowClientConsultationBooker::dialogError("erreur", "pas de resultat");
         return;
-        
     }
 
- 
     printf("Reponse recu: %s\n", reponse);
 
     while (strcmp(token, "END") != 0)
     {
 
-       switch (field)
+        switch (field)
         {
         case 0:
             id = atoi(token);
@@ -563,7 +569,6 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
             printf("Ajout dans la table : %d -- %s -- %s -- %s -- %s\n", id, spec, fullname, date, hour);
             this->addTupleTableConsultations(id, spec, fullname, date, hour);
             break;
-
         }
 
         field = (field + 1) % 6;
@@ -572,8 +577,6 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
     }
 
     printf("Fin de la boucle de traitement des tokens\n");
-
-    
 }
 
 void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
@@ -583,7 +586,7 @@ void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
     char reponse[200];
     string req;
     int id = this->getSelectionIndexTableConsultations();
-    req = "BOOK_CONSULTATION#" + to_string(id)+ "#" + dialogInputText("input","entrer la raison de la consultation");
+    req = "BOOK_CONSULTATION#" + to_string(id) + "#" + dialogInputText("input", "entrer la raison de la consultation");
 
     strncpy(requete, req.c_str(), sizeof(requete) - 1);
 
@@ -594,28 +597,23 @@ void MainWindowClientConsultationBooker::on_pushButtonReserver_clicked()
     char *ptr = strtok(reponse, "#");
     char resBook[50];
 
-
     strcpy(resBook, strtok(NULL, "#"));
     printf("[CLIENT] La réservation à bien été effectuée ? --> resBook = %s\n", resBook);
 
-    if(strcmp(resBook,"OUI")==0)
+    if (strcmp(resBook, "OUI") == 0)
     {
-       dialogMessage("Réservation","Réservation effectuée avec succès !");
-       this->on_pushButtonRechercher_clicked();
-    // requete ou je renvoie tt les données 
-
+        dialogMessage("Réservation", "Réservation effectuée avec succès !");
+        this->on_pushButtonRechercher_clicked();
+        // requete ou je renvoie tt les données
     }
-    else if(strcmp(resBook,"NON")==0)
+    else if (strcmp(resBook, "NON") == 0)
     {
-        dialogError("Réservation","La réservation a échouée, la consultation est peut-être déjà réservée !");
+        dialogError("Réservation", "La réservation a échouée, la consultation est peut-être déjà réservée !");
     }
     else
     {
-        dialogError("Réservation","Réponse du serveur inconnue !");
+        dialogError("Réservation", "Réponse du serveur inconnue !");
     }
-
-
-
 }
 
 void Echange(char *requete, char *reponse)
