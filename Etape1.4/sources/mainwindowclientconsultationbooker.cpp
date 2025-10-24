@@ -506,6 +506,12 @@ void MainWindowClientConsultationBooker::on_pushButtonRechercher_clicked()
 
     string req;
 
+
+    if(specialty == "--- TOUTES ---")
+        specialty = "*";
+    if(doctor == "--- TOUS ---")
+        doctor = "*";
+
     req = "SEARCH_CONSULTATIONS#" + specialty + "#" + doctor + "#" + startDate + "#" + endDate;
 
     strncpy(requete, req.c_str(), sizeof(requete) - 1);
