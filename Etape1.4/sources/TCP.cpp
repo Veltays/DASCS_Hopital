@@ -37,7 +37,7 @@ int CreationSocket()
     return sEcoute;
 }
 
-struct addrinfo *creationAdresse(int portSer)
+struct addrinfo *creationAdresse(char *ipServeurStr, int portSer)
 {
     struct addrinfo hints;
     struct addrinfo *results = NULL;
@@ -51,7 +51,7 @@ struct addrinfo *creationAdresse(int portSer)
     hints.ai_socktype = SOCK_STREAM;              // TCP
     hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV; // écoute sur toutes interfaces, port numérique
 
-    int ret = getaddrinfo(NULL, portStr, &hints, &results);
+    int ret = getaddrinfo(ipServeurStr, portStr, &hints, &results);
     if (ret != 0)
     {
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(ret));
@@ -95,11 +95,11 @@ void ListenOnSocket(int sEcoute)
     printf("[TCP] listen() reussi !\n");
 }
 
-int ServerSocket(int portSer)
+int ServerSocket(char *ipServeurStr, int portSer)
 {
     sEcoute = CreationSocket();
 
-    struct addrinfo *results = creationAdresse(portSer);
+    struct addrinfo *results = creationAdresse(ipServeurStr, portSer);
 
     bindServeurToSocket(sEcoute, results);
 

@@ -8,10 +8,10 @@ struct addrinfo;
 
 /* ====== Création & écoute serveur ====== */
 int  CreationSocket(void);
-struct addrinfo* creationAdresse(int portSer);
+struct addrinfo* creationAdresse(char *ipServeurStr, int portSer);
 void bindServeurToSocket(int sEcoute, struct addrinfo* results);
 void ListenOnSocket(int sEcoute);
-int  ServerSocket(int portSer);
+int  ServerSocket(char *ipServeurStr, int portSer);
 
 /* ====== Acceptation de connexion ====== */
 int  Accept(int sEcoute, char* ipClient);

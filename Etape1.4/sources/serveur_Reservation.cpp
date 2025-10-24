@@ -20,6 +20,7 @@ int indiceEcriture = 0, indiceLecture = 0;
 
 char portStr[10];
 char NbThreadsPoolStr[10];
+char ipServeurStr[50];
 
 int portReservation;
 int NbThreadsPool;
@@ -33,6 +34,8 @@ int main()
     if (!getConfigValue("PORT_RESERVATION", portStr))
         return false;
     if (!getConfigValue("NB_THREADS_POOL", NbThreadsPoolStr))
+        return false;
+    if (!getConfigValue("IP_SERVER", ipServeurStr))
         return false;
 
     portReservation = atoi(portStr);
@@ -56,7 +59,7 @@ int main()
     }
 
     // Creation de la socket d'écoute
-    if ((sEcouteS = ServerSocket(portReservation)) == -1)
+    if ((sEcouteS = ServerSocket(ipServeurStr, portReservation)) == -1)
     {
         perror("[SERVEUR] Erreur de ServeurSocket");
         exit(1);
