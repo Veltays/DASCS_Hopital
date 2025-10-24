@@ -1,5 +1,6 @@
 /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles/rebuild_cache.dir
 /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles/edit_cache.dir
+/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles/copy_resources.dir
 /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles/CreationBD.dir
 /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles/client.dir
 /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles/serveur.dir

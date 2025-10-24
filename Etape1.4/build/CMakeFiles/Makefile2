@@ -72,6 +72,7 @@ CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.4/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/copy_resources.dir/all
 all: CMakeFiles/CreationBD.dir/all
 all: CMakeFiles/client.dir/all
 all: CMakeFiles/serveur.dir/all
@@ -84,6 +85,7 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/copy_resources.dir/clean
 clean: CMakeFiles/CreationBD.dir/clean
 clean: CMakeFiles/client.dir/clean
 clean: CMakeFiles/serveur.dir/clean
@@ -94,9 +96,37 @@ clean: CMakeFiles/serveur_autogen.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/copy_resources.dir
+
+# All Build rule for target.
+CMakeFiles/copy_resources.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/copy_resources.dir/build.make CMakeFiles/copy_resources.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/copy_resources.dir/build.make CMakeFiles/copy_resources.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=12 "Built target copy_resources"
+.PHONY : CMakeFiles/copy_resources.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/copy_resources.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/copy_resources.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 0
+.PHONY : CMakeFiles/copy_resources.dir/rule
+
+# Convenience name for target.
+copy_resources: CMakeFiles/copy_resources.dir/rule
+
+.PHONY : copy_resources
+
+# clean rule for target.
+CMakeFiles/copy_resources.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/copy_resources.dir/build.make CMakeFiles/copy_resources.dir/clean
+.PHONY : CMakeFiles/copy_resources.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/CreationBD.dir
 
 # All Build rule for target.
+CMakeFiles/CreationBD.dir/all: CMakeFiles/copy_resources.dir/all
 CMakeFiles/CreationBD.dir/all: CMakeFiles/CreationBD_autogen.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CreationBD.dir/build.make CMakeFiles/CreationBD.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CreationBD.dir/build.make CMakeFiles/CreationBD.dir/build
@@ -105,7 +135,7 @@ CMakeFiles/CreationBD.dir/all: CMakeFiles/CreationBD_autogen.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/CreationBD.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/CreationBD.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 0
 .PHONY : CMakeFiles/CreationBD.dir/rule
@@ -124,6 +154,7 @@ CMakeFiles/CreationBD.dir/clean:
 # Target rules for target CMakeFiles/client.dir
 
 # All Build rule for target.
+CMakeFiles/client.dir/all: CMakeFiles/copy_resources.dir/all
 CMakeFiles/client.dir/all: CMakeFiles/client_autogen.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
@@ -132,7 +163,7 @@ CMakeFiles/client.dir/all: CMakeFiles/client_autogen.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 0
 .PHONY : CMakeFiles/client.dir/rule
@@ -151,15 +182,16 @@ CMakeFiles/client.dir/clean:
 # Target rules for target CMakeFiles/serveur.dir
 
 # All Build rule for target.
+CMakeFiles/serveur.dir/all: CMakeFiles/copy_resources.dir/all
 CMakeFiles/serveur.dir/all: CMakeFiles/serveur_autogen.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=12,13,14,15,16,17,18 "Built target serveur"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=13,14,15,16,17,18,19 "Built target serveur"
 .PHONY : CMakeFiles/serveur.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/serveur.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 9
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/serveur.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 0
 .PHONY : CMakeFiles/serveur.dir/rule
@@ -178,7 +210,7 @@ CMakeFiles/serveur.dir/clean:
 # Target rules for target CMakeFiles/CreationBD_autogen.dir
 
 # All Build rule for target.
-CMakeFiles/CreationBD_autogen.dir/all:
+CMakeFiles/CreationBD_autogen.dir/all: CMakeFiles/copy_resources.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CreationBD_autogen.dir/build.make CMakeFiles/CreationBD_autogen.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CreationBD_autogen.dir/build.make CMakeFiles/CreationBD_autogen.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=4 "Built target CreationBD_autogen"
@@ -186,7 +218,7 @@ CMakeFiles/CreationBD_autogen.dir/all:
 
 # Build rule for subdir invocation for target.
 CMakeFiles/CreationBD_autogen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/CreationBD_autogen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 0
 .PHONY : CMakeFiles/CreationBD_autogen.dir/rule
@@ -205,7 +237,7 @@ CMakeFiles/CreationBD_autogen.dir/clean:
 # Target rules for target CMakeFiles/client_autogen.dir
 
 # All Build rule for target.
-CMakeFiles/client_autogen.dir/all:
+CMakeFiles/client_autogen.dir/all: CMakeFiles/copy_resources.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_autogen.dir/build.make CMakeFiles/client_autogen.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_autogen.dir/build.make CMakeFiles/client_autogen.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=11 "Built target client_autogen"
@@ -213,7 +245,7 @@ CMakeFiles/client_autogen.dir/all:
 
 # Build rule for subdir invocation for target.
 CMakeFiles/client_autogen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client_autogen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 0
 .PHONY : CMakeFiles/client_autogen.dir/rule
@@ -232,15 +264,15 @@ CMakeFiles/client_autogen.dir/clean:
 # Target rules for target CMakeFiles/serveur_autogen.dir
 
 # All Build rule for target.
-CMakeFiles/serveur_autogen.dir/all:
+CMakeFiles/serveur_autogen.dir/all: CMakeFiles/copy_resources.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur_autogen.dir/build.make CMakeFiles/serveur_autogen.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur_autogen.dir/build.make CMakeFiles/serveur_autogen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=19 "Built target serveur_autogen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles --progress-num=20 "Built target serveur_autogen"
 .PHONY : CMakeFiles/serveur_autogen.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/serveur_autogen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/serveur_autogen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 0
 .PHONY : CMakeFiles/serveur_autogen.dir/rule

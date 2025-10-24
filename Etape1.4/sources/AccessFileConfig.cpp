@@ -4,7 +4,7 @@
 
 bool getConfigValue(const char *key, char *value)
 {
-    FILE *f = fopen("/home/student/Bureau/DASCS_Hopital/Etape1.4/ressources/networkConfig.config", "r");
+    FILE *f = fopen("ressources/networkConfig.config", "r");
     if (!f)
     {
         perror("config");

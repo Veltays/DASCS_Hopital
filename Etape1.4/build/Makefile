@@ -130,6 +130,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named copy_resources
+
+# Build rule for target.
+copy_resources: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 copy_resources
+.PHONY : copy_resources
+
+# fast build rule for target.
+copy_resources/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/copy_resources.dir/build.make CMakeFiles/copy_resources.dir/build
+.PHONY : copy_resources/fast
+
+#=============================================================================
 # Target rules for targets named CreationBD
 
 # Build rule for target.
@@ -520,6 +533,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... CreationBD_autogen"
 	@echo "... client_autogen"
+	@echo "... copy_resources"
 	@echo "... serveur_autogen"
 	@echo "... CreationBD"
 	@echo "... client"
