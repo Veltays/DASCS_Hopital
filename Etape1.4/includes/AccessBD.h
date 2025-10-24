@@ -4,10 +4,12 @@
 #include <cstring>
 #include <mysql/mysql.h>
 
+
+
 int estPresent(const char * nom);
 
-MYSQL *connectToDatabase(void);
-
+void ouvrirConnexion();
+void fermerConnexion();
 int getLastIdOfPatient();
 
 Patient getPatientById(int id);

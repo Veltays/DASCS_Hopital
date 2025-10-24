@@ -7,49 +7,71 @@
 
 using namespace std;
 
+// ------------------------------------------------------------
+// Connexion MySQL globale
+// ------------------------------------------------------------
+static MYSQL *connexionGlobale = NULL;
 
-MYSQL *connectToDatabase(void)
+// ------------------------------------------------------------
+// Ouverture de la connexion (appelée une seule fois au début)
+// ------------------------------------------------------------
+void ouvrirConnexion()
 {
-    MYSQL *connexion = mysql_init(NULL);
+    if (connexionGlobale != NULL)
+    {
+        printf("[ACCESSBD] Connexion déjà ouverte.\n");
+        return;
+    }
 
-    if (mysql_real_connect(connexion,
+    connexionGlobale = mysql_init(NULL);
+    if (mysql_real_connect(connexionGlobale,
                            "localhost",
                            "Student",
                            "PassStudent1_",
                            "PourStudent",
                            0, NULL, 0) == NULL)
     {
-        fprintf(stderr, "Erreur de connexion à la BD: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de connexion à la BD: %s\n", mysql_error(connexionGlobale));
         exit(1);
     }
 
     printf("[ACCESSBD] Connexion établie avec succès à la BD.\n");
-    return connexion;
 }
 
+// ------------------------------------------------------------
+// Fermeture de la connexion (appelée au logout ou fin du serveur)
+// ------------------------------------------------------------
+void fermerConnexion()
+{
+    if (connexionGlobale)
+    {
+        mysql_close(connexionGlobale);
+        connexionGlobale = NULL;
+        printf("[ACCESSBD] Connexion à la BD fermée.\n");
+    }
+}
+
+// ------------------------------------------------------------
+// Fonctions existantes adaptées pour utiliser connexionGlobale
+// ------------------------------------------------------------
 int estPresent(const char *nom)
 {
-
     MYSQL_RES *Resultat;
     MYSQL_ROW ligne;
 
-    // Connexion à la base de donnée
-    MYSQL *connexion = connectToDatabase();
-
-    // Construction + envoi de la requete de sélection
     char requete[256];
-    sprintf(requete, "SELECT * FROM patients;"); // id, last_name, first_name, birthdate
+    sprintf(requete, "SELECT * FROM patients;");
 
-    if (mysql_query(connexion, requete) != 0)
+    if (mysql_query(connexionGlobale, requete) != 0)
     {
-        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexionGlobale));
         exit(1);
     }
     printf("[ACCESSBD] Requête Pour savoir si * utilisateur existe %s \n", requete);
 
-    if ((Resultat = mysql_store_result(connexion)) == NULL)
+    if ((Resultat = mysql_store_result(connexionGlobale)) == NULL)
     {
-        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexionGlobale));
         exit(1);
     }
 
@@ -60,41 +82,30 @@ int estPresent(const char *nom)
         {
             printf("[ACCESSBD] %s", ligne[i]);
         }
-
         printf("[ACCESSBD] \n");
     }
 
-    // Deconnexion de la base de données
-    mysql_close(connexion);
-    exit(0);
+    mysql_free_result(Resultat);
+    return 0;
 }
 
 int AddNewPatient(const char *lastname, const char *firstname, const char *birthdate)
 {
-   // Connexion à la base de donnée
-    MYSQL *connexion = connectToDatabase();
-    printf("[ACCESSBD] Connexion établie avec succès à la BD.\n");
-
     char requete[256];
     sprintf(requete, "INSERT INTO patients VALUES(NULL,'%s','%s',NULL);", lastname, firstname);
 
     printf("[ACCESSBD] requête AddNewPatient envoyée %s \n", requete);
 
-    if (mysql_query(connexion, requete) != 0)
+    if (mysql_query(connexionGlobale, requete) != 0)
     {
-        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexionGlobale));
         return 0;
     }
+
     printf("[ACCESSBD] Insertion OK.\n");
-
-    int IdOfUser = mysql_insert_id(connexion);
-    mysql_close(connexion);
-
-    // permet de recuperer le dernier id apres l'insert
+    int IdOfUser = mysql_insert_id(connexionGlobale);
     return IdOfUser;
-
 }
-
 
 Patient getPatientById(int id)
 {
@@ -102,71 +113,55 @@ Patient getPatientById(int id)
     MYSQL_RES *resultat;
     Patient retour;
 
-    // Connexion à la base de donnée
-    MYSQL *connexion = connectToDatabase();
-
-    printf("[ACCESSBD] Connexion établie avec succès à la BD.\n");
-
     char requete[256];
     sprintf(requete, "select * from patients where id=%d;", id);
 
-    if (mysql_query(connexion, requete) != 0)
+    if (mysql_query(connexionGlobale, requete) != 0)
     {
-        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexionGlobale));
         exit(0);
     }
-    printf("[ACCESSBD] Requête OK.\n");
 
-    resultat = mysql_store_result(connexion);
-
+    resultat = mysql_store_result(connexionGlobale);
     if (resultat == NULL)
     {
-        fprintf(stderr, "(AccessBD) Erreur de récupération des résultats: %s\n", mysql_error(connexion));
+        fprintf(stderr, "(AccessBD) Erreur de récupération des résultats: %s\n", mysql_error(connexionGlobale));
         exit(0);
     }
-    printf("[ACCESSBD] Store ok");
 
     row = mysql_fetch_row(resultat);
-
     if (row == NULL)
     {
         exit(0);
     }
-
     else
     {
         retour.id = atoi(row[0]);
         strcpy(retour.lastname, row[1]);
         strcpy(retour.firstname, row[2]);
-        // strcpy(retour.birthdate,row[3]);
     }
 
     mysql_free_result(resultat);
-    // Déconnexion de la base de données
-    mysql_close(connexion);
     return retour;
 }
 
-bool retourSpecialite(char* reponse)
+bool retourSpecialite(char *reponse)
 {
-    // Connexion à la base de donnée
-    MYSQL *connexion = connectToDatabase();
-    MYSQL_RES * Resultat;
+    MYSQL_RES *Resultat;
     MYSQL_ROW ligne;
 
-    //Construction + envoi de la requête de sélection
     char requete[256];
-    sprintf(requete,"SELECT * FROM specialties;");
+    sprintf(requete, "SELECT * FROM specialties;");
 
-    if (mysql_query(connexion, requete) != 0)
+    if (mysql_query(connexionGlobale, requete) != 0)
     {
-        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexionGlobale));
         return false;
     }
 
-    if ((Resultat = mysql_store_result(connexion)) == NULL)
+    if ((Resultat = mysql_store_result(connexionGlobale)) == NULL)
     {
-        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexionGlobale));
         return false;
     }
 
@@ -176,162 +171,124 @@ bool retourSpecialite(char* reponse)
     {
         for (int i = 0; i < nbChamps; i++)
         {
-            strcat(retour,ligne[i]);
-            strcat(retour,"#");
+            strcat(retour, ligne[i]);
+            strcat(retour, "#");
         }
     }
 
-    printf("[ACCESSBD] Retour du retour: %s\n",retour);
-
-    strcpy(reponse,retour);  
-    mysql_close(connexion);
+    strcpy(reponse, retour);
+    mysql_free_result(Resultat);
     return true;
 }
 
-bool retourDocteur(char * reponse)
+bool retourDocteur(char *reponse)
 {
-    // Connexion à la base de donnée
-    MYSQL *connexion = connectToDatabase();
-
-    MYSQL_RES * Resultat;
+    MYSQL_RES *Resultat;
     MYSQL_ROW ligne;
 
-    //Construction + envoi de la requête de sélection
     char requete[256];
-    sprintf(requete,"SELECT id, first_name, last_name FROM doctors;");
+    sprintf(requete, "SELECT id, first_name, last_name FROM doctors;");
 
-    if (mysql_query(connexion, requete) != 0)
+    if (mysql_query(connexionGlobale, requete) != 0)
     {
-        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexionGlobale));
         return false;
     }
 
-    if ((Resultat = mysql_store_result(connexion)) == NULL)
+    if ((Resultat = mysql_store_result(connexionGlobale)) == NULL)
     {
-        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexionGlobale));
         return false;
     }
 
     int nbChamps = mysql_num_fields(Resultat);
-    char retour[2048]= "";
+    char retour[2048] = "";
     while ((ligne = mysql_fetch_row(Resultat)) != NULL)
     {
         for (int i = 0; i < nbChamps; i++)
         {
-            strcat(retour,ligne[i]);
-            strcat(retour,"#");
+            strcat(retour, ligne[i]);
+            strcat(retour, "#");
         }
     }
 
-    strcpy(reponse,retour);
-    mysql_close(connexion);
-
+    strcpy(reponse, retour);
+    mysql_free_result(Resultat);
     return true;
-
 }
 
-bool retourConsultations(char * reponse,char* specialty,char* doctor, char * startDate, char* endDate)
+bool retourConsultations(char *reponse, char *specialty, char *doctor, char *startDate, char *endDate)
 {
-    //connexion à la bad
-    MYSQL * connexion = connectToDatabase();
-
-    MYSQL_RES * Resultat;
+    MYSQL_RES *Resultat;
     MYSQL_ROW ligne;
 
-    //Construction + envoi de la requête de sélection
     char requete[512];
     sprintf(requete,
-        "SELECT c.id, d.first_name, d.last_name, s.name, c.date, c.hour "
-        "FROM consultations c "
-        "INNER JOIN doctors d ON c.doctor_id = d.id "
-        "INNER JOIN specialties s ON d.specialty_id = s.id "
-        "WHERE s.name LIKE '%%%s%%' "
-        "AND CONCAT(d.first_name, ' ', d.last_name) LIKE '%%%s%%' "
-        "AND c.date BETWEEN '%s' AND '%s' "
-        "AND c.patient_id IS NULL;",
-        specialty, doctor, startDate, endDate);
-    // id de la consultation, nom du médecin, nom de la specialite, date, heure
+            "SELECT c.id, d.first_name, d.last_name, s.name, c.date, c.hour "
+            "FROM consultations c "
+            "INNER JOIN doctors d ON c.doctor_id = d.id "
+            "INNER JOIN specialties s ON d.specialty_id = s.id "
+            "WHERE s.name LIKE '%%%s%%' "
+            "AND CONCAT(d.first_name, ' ', d.last_name) LIKE '%%%s%%' "
+            "AND c.date BETWEEN '%s' AND '%s' "
+            "AND c.patient_id IS NULL;",
+            specialty, doctor, startDate, endDate);
 
-    if (mysql_query(connexion, requete) != 0)
+    if (mysql_query(connexionGlobale, requete) != 0)
     {
-        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexionGlobale));
         return false;
     }
 
-    if ((Resultat = mysql_store_result(connexion)) == NULL)
+    if ((Resultat = mysql_store_result(connexionGlobale)) == NULL)
     {
-        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_store_result: %s\n", mysql_error(connexionGlobale));
         return false;
     }
 
-    char retour[2048]= "";
-    if(mysql_num_rows(Resultat)==0)
+    char retour[2048] = "";
+    if (mysql_num_rows(Resultat) == 0)
     {
-        strcpy(reponse,"NULL");
+        strcpy(reponse, "NULL");
         return true;
     }
 
     int nbChamps = mysql_num_fields(Resultat);
-    
     while ((ligne = mysql_fetch_row(Resultat)) != NULL)
     {
         for (int i = 0; i < nbChamps; i++)
         {
-            strcat(retour,ligne[i]);
-            strcat(retour,"#");
+            strcat(retour, ligne[i]);
+            strcat(retour, "#");
         }
     }
 
-    strcat(retour,"END");
-
-    strcpy(reponse,retour);
-    mysql_close(connexion);
-
+    strcat(retour, "END");
+    strcpy(reponse, retour);
+    mysql_free_result(Resultat);
     return true;
-
 }
 
-bool modifyConsultation(char * reponse, int idConsultation, char * raison, int idPatient)
+bool modifyConsultation(char *reponse, int idConsultation, char *raison, int idPatient)
 {
-    //connexion à la bad
-    MYSQL * connexion = connectToDatabase();
-
-    MYSQL_RES * Resultat;
-    MYSQL_ROW ligne;
-
-    //Construction + envoi de la requete
     char requete[512];
-    sprintf(requete,"UPDATE consultations SET reason = '%s', patient_id = %d WHERE id = %d AND patient_id IS NULL",raison,idPatient,idConsultation);
+    sprintf(requete, "UPDATE consultations SET reason = '%s', patient_id = %d WHERE id = %d AND patient_id IS NULL", raison, idPatient, idConsultation);
 
-    if (mysql_query(connexion, requete) != 0)
+    if (mysql_query(connexionGlobale, requete) != 0)
     {
-        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexion));
+        fprintf(stderr, "Erreur de mysql_query: %s\n", mysql_error(connexionGlobale));
         return false;
     }
 
-
-    printf("[ACCESSBD] requête modifyConsultation envoyée %s \n", requete);
-
-    printf("affected_rows=%llu, mysql_error='%s'\n", mysql_affected_rows(connexion), mysql_error(connexion));
-
-
-
-    my_ulonglong nbLignes = mysql_affected_rows(connexion);
-
+    my_ulonglong nbLignes = mysql_affected_rows(connexionGlobale);
     if (nbLignes == 0)
     {
-        printf("[ACCESSBD] Aucune ligne modifiée, la consultation est peut-être déjà réservée.\n");
-        strcpy(reponse,"BOOK_CONSULTATION#NON");
+        strcpy(reponse, "BOOK_CONSULTATION#NON");
     }
     else
     {
-        printf("[ACCESSBD] Consultation réservée avec succès.\n");
-        strcpy(reponse,"BOOK_CONSULTATION#OUI");
-
+        strcpy(reponse, "BOOK_CONSULTATION#OUI");
     }
 
-    
-
-    mysql_close(connexion);
     return true;
 }

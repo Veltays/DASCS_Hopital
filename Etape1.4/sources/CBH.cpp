@@ -87,7 +87,6 @@ bool CBH(char *requete, char *reponse, int socket)
     case CMD_LOGOUT:
         if (CBH_Logout(socket) == false)
         {
-
             sprintf(reponse, "LOGOUT#ko#Erreur lors du logout !");
             return false;
         }
@@ -153,6 +152,7 @@ bool CBH(char *requete, char *reponse, int socket)
 
 int CBH_Login(const char *firstname, const char *lastname, const char *PatientId)
 {
+    ouvrirConnexion();
     if (strcmp(PatientId, "-1") == 0)
     {
         // nouveau patient a crée
@@ -173,6 +173,7 @@ int CBH_Login(const char *firstname, const char *lastname, const char *PatientId
 
 bool CBH_Logout(int socket)
 {
+    fermerConnexion();
     printf("[THREAD %p] LOGOUT\n", pthread_self());
     retire(socket);
     return true;
