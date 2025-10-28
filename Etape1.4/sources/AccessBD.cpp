@@ -224,15 +224,15 @@ bool retourConsultations(char *reponse, char *specialty, char *doctor, char *sta
 
     char requete[512];
     sprintf(requete,
-            "SELECT c.id, d.first_name, d.last_name, s.name, c.date, c.hour "
-            "FROM consultations c "
-            "INNER JOIN doctors d ON c.doctor_id = d.id "
-            "INNER JOIN specialties s ON d.specialty_id = s.id "
-            "WHERE s.name LIKE '%%%s%%' "
-            "AND CONCAT(d.first_name, ' ', d.last_name) LIKE '%%%s%%' "
-            "AND c.date BETWEEN '%s' AND '%s' "
-            "AND c.patient_id IS NULL;",
-            specialty, doctor, startDate, endDate);
+        "SELECT c.id, d.first_name, d.last_name, s.name, c.date, c.hour "
+        "FROM consultations c "
+        "INNER JOIN doctors d ON c.doctor_id = d.id "
+        "INNER JOIN specialties s ON d.specialty_id = s.id "
+        "WHERE ('%s' = '*' OR s.name LIKE '%%%s%%') "
+        "AND ('%s' = '*' OR CONCAT(d.first_name, ' ', d.last_name) LIKE '%%%s%%') "
+        "AND c.date BETWEEN '%s' AND '%s' "
+        "AND c.patient_id IS NULL;",
+        specialty, specialty, doctor, doctor, startDate, endDate);
 
     if (mysql_query(connexionGlobale, requete) != 0)
     {

@@ -12,7 +12,7 @@ int CBH_Login(const char* firstname,const char* lastname,const char* PatientId);
 bool CBH_Logout(int socket);
 
 int estPresent(int socket);
-void ajoute(int socket, int idPatient);
+void ajoute(int socket, const char* nom, const char* prenom, int idPatient);
 void retire(int socket);
 int getIdPatientFromSocket(int socket);
 

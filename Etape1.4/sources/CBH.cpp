@@ -23,6 +23,9 @@ const int CMD_BOOK_CONSULTATION = 6;
 typedef struct {
     int  socket;
     int idPatient;
+    char* nom;
+    char* prenom;
+    char* adresseIp;
 } ClientStocker;
 
 ClientStocker clients[NB_MAX_CLIENTS];
@@ -66,14 +69,14 @@ bool CBH(char *requete, char *reponse, int socket)
             {
                 printf("[THREAD %p] Connexion patient\n", pthread_self());
                 sprintf(reponse, "LOGIN#OK");
-                ajoute(socket, atoi(PatientId));
+                ajoute(socket, firstname, lastname, atoi(PatientId));
                 return true;
             }
             else if (ResultOrID > 0)
             {
                 printf("[THREAD %p] Ajout d'un nouveau patient\n", pthread_self());
                 sprintf(reponse, "LOGIN#OK#%d", ResultOrID);
-                ajoute(socket, ResultOrID);
+                ajoute(socket,firstname, lastname,  ResultOrID);
                 return true;
             }
             else
@@ -240,11 +243,22 @@ int estPresent(int socket)
     return indice;
 }
 
-void ajoute(int socket, int idPatient)
+void ajoute(int socket, const char* nom, const char* prenom, int idPatient)
 {
     pthread_mutex_lock(&mutexClients);
     clients[nbClients].socket = socket;
     clients[nbClients].idPatient = idPatient;
+
+
+    clients[nbClients].nom = strdup(nom);    // strdup est un strcpy qui fait un malloc
+    clients[nbClients].prenom = strdup(prenom);
+
+
+    char ipClient[16];
+
+    GetClientIP(socket, ipClient);
+    clients[nbClients].adresseIp = strdup(ipClient);
+
     nbClients++;
     pthread_mutex_unlock(&mutexClients);
 }
