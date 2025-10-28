@@ -7,26 +7,36 @@
 #include <string>
 #include "serveur.h"
 #include "TCP.h"
-#include "CBH.h"
+#include "CBP.h"
 #include "AccessBD.h"
 #include "AccessFileConfig.h"
 
 using namespace std;
 
+int sEcouteReservation, sEcouteAdmin;
+
+
+
 // --- Définitions (une seule fois, ici) ---
-int sEcouteS = -1;
 int socketsAcceptees[TAILLE_FILE_ATTENTE];
 int indiceEcriture = 0, indiceLecture = 0;
 
 char portStr[10];
 char NbThreadsPoolStr[10];
 char ipServeurStr[50];
+char portAdminStr[10];
 
 int portReservation;
 int NbThreadsPool;
+int portAdmin;
 
 pthread_mutex_t mutexSocketsAcceptees;
 pthread_cond_t condSocketsAcceptees;
+
+
+
+pthread_t th;
+pthread_t thAdmin;
 
 int main()
 {
@@ -37,9 +47,12 @@ int main()
         return false;
     if (!getConfigValue("IP_SERVER", ipServeurStr))
         return false;
+    if (!getConfigValue("PORT_ADMIN", portAdminStr))
+        return false;
 
     portReservation = atoi(portStr);
     NbThreadsPool = atoi(NbThreadsPoolStr);
+    portAdmin = atoi(portAdminStr);
 
     // Initialisation socketsAcceptees
     pthread_mutex_init(&mutexSocketsAcceptees, NULL);
@@ -58,18 +71,35 @@ int main()
         exit(1);
     }
 
-    // Creation de la socket d'écoute
-    if ((sEcouteS = ServerSocket(ipServeurStr, portReservation)) == -1)
+    // Creation de la socket d'écoute du serveur pour le client
+    if ((sEcouteReservation = ServerSocket(ipServeurStr, portReservation)) == -1)
     {
-        perror("[SERVEUR] Erreur de ServeurSocket");
+        perror("[SERVEUR] Erreur de ServeurSocket pour le service de réservation");
         exit(1);
     }
 
-    // Creation du pool de threads
+    // Creation de la socket d'écoute du serveur pour le client
+    if ((sEcouteAdmin = ServerSocket(ipServeurStr, portAdmin)) == -1)
+    {
+        perror("[SERVEUR] Erreur de ServeurSocket pour le service admin");
+        exit(1);
+    }
+
+
+
+    printf("[SERVEUR] En écoute sur ports %d (CBP) et %d (ACBP)\n", portReservation, portAdmin);
+
+ 
+    // Creation du pool de threads pour le service de réservation
     printf("[SERVEUR] Création du pool de threads.\n");
-    pthread_t th;
     for (int i = 0; i < NbThreadsPool; i++)
-        pthread_create(&th, NULL, FctThreadClient, NULL);
+        pthread_create(&th, NULL, FctThreadClientReservation, NULL);
+
+
+    // Creation du thread pour le service admin
+    pthread_create(&thAdmin, NULL, FctThreadAdmin, &sEcouteAdmin);
+
+
 
     // Mise en boucle du serveur
     int sService;
@@ -79,11 +109,11 @@ int main()
     while (1)
     {
         printf("[THREAD %p] Attente d'une connexion...\n", pthread_self());
-        if ((sService = Accept(sEcoute, ipClient)) == -1)
+        if ((sService = Accept(sEcouteReservation, ipClient)) == -1)
         {
             perror("[THREAD %p] Erreur de Accept");
-            close(sEcoute);
-            CBH_Close();
+            close(sEcouteReservation);
+            CBP_Close();
             exit(1);
         }
         printf("[THREAD %p] Connexion acceptée : \n\t -- IP=%s \n\t --socket=%d \n", pthread_self(), ipClient, sService);
@@ -99,7 +129,7 @@ int main()
     }
 }
 
-void *FctThreadClient(void *p)
+void *FctThreadClientReservation(void *p)
 {
     int sService;
     while (1)
@@ -122,6 +152,45 @@ void *FctThreadClient(void *p)
         TraitementConnexion(sService);
     }
 }
+
+
+
+void *FctThreadAdmin(void *p)
+{
+    int sEcouteAdmin = *((int *)p);
+    char ipClient[50];
+    int sService;
+
+    printf("[ADMIN] Serveur ACBP prêt sur le port admin.\n");
+
+    while (1)
+    {
+        if ((sService = Accept(sEcouteAdmin, ipClient)) == -1)
+        {
+            perror("[ADMIN] Erreur de Accept");
+            continue;
+        }
+
+        printf("[ADMIN] Connexion Admin depuis %s\n", ipClient);
+
+        // ici tu traites la commande "LIST_CLIENTS"
+        char requete[200], reponse[200];
+        int nbLus = Receive(sService, requete);
+        if (nbLus > 0)
+        {
+            requete[nbLus] = 0;
+            if (strcmp(requete, "LIST_CLIENTS") == 0)
+                sprintf(reponse, "OK#Liste clients connectés...");
+            else
+                sprintf(reponse, "KO#Commande inconnue");
+
+            Send(sService, reponse, strlen(reponse));
+        }
+
+        close(sService); // à la demande ⇒ pas de persistance de connexion
+    }
+}
+
 
 void TraitementConnexion(int sService)
 {
@@ -153,7 +222,7 @@ void TraitementConnexion(int sService)
         printf("[THREAD %p] Requete recue = %s\n", pthread_self(), requete);
 
         // ***** Traitement de la requete ***********
-        onContinue = CBH(requete, reponse, sService);
+        onContinue = CBP(requete, reponse, sService);
 
         // ***** Envoi de la reponse ****************
         if ((nbEcrits = Send(sService, reponse, strlen(reponse))) < 0)
@@ -174,12 +243,13 @@ void TraitementConnexion(int sService)
 void HandlerSIGINT(int s)
 {
     printf("[SERVEUR] Arret du serveur.\n");
-    close(sEcoute);
+    close(sEcouteReservation);
+    close(sEcouteAdmin);
     pthread_mutex_lock(&mutexSocketsAcceptees);
     for (int i = 0; i < TAILLE_FILE_ATTENTE; i++)
         if (socketsAcceptees[i] != -1)
             close(socketsAcceptees[i]);
     pthread_mutex_unlock(&mutexSocketsAcceptees);
-    CBH_Close();
+    CBP_Close();
     exit(0);
 }

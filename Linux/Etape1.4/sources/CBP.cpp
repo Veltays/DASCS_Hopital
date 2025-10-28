@@ -1,4 +1,4 @@
-#include "CBH.h"
+#include "CBP.h"
 #include "TCP.h"
 #include <string.h>
 #include <stdio.h>
@@ -32,7 +32,7 @@ ClientStocker clients[NB_MAX_CLIENTS];
 
 
 
-bool CBH(char *requete, char *reponse, int socket)
+bool CBP(char *requete, char *reponse, int socket)
 {
 
 
@@ -63,7 +63,7 @@ bool CBH(char *requete, char *reponse, int socket)
         }
         else
         {
-            ResultOrID = CBH_Login(firstname, lastname, PatientId);
+            ResultOrID = CBP_Login(firstname, lastname, PatientId);
             printf("[THREAD %p] ResultOrID = %d\n", pthread_self(), ResultOrID);
             if (ResultOrID == 0)
             {
@@ -88,7 +88,7 @@ bool CBH(char *requete, char *reponse, int socket)
         break;
 
     case CMD_LOGOUT:
-        if (CBH_Logout(socket) == false)
+        if (CBP_Logout(socket) == false)
         {
             sprintf(reponse, "LOGOUT#ko#Erreur lors du logout !");
             return false;
@@ -97,7 +97,7 @@ bool CBH(char *requete, char *reponse, int socket)
         break;
 
     case CMD_GET_SPECIALTIES:
-        if(CBH_Get_Specialites(reponse) == false)
+        if(CBP_Get_Specialites(reponse) == false)
         {
             return false;
         }
@@ -105,7 +105,7 @@ bool CBH(char *requete, char *reponse, int socket)
         break;
 
     case CMD_GET_DOCTORS:
-        if(CBH_Get_Doctors(reponse) == false)
+        if(CBP_Get_Doctors(reponse) == false)
         {
             return false;
         }
@@ -121,7 +121,7 @@ bool CBH(char *requete, char *reponse, int socket)
         printf("[THREAD %p] SEARCH_CONSULTATIONS de %s -- %s -- %s -- %s\n", pthread_self(), specialty, doctor, startDate, endDate);
         
        
-        if (CBH_Search_Consultations(reponse,specialty, doctor, startDate, endDate) == false)
+        if (CBP_Search_Consultations(reponse,specialty, doctor, startDate, endDate) == false)
         {
             return false;
         }
@@ -137,7 +137,7 @@ bool CBH(char *requete, char *reponse, int socket)
             
 
         printf("[THREAD %p] BOOK_CONSULTATION de %d -- %d\n", pthread_self(), idConsultation, idPatient);
-        if (CBH_BOOK_CONSULTATION(idConsultation,raison, idPatient, reponse) == false)
+        if (CBP_BOOK_CONSULTATION(idConsultation,raison, idPatient, reponse) == false)
         {
             return false;
         }
@@ -153,7 +153,7 @@ bool CBH(char *requete, char *reponse, int socket)
 }
 
 
-int CBH_Login(const char *firstname, const char *lastname, const char *PatientId)
+int CBP_Login(const char *firstname, const char *lastname, const char *PatientId)
 {
     ouvrirConnexion();
     if (strcmp(PatientId, "-1") == 0)
@@ -174,7 +174,7 @@ int CBH_Login(const char *firstname, const char *lastname, const char *PatientId
     return -1;
 }
 
-bool CBH_Logout(int socket)
+bool CBP_Logout(int socket)
 {
     fermerConnexion();
     printf("[THREAD %p] LOGOUT\n", pthread_self());
@@ -182,19 +182,19 @@ bool CBH_Logout(int socket)
     return true;
 }
 
-bool CBH_Get_Specialites(char *reponse)
+bool CBP_Get_Specialites(char *reponse)
 {
     retourSpecialite(reponse);
     return true;
 }
 
-bool CBH_Get_Doctors(char *reponse)
+bool CBP_Get_Doctors(char *reponse)
 {
     retourDocteur(reponse);
     return true;
 }
 
-bool CBH_Search_Consultations(char* buffer,char *specialiter, char *medecin, char *dateDebut, char *dateFin)
+bool CBP_Search_Consultations(char* buffer,char *specialiter, char *medecin, char *dateDebut, char *dateFin)
 {
 
     printf("[THREAD %p] SEARCH_CONSULTATIONS\n", pthread_self());
@@ -213,7 +213,7 @@ bool CBH_Search_Consultations(char* buffer,char *specialiter, char *medecin, cha
     return true;
 }
 
-bool CBH_BOOK_CONSULTATION(int idConsultation,char *raison, int idPatient, char *reponse)
+bool CBP_BOOK_CONSULTATION(int idConsultation,char *raison, int idPatient, char *reponse)
 {
 
     printf("[THREAD %p] BOOK_CONSULTATION\n", pthread_self());
@@ -291,7 +291,7 @@ int getIdPatientFromSocket(int socket)
 }
 
 
-void CBH_Close()
+void CBP_Close()
 {
     pthread_mutex_lock(&mutexClients);
     for (int i = 0; i < nbClients; i++)

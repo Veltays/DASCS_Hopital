@@ -16,7 +16,7 @@ mysql/mysql.h
 
 ../includes/AccessFileConfig.h
 
-../includes/CBH.h
+../includes/CBP.h
 patient.h
 ../includes/patient.h
 
@@ -24,43 +24,35 @@ patient.h
 
 ../includes/patient.h
 
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.cpp
-CBH.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/CBH.h
-TCP.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.h
-string.h
+../includes/serveur.h
+pthread.h
 -
+signal.h
+-
+
+/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/serveur_Reservation.cpp
 stdio.h
 -
 stdlib.h
 -
 unistd.h
+-
+string.h
+-
+signal.h
 -
 pthread.h
 -
-AccessBD.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessBD.h
-AccessFileConfig.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/AccessFileConfig.h
-
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.cpp
-stdio.h
+string
 -
-unistd.h
--
-stdlib.h
--
-string.h
--
-sys/types.h
--
-sys/socket.h
--
-netdb.h
--
-arpa/inet.h
--
+serveur.h
+/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/serveur.h
 TCP.h
-/home/student/Bureau/DASCS_Hopital/Etape1.4/sources/TCP.h
+/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/TCP.h
+CBP.h
+/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/CBP.h
+AccessBD.h
+/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/AccessBD.h
+AccessFileConfig.h
+/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/AccessFileConfig.h
 

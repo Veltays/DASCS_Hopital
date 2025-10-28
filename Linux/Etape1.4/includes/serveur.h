@@ -12,8 +12,8 @@
 // --- Prototypes (pas de main ici !) ---
 void HandlerSIGINT(int s);
 void TraitementConnexion(int sService);
-void *FctThreadClient(void *p);
-
+void *FctThreadClientReservation(void *p);
+void *FctThreadAdmin(void *p);
 
 
 

@@ -10,19 +10,19 @@ CMakeFiles/serveur.dir/sources/AccessBD.cpp.o: ../sources/AccessBD.cpp
 CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o: ../includes/AccessFileConfig.h
 CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.o: ../sources/AccessFileConfig.cpp
 
-CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../includes/AccessBD.h
-CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../includes/AccessFileConfig.h
-CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../includes/CBH.h
-CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../includes/TCP.h
-CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../includes/patient.h
-CMakeFiles/serveur.dir/sources/CBH.cpp.o: ../sources/CBH.cpp
+CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/AccessBD.h
+CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/AccessFileConfig.h
+CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/CBP.h
+CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/TCP.h
+CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/patient.h
+CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../sources/CBP.cpp
 
 CMakeFiles/serveur.dir/sources/TCP.cpp.o: ../includes/TCP.h
 CMakeFiles/serveur.dir/sources/TCP.cpp.o: ../sources/TCP.cpp
 
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/AccessBD.h
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/AccessFileConfig.h
-CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/CBH.h
+CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/CBP.h
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/TCP.h
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/patient.h
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/serveur.h

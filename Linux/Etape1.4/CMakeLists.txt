@@ -54,7 +54,7 @@ set_target_properties(client PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}")
 add_executable(serveur
     sources/serveur_Reservation.cpp
     ${SHARED_SOURCES}
-    sources/CBH.cpp
+    sources/CBP.cpp
     sources/AccessBD.cpp
 )
 

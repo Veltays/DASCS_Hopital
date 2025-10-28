@@ -1,4 +1,4 @@
-# Install script for directory: /home/student/Bureau/DASCS_Hopital/Etape1.4
+# Install script for directory: /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/student/Bureau/DASCS_Hopital/Etape1.4/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

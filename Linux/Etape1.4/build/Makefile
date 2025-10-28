@@ -67,10 +67,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.4
+CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Etape1.4/build
+CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles /home/student/Bureau/DASCS_Hopital/Etape1.4/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Etape1.4/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -358,32 +358,32 @@ sources/AccessFileConfig.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/AccessFileConfig.cpp.s
 .PHONY : sources/AccessFileConfig.cpp.s
 
-sources/CBH.o: sources/CBH.cpp.o
+sources/CBP.o: sources/CBP.cpp.o
 
-.PHONY : sources/CBH.o
+.PHONY : sources/CBP.o
 
 # target to build an object file
-sources/CBH.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBH.cpp.o
-.PHONY : sources/CBH.cpp.o
+sources/CBP.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBP.cpp.o
+.PHONY : sources/CBP.cpp.o
 
-sources/CBH.i: sources/CBH.cpp.i
+sources/CBP.i: sources/CBP.cpp.i
 
-.PHONY : sources/CBH.i
+.PHONY : sources/CBP.i
 
 # target to preprocess a source file
-sources/CBH.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBH.cpp.i
-.PHONY : sources/CBH.cpp.i
+sources/CBP.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBP.cpp.i
+.PHONY : sources/CBP.cpp.i
 
-sources/CBH.s: sources/CBH.cpp.s
+sources/CBP.s: sources/CBP.cpp.s
 
-.PHONY : sources/CBH.s
+.PHONY : sources/CBP.s
 
 # target to generate assembly for a file
-sources/CBH.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBH.cpp.s
-.PHONY : sources/CBH.cpp.s
+sources/CBP.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/CBP.cpp.s
+.PHONY : sources/CBP.cpp.s
 
 sources/CreationBD.o: sources/CreationBD.cpp.o
 
@@ -553,9 +553,9 @@ help:
 	@echo "... sources/AccessFileConfig.o"
 	@echo "... sources/AccessFileConfig.i"
 	@echo "... sources/AccessFileConfig.s"
-	@echo "... sources/CBH.o"
-	@echo "... sources/CBH.i"
-	@echo "... sources/CBH.s"
+	@echo "... sources/CBP.o"
+	@echo "... sources/CBP.i"
+	@echo "... sources/CBP.s"
 	@echo "... sources/CreationBD.o"
 	@echo "... sources/CreationBD.i"
 	@echo "... sources/CreationBD.s"
