@@ -1,20 +1,20 @@
 package org.clientAdminRTI.model;
 
 public class ClientConnected {
-    private final String ip;
+    private final String id;
     private final String nom;
     private final String prenom;
-    private final int id;
+    private final String ip;
 
-    public ClientConnected(String ip, String nom, String prenom, int id) {
-        this.ip = ip;
+    public ClientConnected(String id, String nom, String prenom, String ip) {
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
-        this.id = id;
+        this.ip = ip;
     }
 
-    public String getIp() { return ip; }
+    public String getId() { return id; }
     public String getNom() { return nom; }
     public String getPrenom() { return prenom; }
-    public int getId() { return id; }
+    public String getIp() { return ip; }
 }
