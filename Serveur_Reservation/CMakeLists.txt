@@ -55,7 +55,9 @@ add_executable(serveur
     sources/serveur_Reservation.cpp
     ${SHARED_SOURCES}
     sources/CBP.cpp
+    sources/ACBP.cpp
     sources/AccessBD.cpp
+    sources/audit.cpp
 )
 
 target_include_directories(serveur PRIVATE ${PROJECT_INCLUDE_DIR} ${MYSQL_INCLUDE_DIR})

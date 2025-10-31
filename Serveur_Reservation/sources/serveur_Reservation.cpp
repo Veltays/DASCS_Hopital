@@ -8,6 +8,7 @@
 #include "serveur.h"
 #include "TCP.h"
 #include "CBP.h"
+#include "ACBP.h"
 #include "AccessBD.h"
 #include "AccessFileConfig.h"
 
@@ -176,18 +177,22 @@ void *FctThreadAdmin(void *p)
         // ici tu traites la commande "LIST_CLIENTS"
         char requete[200], reponse[200];
         int nbLus = Receive(sService, requete);
+        printf("[ADMIN] Requete recue = %s\n", requete);
         if (nbLus > 0)
         {
-            requete[nbLus] = 0;
-            if (strcmp(requete, "LIST_CLIENTS") == 0)
-                sprintf(reponse, "OK#Liste clients connectés...");
+            
+            if (ACBP(requete, reponse, sService) == false)
+            {
+                printf("[ADMIN] Erreur dans le traitement de la requete admin.\n");
+            }
             else
-                sprintf(reponse, "KO#Commande inconnue");
+            {
+                Send(sService, reponse, strlen(reponse));
+            }
 
-            Send(sService, reponse, strlen(reponse));
         }
 
-        close(sService); // à la demande ⇒ pas de persistance de connexion
+        close(sService);
     }
 }
 

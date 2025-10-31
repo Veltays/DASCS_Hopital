@@ -62,10 +62,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4
+CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Serveur_Reservation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build
+CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build
 
 # Utility rule file for copy_resources.
 
@@ -73,8 +73,8 @@ CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build
 include CMakeFiles/copy_resources.dir/progress.make
 
 CMakeFiles/copy_resources:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Copie du dossier ressources/ vers bin/ressources/"
-	/usr/bin/cmake -E copy_directory /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/ressources /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/bin/ressources
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Copie du dossier ressources/ vers bin/ressources/"
+	/usr/bin/cmake -E copy_directory /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/ressources /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/bin/ressources
 
 copy_resources: CMakeFiles/copy_resources
 copy_resources: CMakeFiles/copy_resources.dir/build.make
@@ -91,6 +91,6 @@ CMakeFiles/copy_resources.dir/clean:
 .PHONY : CMakeFiles/copy_resources.dir/clean
 
 CMakeFiles/copy_resources.dir/depend:
-	cd /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4 /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4 /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles/copy_resources.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/student/Bureau/DASCS_Hopital/Serveur_Reservation /home/student/Bureau/DASCS_Hopital/Serveur_Reservation /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles/copy_resources.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/copy_resources.dir/depend
 

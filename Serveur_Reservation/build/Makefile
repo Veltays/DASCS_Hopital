@@ -67,10 +67,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4
+CMAKE_SOURCE_DIR = /home/student/Bureau/DASCS_Hopital/Serveur_Reservation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build
+CMAKE_BINARY_DIR = /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -301,6 +301,33 @@ serveur_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.s
 .PHONY : serveur_autogen/mocs_compilation.cpp.s
 
+sources/ACBP.o: sources/ACBP.cpp.o
+
+.PHONY : sources/ACBP.o
+
+# target to build an object file
+sources/ACBP.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/ACBP.cpp.o
+.PHONY : sources/ACBP.cpp.o
+
+sources/ACBP.i: sources/ACBP.cpp.i
+
+.PHONY : sources/ACBP.i
+
+# target to preprocess a source file
+sources/ACBP.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/ACBP.cpp.i
+.PHONY : sources/ACBP.cpp.i
+
+sources/ACBP.s: sources/ACBP.cpp.s
+
+.PHONY : sources/ACBP.s
+
+# target to generate assembly for a file
+sources/ACBP.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/ACBP.cpp.s
+.PHONY : sources/ACBP.cpp.s
+
 sources/AccessBD.o: sources/AccessBD.cpp.o
 
 .PHONY : sources/AccessBD.o
@@ -442,6 +469,33 @@ sources/TCP.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/TCP.cpp.s
 .PHONY : sources/TCP.cpp.s
 
+sources/audit.o: sources/audit.cpp.o
+
+.PHONY : sources/audit.o
+
+# target to build an object file
+sources/audit.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/audit.cpp.o
+.PHONY : sources/audit.cpp.o
+
+sources/audit.i: sources/audit.cpp.i
+
+.PHONY : sources/audit.i
+
+# target to preprocess a source file
+sources/audit.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/audit.cpp.i
+.PHONY : sources/audit.cpp.i
+
+sources/audit.s: sources/audit.cpp.s
+
+.PHONY : sources/audit.s
+
+# target to generate assembly for a file
+sources/audit.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/sources/audit.cpp.s
+.PHONY : sources/audit.cpp.s
+
 sources/main.o: sources/main.cpp.o
 
 .PHONY : sources/main.o
@@ -547,6 +601,9 @@ help:
 	@echo "... serveur_autogen/mocs_compilation.o"
 	@echo "... serveur_autogen/mocs_compilation.i"
 	@echo "... serveur_autogen/mocs_compilation.s"
+	@echo "... sources/ACBP.o"
+	@echo "... sources/ACBP.i"
+	@echo "... sources/ACBP.s"
 	@echo "... sources/AccessBD.o"
 	@echo "... sources/AccessBD.i"
 	@echo "... sources/AccessBD.s"
@@ -562,6 +619,9 @@ help:
 	@echo "... sources/TCP.o"
 	@echo "... sources/TCP.i"
 	@echo "... sources/TCP.s"
+	@echo "... sources/audit.o"
+	@echo "... sources/audit.i"
+	@echo "... sources/audit.s"
 	@echo "... sources/main.o"
 	@echo "... sources/main.i"
 	@echo "... sources/main.s"

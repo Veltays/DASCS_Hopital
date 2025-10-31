@@ -144,6 +144,8 @@ void GetClientIP(int sService, char *ipClient)
     getpeername(sService, (struct sockaddr *)&adrClient, &adrClientLen);
     getnameinfo((struct sockaddr *)&adrClient, adrClientLen, host, NI_MAXHOST, port, NI_MAXSERV, NI_NUMERICSERV | NI_NUMERICHOST);
     printf("[TCP] Client connecte \n\t  -- Adresse IP: %s \n\t  -- Port: %s\n", host, port);
+
+    strcpy(ipClient, host);
 }
 
 #pragma endregion Accept

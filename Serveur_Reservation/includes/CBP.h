@@ -24,7 +24,7 @@ bool CBP_BOOK_CONSULTATION(int idConsultation,char *raison,int idPatient,char* r
 void CBP_Close();
 
 
-int getCommandReceive(char* ptr);
+int getCommandReceiveCBP(char* ptr);
 
 
 #endif // CBP_H
