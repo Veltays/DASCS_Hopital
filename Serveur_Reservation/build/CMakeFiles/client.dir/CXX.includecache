@@ -6,6 +6,7 @@
 
 #IncludeRegexTransform: 
 
+<<<<<<< HEAD
 ../includes/AccessBD.h
 patient.h
 ../includes/patient.h
@@ -91,6 +92,11 @@ AccessFileConfig.h
 /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/AccessFileConfig.h
 
 /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/TCP.cpp
+=======
+../includes/TCP.h
+
+/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/TCP.cpp
+>>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
 stdio.h
 -
 unistd.h
@@ -108,6 +114,7 @@ netdb.h
 arpa/inet.h
 -
 TCP.h
+<<<<<<< HEAD
 /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/TCP.h
 
 /home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/main.cpp
@@ -1719,4 +1726,7 @@ QtGui/qkeysequence.h
 -
 QtGui/qevent.h
 -
+=======
+/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/TCP.h
+>>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
 

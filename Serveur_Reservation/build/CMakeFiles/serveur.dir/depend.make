@@ -3,6 +3,10 @@
 
 CMakeFiles/serveur.dir/serveur_autogen/mocs_compilation.cpp.o: serveur_autogen/mocs_compilation.cpp
 
+CMakeFiles/serveur.dir/sources/ACBP.cpp.o: ../includes/ACBP.h
+CMakeFiles/serveur.dir/sources/ACBP.cpp.o: ../includes/audit.h
+CMakeFiles/serveur.dir/sources/ACBP.cpp.o: ../sources/ACBP.cpp
+
 CMakeFiles/serveur.dir/sources/AccessBD.cpp.o: ../includes/AccessBD.h
 CMakeFiles/serveur.dir/sources/AccessBD.cpp.o: ../includes/patient.h
 CMakeFiles/serveur.dir/sources/AccessBD.cpp.o: ../sources/AccessBD.cpp
@@ -14,12 +18,17 @@ CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/AccessBD.h
 CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/AccessFileConfig.h
 CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/CBP.h
 CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/TCP.h
+CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/audit.h
 CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../includes/patient.h
 CMakeFiles/serveur.dir/sources/CBP.cpp.o: ../sources/CBP.cpp
 
 CMakeFiles/serveur.dir/sources/TCP.cpp.o: ../includes/TCP.h
 CMakeFiles/serveur.dir/sources/TCP.cpp.o: ../sources/TCP.cpp
 
+CMakeFiles/serveur.dir/sources/audit.cpp.o: ../includes/audit.h
+CMakeFiles/serveur.dir/sources/audit.cpp.o: ../sources/audit.cpp
+
+CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/ACBP.h
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/AccessBD.h
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/AccessFileConfig.h
 CMakeFiles/serveur.dir/sources/serveur_Reservation.cpp.o: ../includes/CBP.h

@@ -8,6 +8,7 @@
 #include "serveur.h"
 #include "TCP.h"
 #include "CBP.h"
+#include "ACBP.h"
 #include "AccessBD.h"
 #include "AccessFileConfig.h"
 
@@ -35,7 +36,7 @@ pthread_cond_t condSocketsAcceptees;
 
 
 
-pthread_t th;
+pthread_t thClient;
 pthread_t thAdmin;
 
 int main()
@@ -93,7 +94,7 @@ int main()
     // Creation du pool de threads pour le service de réservation
     printf("[SERVEUR] Création du pool de threads.\n");
     for (int i = 0; i < NbThreadsPool; i++)
-        pthread_create(&th, NULL, FctThreadClientReservation, NULL);
+        pthread_create(&thClient, NULL, FctThreadClientReservation, NULL);
 
 
     // Creation du thread pour le service admin
@@ -176,25 +177,30 @@ void *FctThreadAdmin(void *p)
         // ici tu traites la commande "LIST_CLIENTS"
         char requete[200], reponse[200];
         int nbLus = Receive(sService, requete);
+        printf("[ADMIN] Requete recue = %s\n", requete);
         if (nbLus > 0)
         {
-            requete[nbLus] = 0;
-            if (strcmp(requete, "LIST_CLIENTS") == 0)
-                sprintf(reponse, "OK#Liste clients connectés...");
+            
+            if (ACBP(requete, reponse, sService) == false)
+            {
+                printf("[ADMIN] Erreur dans le traitement de la requete admin.\n");
+            }
             else
-                sprintf(reponse, "KO#Commande inconnue");
+            {
+                Send(sService, reponse, strlen(reponse));
+            }
 
-            Send(sService, reponse, strlen(reponse));
         }
 
-        close(sService); // à la demande ⇒ pas de persistance de connexion
+        close(sService);
     }
 }
 
 
 void TraitementConnexion(int sService)
 {
-    char requete[200], reponse[200];
+    char requete[512];
+    char reponse[2048];
     int nbLus, nbEcrits;
     bool onContinue = true;
 
@@ -243,6 +249,9 @@ void TraitementConnexion(int sService)
 void HandlerSIGINT(int s)
 {
     printf("[SERVEUR] Arret du serveur.\n");
+    pthread_detach(thAdmin);
+    pthread_detach(thClient);
+    
     close(sEcouteReservation);
     close(sEcouteAdmin);
     pthread_mutex_lock(&mutexSocketsAcceptees);

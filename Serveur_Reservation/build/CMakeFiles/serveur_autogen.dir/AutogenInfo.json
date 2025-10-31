@@ -1,16 +1,30 @@
 {
+<<<<<<< HEAD
 	"BUILD_DIR" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/serveur_autogen",
 	"CMAKE_BINARY_DIR" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build",
 	"CMAKE_CURRENT_BINARY_DIR" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build",
 	"CMAKE_CURRENT_SOURCE_DIR" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4",
 	"CMAKE_EXECUTABLE" : "/usr/bin/cmake",
 	"CMAKE_SOURCE_DIR" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4",
+=======
+	"BUILD_DIR" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/serveur_autogen",
+	"CMAKE_BINARY_DIR" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation",
+	"CMAKE_EXECUTABLE" : "/usr/bin/cmake",
+	"CMAKE_SOURCE_DIR" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation",
+>>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
 	"DEP_FILE" : "",
 	"DEP_FILE_RULE_NAME" : "",
 	"HEADERS" : [],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+<<<<<<< HEAD
 	"INCLUDE_DIR" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/serveur_autogen/include",
 	"MOC_COMPILATION_FILE" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/serveur_autogen/mocs_compilation.cpp",
+=======
+	"INCLUDE_DIR" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/serveur_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/serveur_autogen/mocs_compilation.cpp",
+>>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
 	"MOC_DEFINITIONS" : [],
 	"MOC_DEPEND_FILTERS" : 
 	[
@@ -21,7 +35,11 @@
 	],
 	"MOC_INCLUDES" : 
 	[
+<<<<<<< HEAD
 		"/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/includes",
+=======
+		"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/includes",
+>>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
 		"/usr/include/mysql",
 		"/usr/include/c++/8",
 		"/usr/include/c++/8/x86_64-redhat-linux",
@@ -41,6 +59,7 @@
 		"-c",
 		"/usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp"
 	],
+<<<<<<< HEAD
 	"MOC_PREDEFS_FILE" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/serveur_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : 
@@ -51,10 +70,23 @@
 	"MULTI_CONFIG" : false,
 	"PARALLEL" : 2,
 	"PARSE_CACHE_FILE" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles/serveur_autogen.dir/ParseCache.txt",
+=======
+	"MOC_PREDEFS_FILE" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/serveur_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : 
+	[
+		"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CreationBD_autogen/mocs_compilation.cpp",
+		"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/client_autogen/mocs_compilation.cpp"
+	],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 2,
+	"PARSE_CACHE_FILE" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles/serveur_autogen.dir/ParseCache.txt",
+>>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
 	"QT_MOC_EXECUTABLE" : "/usr/lib64/qt5/bin/moc",
 	"QT_UIC_EXECUTABLE" : "",
 	"QT_VERSION_MAJOR" : 5,
 	"QT_VERSION_MINOR" : 12,
+<<<<<<< HEAD
 	"SETTINGS_FILE" : "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles/serveur_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
@@ -76,6 +108,37 @@
 		],
 		[
 			"/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/serveur_Reservation.cpp",
+=======
+	"SETTINGS_FILE" : "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles/serveur_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/ACBP.cpp",
+			"Mu"
+		],
+		[
+			"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/AccessBD.cpp",
+			"Mu"
+		],
+		[
+			"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/AccessFileConfig.cpp",
+			"Mu"
+		],
+		[
+			"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/CBP.cpp",
+			"Mu"
+		],
+		[
+			"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/TCP.cpp",
+			"Mu"
+		],
+		[
+			"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/audit.cpp",
+			"Mu"
+		],
+		[
+			"/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/serveur_Reservation.cpp",
+>>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
 			"Mu"
 		]
 	],

@@ -7,9 +7,9 @@
 #include <pthread.h>
 #include "AccessBD.h"
 #include "AccessFileConfig.h"
+#include "audit.h"
 
-pthread_mutex_t mutexClients = PTHREAD_MUTEX_INITIALIZER;
-int nbClients = 0;
+
 
 const int CMD_LOGIN = 1;
 const int CMD_LOGOUT = 2;
@@ -20,17 +20,9 @@ const int CMD_BOOK_CONSULTATION = 6;
 
 #define NB_MAX_CLIENTS 20
 
-typedef struct {
-    int  socket;
-    int idPatient;
-    char* nom;
-    char* prenom;
-    char* adresseIp;
-} ClientStocker;
-
-ClientStocker clients[NB_MAX_CLIENTS];
 
 
+    
 
 bool CBP(char *requete, char *reponse, int socket)
 {
@@ -48,7 +40,7 @@ bool CBP(char *requete, char *reponse, int socket)
     int idPatient;
     
 
-    switch (cmd = getCommandReceive(ptr))
+    switch (cmd = getCommandReceiveCBP(ptr))
     {
     case CMD_LOGIN:
         strcpy(firstname, strtok(NULL, "#"));
@@ -234,7 +226,7 @@ int estPresent(int socket)
     int indice = -1;
     pthread_mutex_lock(&mutexClients);
     for (int i = 0; i < nbClients; i++)
-        if (clients[i].socket == socket)
+        if (clientsConnectes[i].socket == socket)
         {
             indice = i;
             break;
@@ -246,18 +238,18 @@ int estPresent(int socket)
 void ajoute(int socket, const char* nom, const char* prenom, int idPatient)
 {
     pthread_mutex_lock(&mutexClients);
-    clients[nbClients].socket = socket;
-    clients[nbClients].idPatient = idPatient;
+    clientsConnectes[nbClients].socket = socket;
+    clientsConnectes[nbClients].idPatient = idPatient;
 
 
-    clients[nbClients].nom = strdup(nom);    // strdup est un strcpy qui fait un malloc
-    clients[nbClients].prenom = strdup(prenom);
+    clientsConnectes[nbClients].nom = strdup(nom);    // strdup est un strcpy qui fait un malloc
+    clientsConnectes[nbClients].prenom = strdup(prenom);
 
 
     char ipClient[16];
 
     GetClientIP(socket, ipClient);
-    clients[nbClients].adresseIp = strdup(ipClient);
+    clientsConnectes[nbClients].adresseIp = strdup(ipClient);
 
     nbClients++;
     pthread_mutex_unlock(&mutexClients);
@@ -270,7 +262,7 @@ void retire(int socket)
         return;
     pthread_mutex_lock(&mutexClients);
     for (int i = pos; i <= nbClients - 2; i++)
-        clients[i] = clients[i + 1];
+        clientsConnectes[i] = clientsConnectes[i + 1];
     nbClients--;
     pthread_mutex_unlock(&mutexClients);
 }
@@ -281,9 +273,9 @@ int getIdPatientFromSocket(int socket)
     int idPatient = -1;
     pthread_mutex_lock(&mutexClients);
     for (int i = 0; i < nbClients; i++)
-        if (clients[i].socket == socket)
+        if (clientsConnectes[i].socket == socket)
         {
-            idPatient = clients[i].idPatient;
+            idPatient = clientsConnectes[i].idPatient;
             break;
         }
     pthread_mutex_unlock(&mutexClients);
@@ -295,14 +287,14 @@ void CBP_Close()
 {
     pthread_mutex_lock(&mutexClients);
     for (int i = 0; i < nbClients; i++)
-        close(clients[i].socket);
+        close(clientsConnectes[i].socket);
     pthread_mutex_unlock(&mutexClients);
 }
 
 
 
 //***** Fonction de gestions des commandes ******************************
-int getCommandReceive(char *ptr)
+int getCommandReceiveCBP(char *ptr)
 {
 
     if (strcmp(ptr, "LOGIN") == 0)

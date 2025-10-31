@@ -4,11 +4,19 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+<<<<<<< HEAD
   "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/client_autogen/mocs_compilation.cpp" "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
   "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/AccessFileConfig.cpp" "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles/client.dir/sources/AccessFileConfig.cpp.o"
   "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/TCP.cpp" "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles/client.dir/sources/TCP.cpp.o"
   "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/main.cpp" "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles/client.dir/sources/main.cpp.o"
   "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/mainwindowclientconsultationbooker.cpp" "/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o"
+=======
+  "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/client_autogen/mocs_compilation.cpp" "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
+  "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/AccessFileConfig.cpp" "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles/client.dir/sources/AccessFileConfig.cpp.o"
+  "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/TCP.cpp" "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles/client.dir/sources/TCP.cpp.o"
+  "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/main.cpp" "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles/client.dir/sources/main.cpp.o"
+  "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/mainwindowclientconsultationbooker.cpp" "/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/CMakeFiles/client.dir/sources/mainwindowclientconsultationbooker.cpp.o"
+>>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
