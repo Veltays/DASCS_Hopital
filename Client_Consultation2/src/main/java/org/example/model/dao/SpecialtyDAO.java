@@ -1,4 +1,4 @@
-package org.clientAdminRTI.model.dao;
+package org.example.model.dao;
 
 public class SpecialtyDAO {
 }

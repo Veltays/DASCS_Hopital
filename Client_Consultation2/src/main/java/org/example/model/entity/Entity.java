@@ -1,4 +1,4 @@
-package org.clientAdminRTI.model.entity;
+package org.example.model.entity;
 
 public interface Entity {
 }
