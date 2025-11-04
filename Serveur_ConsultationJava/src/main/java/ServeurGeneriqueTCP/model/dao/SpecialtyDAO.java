@@ -16,22 +16,22 @@ import java.util.logging.Logger;
 public class SpecialtyDAO {
 
     private final ConnectDB connectDB;
-    private final ArrayList<Specialty> SpecialtyList;
+    private final ArrayList<Specialty> specialtyList;
 
     public SpecialtyDAO()
     {
         connectDB = new ConnectDB();
-        SpecialtyList = new ArrayList<>();
+        specialtyList = new ArrayList<>();
     }
 
     public ArrayList<Specialty> getList()
     {
-        return SpecialtyList;
+        return specialtyList;
     }
 
     public Specialty getById(Integer id)
     {
-        for (Specialty entity : SpecialtyList) {
+        for (Specialty entity : specialtyList) {
             if (Objects.equals(entity.getId(), id)) {
                 return entity;
             }
@@ -70,7 +70,7 @@ public class SpecialtyDAO {
             }
 
             ResultSet rs = stmt.executeQuery();
-            SpecialtyList.clear();
+            specialtyList.clear();
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -78,7 +78,7 @@ public class SpecialtyDAO {
 
                 Specialty specialty = new Specialty(id, name);
 
-                SpecialtyList.add(specialty);
+                specialtyList.add(specialty);
 
             }
             stmt.close();
@@ -87,7 +87,7 @@ public class SpecialtyDAO {
         {
             Logger.getLogger(SpecialtyDAO.class.getName()).log(Level.SEVERE, null, sqlException);
         }
-        return SpecialtyList;
+        return specialtyList;
     }
 
 
