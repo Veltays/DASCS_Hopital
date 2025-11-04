@@ -7,6 +7,7 @@ import org.clientAdminRTI.view.MainPage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 
 public class MainController {
@@ -14,22 +15,24 @@ public class MainController {
     private final MainPage view;
     private final ClientTCP clientTCP;
 
-    public MainController(MainPage view, ClientTCP clientTCP) {
+    public MainController(MainPage view, ClientTCP clientTCP) throws IOException {
         this.view = view;
         this.clientTCP = clientTCP;
 
-        // Lier le bouton à l’action du contrôleur
+        // Bouton "Rechercher / Audit"
         view.addSearchListener(new SearchListener());
     }
 
     class SearchListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            List<ClientConnected> clients = clientTCP.requestClients();
+            List<ClientConnected> clients = clientTCP.sendRequeteAudit();
+
             if (clients.isEmpty()) {
-                JOptionPane.showMessageDialog(view, "Aucun client connecté !");
+                JOptionPane.showMessageDialog(view, "Aucun client reçu !");
+            } else {
+                view.updateTable(clients);
             }
-            view.updateTable(clients);
         }
     }
 }
