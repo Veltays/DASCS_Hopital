@@ -2,9 +2,6 @@ package ServeurGeneriqueTCP.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConfigLoader {
@@ -13,16 +10,14 @@ public class ConfigLoader {
     public ConfigLoader() {
         Dotenv dotenv = Dotenv.load();
 
-
-
         try (InputStream input = getClass().getResourceAsStream("/serveurConsultation.properties")) {
-            if (input == null)
-                throw new RuntimeException("Fichier properties introuvable !");
+            if (input == null) throw new RuntimeException("Fichier properties introuvable !");
             properties.load(input);
         } catch (Exception e) {
             throw new RuntimeException("Erreur de chargement du fichier properties", e);
         }
 
+        // Remplacement des variables d'environnement
         for (String key : properties.stringPropertyNames()) {
             String value = properties.getProperty(key);
             if (value != null && value.contains("${")) {
@@ -40,10 +35,4 @@ public class ConfigLoader {
     public String get(String key) {
         return properties.getProperty(key);
     }
-
-    public Connection LoadConnection() throws SQLException {
-        String url = "jdbc:mysql://" + get("db.host") + "/" + get("db.name");
-        return DriverManager.getConnection(url, get("db.user"), get("db.password"));
-    }
-
 }

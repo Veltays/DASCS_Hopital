@@ -1,24 +1,22 @@
-package org.example.model.entity;
+package ServeurGeneriqueTCP.model.entity;
 
 public class Specialty {
+    Integer id;
+    String name;
+
+
     public Integer getId() {
         return id;
+    }
+    public String getName() {
+        return name;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
-
-    Integer id;
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    String name;
 
 }

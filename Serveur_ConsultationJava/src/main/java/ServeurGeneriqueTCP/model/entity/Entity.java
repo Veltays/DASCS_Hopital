@@ -1,4 +1,4 @@
-package org.example.model.entity;
+package ServeurGeneriqueTCP.model.entity;
 
 public interface Entity {
 }

@@ -1,4 +1,4 @@
-package org.example.model.viewmodel;
+package ServeurGeneriqueTCP.model.viewmodel;
 
 
 import java.util.Date;
@@ -20,31 +20,27 @@ public class PatientSearchVM {
     public Integer getId() {
         return id;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getFirstname() {
         return firstname;
     }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
     public String getLastname() {
         return lastname;
     }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
     public Date getDateNaissance() {
         return dateNaissance;
     }
 
+
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
     public void setDateNaissance(Date dateNaissance) {
         this.dateNaissance = dateNaissance;
     }

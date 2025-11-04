@@ -1,16 +1,16 @@
-package org.example.model.dao;
+package ServeurGeneriqueTCP.model.dao;
 
-import org.example.model.entity.Consultation;
-import org.example.model.viewmodel.ConsultationSearchVM;
+import ServeurGeneriqueTCP.model.entity.Consultation;
+import ServeurGeneriqueTCP.model.viewmodel.ConsultationSearchVM;
 
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
-import java.time.LocalDate;
+
 public class ConsultationDAO {
 
-    private ConnectDB connectDB;
-    private ArrayList<Consultation> consultations;
+    private final ConnectDB connectDB;
+    private final ArrayList<Consultation> consultations;
 
     public ConsultationDAO()
     {
@@ -38,22 +38,73 @@ public class ConsultationDAO {
         try
         {
             String sql = "SELECT" + "consultations.id" + "doctors.id" + "patients.id" ;
-
         }
-        catch()
-        {}
-    }
-
-    public void save(Consultation c)
-    {
-        try
+        catch(SQLException e)
         {
-            String sql;
-
-        }
-        catch ( ) {
             Logger.getLogger(ConsultationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
+    }
+
+    public void save(Consultation c) throws SQLException {
+        String sql;
+        if (c != null) {
+            if (c.getId() != null) // UPDATE
+            {
+
+                sql = "UPDATE consultations SET "
+                        + "id = ?, "
+                        + "doctor_id = ?,"
+                        + "patient_id = ?, "
+                        + "date = ?, "
+                        + "hour = ?,"
+                        + "reason = ?"
+                        + "WHERE id = ?";
+
+
+                PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
+                pStmt.setInt(1,c.getEngine().getId());
+                pStmt.setString(2,c.getModel());
+                pStmt.setFloat(3,c.getPrice());
+                pStmt.setDate(4,java.sql.Date.valueOf(c.getPurchase()));
+                pStmt.setInt(5,c.getId());
+                pStmt.executeUpdate();
+                pStmt.close();
+            }
+            else // CREATE
+            {
+                if (c.getEngine() == null || c.getEngine().getId() == null) {
+                    return; } // ...exception !
+                sql = "INSERT INTO cars ("
+                        + "engine_id, "
+                        + "model, "
+                        + "price, "
+                        + "purchase "
+                        + ") VALUES ("
+                        + "?, "
+                        + "?, "
+                        + "?, "
+                        + "? "
+                        + ")";
+                PreparedStatement pStmt =  connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+                pStmt.setInt(1,c.getEngine().getId());
+                pStmt.setString(2,c.getModel());
+                pStmt.setFloat(3,c.getPrice());
+                pStmt.setDate(4,java.sql.Date.valueOf(c.getPurchase()));
+                pStmt.executeUpdate();
+
+
+                ResultSet rs = pStmt.getGeneratedKeys();
+                rs.next();
+                c.setId((int) rs.getLong(1));
+                rs.close();
+                pStmt.close();
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(CarDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
     }
 
     public void delete(Consultation entity) {
@@ -70,8 +121,8 @@ public class ConsultationDAO {
                 stmt.setInt(1, id);
                 stmt.executeUpdate();
                 stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ConsultationDAO.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException exception) {
+                Logger.getLogger(ConsultationDAO.class.getName()).log(Level.SEVERE, null, exception);
             }
         }
     }
