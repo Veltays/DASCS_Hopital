@@ -4,11 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-<<<<<<< HEAD
-CXX_INCLUDES = -I/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/serveur_autogen/include -I/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/includes -I/usr/include/mysql
-=======
-CXX_INCLUDES = -I/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/serveur_autogen/include -I/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/includes -I/usr/include/mysql
->>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
+CXX_INCLUDES = -I/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/build/serveur_autogen/include -I/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/includes -I/usr/include/mysql
 
 CXX_FLAGS = -std=gnu++11
 

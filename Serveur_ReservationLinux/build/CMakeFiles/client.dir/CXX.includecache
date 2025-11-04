@@ -6,7 +6,6 @@
 
 #IncludeRegexTransform: 
 
-<<<<<<< HEAD
 ../includes/AccessBD.h
 patient.h
 ../includes/patient.h
@@ -65,38 +64,33 @@ QtWidgets/QTableWidget
 QtWidgets/QWidget
 -
 
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/client_autogen/CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/build/client_autogen/CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
 ../../../includes/mainwindowclientconsultationbooker.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/includes/mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/includes/mainwindowclientconsultationbooker.h
 QtCore/qbytearray.h
 -
 QtCore/qmetatype.h
 -
 
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/client_autogen/mocs_compilation.cpp
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/build/client_autogen/mocs_compilation.cpp
 CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/client_autogen/CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/build/client_autogen/CJB3AIWSVP/moc_mainwindowclientconsultationbooker.cpp
 
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/includes/mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/includes/mainwindowclientconsultationbooker.h
 QMainWindow
 -
 string
 -
 
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/AccessFileConfig.cpp
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/AccessFileConfig.cpp
 cstdio
 -
 cstring
 -
 AccessFileConfig.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/AccessFileConfig.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/AccessFileConfig.h
 
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/TCP.cpp
-=======
-../includes/TCP.h
-
-/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/TCP.cpp
->>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/TCP.cpp
 stdio.h
 -
 unistd.h
@@ -114,20 +108,19 @@ netdb.h
 arpa/inet.h
 -
 TCP.h
-<<<<<<< HEAD
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/TCP.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/TCP.h
 
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/main.cpp
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/main.cpp
 mainwindowclientconsultationbooker.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/mainwindowclientconsultationbooker.h
 QApplication
 -
 
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/mainwindowclientconsultationbooker.cpp
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/mainwindowclientconsultationbooker.cpp
 mainwindowclientconsultationbooker.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/mainwindowclientconsultationbooker.h
 ui_mainwindowclientconsultationbooker.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/ui_mainwindowclientconsultationbooker.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/ui_mainwindowclientconsultationbooker.h
 QInputDialog
 -
 QMessageBox
@@ -135,9 +128,9 @@ QMessageBox
 iostream
 -
 TCP.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/TCP.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/TCP.h
 CBP.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/CBP.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/CBP.h
 stdio.h
 -
 stdlib.h
@@ -149,9 +142,9 @@ string.h
 signal.h
 -
 AccessBD.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/AccessBD.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/AccessBD.h
 AccessFileConfig.h
-/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/sources/AccessFileConfig.h
+/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/sources/AccessFileConfig.h
 
 /usr/include/qt5/QtCore/QDate
 qdatetime.h
@@ -1726,7 +1719,4 @@ QtGui/qkeysequence.h
 -
 QtGui/qevent.h
 -
-=======
-/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/sources/TCP.h
->>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
 
