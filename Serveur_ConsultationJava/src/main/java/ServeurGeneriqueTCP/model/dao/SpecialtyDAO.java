@@ -1,14 +1,11 @@
 package ServeurGeneriqueTCP.model.dao;
-
-
 import ServeurGeneriqueTCP.model.entity.Specialty;
-
 import ServeurGeneriqueTCP.model.viewmodel.SpecialtySearchVM;
-
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -44,13 +41,13 @@ public class SpecialtyDAO {
 
     public ArrayList<Specialty> load(SpecialtySearchVM specialtySearchVMParameter) throws SQLException {
         try {
-            String sql = "SELECT id, name FROM specialty WHERE id = ?";
+            String sql = "SELECT id, name FROM specialties";
 
             if (specialtySearchVMParameter != null) {
                 String where = "WHERE 1=1";
 
                 if (specialtySearchVMParameter.getId() != null) {
-                    where += "AND id = ?";
+                    where += " AND id = ?";
                 }
 
                 if (specialtySearchVMParameter.getName() != null) {
@@ -114,7 +111,7 @@ public class SpecialtyDAO {
                 }
                 else // CREATE
                 {
-                    sql = "INSERT INTO specialties (name,) VALUES (?)";
+                    sql = "INSERT INTO specialties (name) VALUES (?)";
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                     pStmt.setString(1, s.getName());
                     pStmt.executeUpdate();

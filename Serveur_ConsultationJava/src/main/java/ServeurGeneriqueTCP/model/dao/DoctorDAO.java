@@ -18,22 +18,22 @@ import java.util.logging.Logger;
 public class DoctorDAO {
 
     private final ConnectDB connectDB;
-    private final ArrayList<Doctor> DoctorsList;
+    private final ArrayList<Doctor> doctorsList;
 
     public DoctorDAO()
     {
         connectDB = new ConnectDB();
-        DoctorsList = new ArrayList<>();
+        doctorsList = new ArrayList<>();
     }
 
     public ArrayList<Doctor> getList()
     {
-        return DoctorsList;
+        return doctorsList;
     }
 
     public Doctor getById(Integer id)
     {
-        for (Doctor entity : DoctorsList) {
+        for (Doctor entity : doctorsList) {
             if (Objects.equals(entity.getId(), id)) {
                 return entity;
             }
@@ -82,7 +82,7 @@ public class DoctorDAO {
             }
 
             ResultSet rs = stmt.executeQuery();
-            DoctorsList.clear();
+            doctorsList.clear();
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -92,7 +92,7 @@ public class DoctorDAO {
 
                 Doctor doctor = new Doctor(id, specialityId, lastName,firstName);
 
-                DoctorsList.add(doctor);
+                doctorsList.add(doctor);
 
             }
             stmt.close();
@@ -101,7 +101,7 @@ public class DoctorDAO {
         {
             Logger.getLogger(DoctorDAO.class.getName()).log(Level.SEVERE, null, sqlException);
         }
-        return DoctorsList;
+        return doctorsList;
     }
 
 

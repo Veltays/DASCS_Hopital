@@ -31,7 +31,10 @@ public class ThreadServeurPool extends ThreadServeur
             logger.Trace("Erreur I/O lors de la création du pool de threads");
             return;
         }
-// Attente des connexions
+        // Attente des connexions
+
+
+
         while(!this.isInterrupted())
         {
             Socket csocket;
@@ -43,8 +46,8 @@ public class ThreadServeurPool extends ThreadServeur
                 connexionsEnAttente.addConnexion(csocket);
             }
             catch (SocketTimeoutException ex)
-            {
-// Pour vérifier si le thread a été interrompu
+            {// Pour vérifier si le thread a été interrompu
+                logger.Trace("Le thread a été timeOut");
             }
             catch (IOException ex)
             {

@@ -6,11 +6,15 @@ import ServeurGeneriqueTCP.logging.Logger;
 
 import ServeurGeneriqueTCP.protocol.Protocole;
 import ProtocoleCAP.CAP; // ou ton protocole concret (par ex. ProtocoleConsultation)
+import ServeurGeneriqueTCP.utils.ConfigLoader;
 
 public class MainServeur {
     static void main(String[] args) {
         try {
-            int port = 50000; // ou lire depuis un fichier de config
+            ConfigLoader config = new ConfigLoader();
+
+            int port = Integer.parseInt(config.get("PORT_CONSULTATION"));
+
             int taillePool = 5;
 
             Logger logger = new ConsoleLogger(); // ton logger maison

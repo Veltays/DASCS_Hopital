@@ -24,10 +24,10 @@ public abstract class ThreadClient extends Thread
         this.logger = logger;
         this.numero = numCourant++;
     }
+
+
+
     @Override
-
-
-
     public void run()
     {
         try
@@ -38,12 +38,9 @@ public abstract class ThreadClient extends Thread
             {
                 ois = new ObjectInputStream(csocket.getInputStream());
                 oos = new ObjectOutputStream(csocket.getOutputStream());
-                while (true)
-                {
-                    Requete requete = (Requete) ois.readObject();
-                    Reponse reponse = protocole.TraiteRequete(requete,csocket);
-                    oos.writeObject(reponse);
-                }
+                Requete requete = (Requete) ois.readObject();
+                Reponse reponse = protocole.TraiteRequete(requete, csocket);
+                oos.writeObject(reponse);
             }
             catch (FinConnexionException ex)
             {

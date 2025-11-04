@@ -16,7 +16,7 @@ public class Doctor {
     public Integer getId() {
         return id;
     }
-    public int getSpecialty_id() {
+    public Integer getSpecialty_id() {
         return specialty_id;
     }
     public String getLastname() {
