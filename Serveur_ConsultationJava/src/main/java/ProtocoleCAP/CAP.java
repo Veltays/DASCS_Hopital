@@ -96,7 +96,6 @@ public class CAP implements Protocole
     private Reponse_DELETE_CONSULTATION TraiteRequeteDELETE_CONSULTATION(Requete_DELETE_CONSULTATION requete, Socket socket) {
     }
 
-
     private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete) throws FinConnexionException
     {
         logger.Trace("RequeteLOGOUT reçue de " + requete.getLogin());
