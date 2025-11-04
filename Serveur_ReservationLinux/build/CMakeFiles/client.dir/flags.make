@@ -4,11 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB
 
-<<<<<<< HEAD
-CXX_INCLUDES = -I/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/build/client_autogen/include -I/home/student/Bureau/DASCS_Hopital/Linux/Etape1.4/includes -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets
-=======
-CXX_INCLUDES = -I/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/build/client_autogen/include -I/home/student/Bureau/DASCS_Hopital/Serveur_Reservation/includes -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets
->>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
+CXX_INCLUDES = -I/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/build/client_autogen/include -I/home/student/Bureau/DASCS_Hopital/Serveur_ReservationLinux/includes -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets
 
 CXX_FLAGS = -fPIC -std=gnu++11
 

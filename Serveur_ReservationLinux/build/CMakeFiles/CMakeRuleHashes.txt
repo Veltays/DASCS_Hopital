@@ -1,12 +1,5 @@
 # Hashes of file build rules.
-<<<<<<< HEAD
-b712f1039296ff18a8372444978e4c3a CMakeFiles/CreationBD_autogen
-43a83e0ae72ecae8daf5209cbe7cdfad CMakeFiles/client_autogen
-ace247fbc8af3f4dec0fe2373707aefd CMakeFiles/copy_resources
-5d163288f7fb90104d7c4329a069749a CMakeFiles/serveur_autogen
-=======
-0ea719658c240defd5e84f134a7e73ea CMakeFiles/CreationBD_autogen
-58ff7ea152e98a71296d1949ed61813d CMakeFiles/client_autogen
-eebfb1c0ec2d94d106801ccb81d45581 CMakeFiles/copy_resources
-d4c508fb2fe5577758a48b6362ff3524 CMakeFiles/serveur_autogen
->>>>>>> 2e6759ef518301eebf1ed82efd77b111c64bdcad
+ffd724c19d14c8efa0a1b6acd2578733 CMakeFiles/CreationBD_autogen
+671c4c9a79f67f819680462c16962c8a CMakeFiles/client_autogen
+65748090c531eeb375fb03f3fc68773e CMakeFiles/copy_resources
+ea8d791b0d48a937e24f76ffc5266c15 CMakeFiles/serveur_autogen
