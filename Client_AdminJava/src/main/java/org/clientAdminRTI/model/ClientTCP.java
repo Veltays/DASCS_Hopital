@@ -3,6 +3,7 @@ package org.clientAdminRTI.model;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClientTCP {
@@ -30,18 +31,20 @@ public class ClientTCP {
             // Format à 4 chiffres (ex: 0009)
             String header = String.format("%04d", length);
 
-            // Envoi de la taille + message
+            // Envoi de la taille + message requete donc 0008GETAUDIT
             out.write(header.getBytes());
             out.write(data.getBytes());
             out.flush();
 
             System.out.println("[TCP] Envoyé : " + header + data);
 
+
             // Lecture de la réponse (même protocole)
             byte[] tailleBuf = new byte[4];
             if (in.read(tailleBuf) != 4) {
                 throw new IOException("Impossible de lire la taille de la réponse");
             }
+            System.out.println("[TCP] HEADER LU : " + Arrays.toString(tailleBuf));
 
             int tailleReponse = Integer.parseInt(new String(tailleBuf));
             byte[] dataBuf = new byte[tailleReponse];
@@ -63,11 +66,6 @@ public class ClientTCP {
         return clients;
     }
 
-    /**
-     * Transforme une chaîne du type :
-     * ID:1,Nom:Durand,Prenom:Paul,IP:192.168.1.10#ID:2,...
-     * en une liste de ClientConnected.
-     */
     private List<ClientConnected> parseClients(String data) {
         List<ClientConnected> list = new ArrayList<>();
 

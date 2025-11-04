@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MainPage view = new MainPage();
-            ClientTCP client = new ClientTCP("192.168.135.52", 6768);
+            ClientTCP client = new ClientTCP("192.168.0.167", 6768);
             try {
                 new MainController(view, client);
             } catch (IOException e) {
