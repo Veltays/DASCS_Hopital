@@ -1,21 +1,15 @@
 package ServeurGeneriqueTCP.model.viewmodel;
 
-
-import java.util.Date;
-
 public class PatientSearchVM {
 
     Integer id;
     String firstname;
     String lastname;
-    Date dateNaissance;
 
-    public PatientSearchVM(Integer id, String firstname, String lastname, Date dateNaissance) {
+    public PatientSearchVM(Integer id, String firstname, String lastname) {
         this.id = id;
         this.firstname = firstname;
-        this.lastname = lastname;
-        this.dateNaissance = dateNaissance;
-    }
+        this.lastname = lastname;}
 
     public Integer getId() {
         return id;
@@ -26,11 +20,6 @@ public class PatientSearchVM {
     public String getLastname() {
         return lastname;
     }
-    public Date getDateNaissance() {
-        return dateNaissance;
-    }
-
-
 
     public void setId(Integer id) {
         this.id = id;
@@ -40,8 +29,5 @@ public class PatientSearchVM {
     }
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-    public void setDateNaissance(Date dateNaissance) {
-        this.dateNaissance = dateNaissance;
     }
 }

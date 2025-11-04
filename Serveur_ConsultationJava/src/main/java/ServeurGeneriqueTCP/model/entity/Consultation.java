@@ -7,10 +7,18 @@ public class Consultation {
     Integer id;
     Integer doctor_id;
     Integer patient_id;
+    String hour;
     Date date;
     String reason;
 
-
+    public Consultation(Integer id, Integer doctor_id, Integer patient_id, String hour, Date date, String reason) {
+        this.id = id;
+        this.doctor_id = doctor_id;
+        this.patient_id = patient_id;
+        this.hour = hour;
+        this.date = date;
+        this.reason = reason;
+    }
 
     public Integer getId() {
         return id;
@@ -27,7 +35,9 @@ public class Consultation {
     public String getReason() {
         return reason;
     }
-
+    public String getHour() {
+        return hour;
+    }
 
 
 
@@ -46,6 +56,8 @@ public class Consultation {
     public void setReason(String reason) {
         this.reason = reason;
     }
-
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
 
 }

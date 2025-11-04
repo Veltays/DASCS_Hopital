@@ -6,7 +6,12 @@ public class Doctor {
     String lastname;
     String firstname;
 
-
+    public Doctor(Integer id, Integer specialty_id, String lastname, String firstname) {
+        this.id = id;
+        this.specialty_id = specialty_id;
+        this.lastname = lastname;
+        this.firstname = firstname;
+    }
 
     public Integer getId() {
         return id;
