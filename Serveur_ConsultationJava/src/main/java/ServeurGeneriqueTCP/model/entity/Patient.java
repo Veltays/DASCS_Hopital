@@ -35,7 +35,7 @@ public class Patient implements Entity {
 
     // --- Setters avec vérifications ---
     public void setId(Integer id) {
-        if (id == null || id <= 0)
+        if (id != null && id <= 0)
             throw new IllegalArgumentException("ID must be positive and non-null.");
         this.id = id;
     }

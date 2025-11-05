@@ -19,8 +19,8 @@ public class ConsultationDAO {
         consultationsList = new ArrayList<>();
     }
 
-    public ConsultationDAO(ConnectDB connectDB) {
-        this.connectDB = connectDB;
+    public ConsultationDAO(ConnectDB mockConnectDB) {
+        this.connectDB = mockConnectDB;
         this.consultationsList = new ArrayList<>();
     }
 

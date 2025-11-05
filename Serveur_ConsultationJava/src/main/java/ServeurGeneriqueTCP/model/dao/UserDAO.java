@@ -13,6 +13,10 @@ public class UserDAO {
         connectDB = new ConnectDB();
     }
 
+    public UserDAO(ConnectDB mockConnectDB) {
+        connectDB = mockConnectDB;
+    }
+
     public ArrayList<User> loadAll() {
         ArrayList<User> list = new ArrayList<>();
         String sql = "SELECT id, login, password, role FROM users";

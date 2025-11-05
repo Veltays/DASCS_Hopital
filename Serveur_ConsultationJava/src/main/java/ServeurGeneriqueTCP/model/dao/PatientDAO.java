@@ -26,6 +26,11 @@ public class PatientDAO {
         PatientsList = new ArrayList<>();
     }
 
+    public PatientDAO(ConnectDB mockConnectDB) {
+        connectDB = mockConnectDB;
+        PatientsList = new ArrayList<>();
+    }
+
     public ArrayList<Patient> getList()
     {
         return PatientsList;

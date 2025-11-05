@@ -24,6 +24,11 @@ public class SpecialtyDAO {
         specialtyList = new ArrayList<>();
     }
 
+    public SpecialtyDAO(ConnectDB mockConnectDB) {
+        connectDB = mockConnectDB;
+        specialtyList = new ArrayList<>();
+    }
+
     public ArrayList<Specialty> getList()
     {
         return specialtyList;

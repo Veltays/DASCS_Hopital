@@ -26,6 +26,11 @@ public class DoctorDAO {
         doctorsList = new ArrayList<>();
     }
 
+    public DoctorDAO(ConnectDB mockConnectDB) {
+        this.connectDB = mockConnectDB;
+        this.doctorsList = new ArrayList<>();
+    }
+
     public ArrayList<Doctor> getList()
     {
         return doctorsList;

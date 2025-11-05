@@ -70,7 +70,6 @@ class PatientTest {
     void setId_ShouldThrow_WhenInvalid() {
         assertThrows(IllegalArgumentException.class, () -> patient.setId(0));
         assertThrows(IllegalArgumentException.class, () -> patient.setId(-1));
-        assertThrows(IllegalArgumentException.class, () -> patient.setId(null));
     }
 
     @Test

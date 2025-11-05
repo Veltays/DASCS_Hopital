@@ -9,7 +9,12 @@ public class ConsoleLogger implements Logger {
 
     @Override
     public void Trace(String message) {
+        if (message == null || message.isBlank()) {
+            System.out.println("[WARN] Message de log vide ou null.");
+            return;
+        }
+
         String timestamp = LocalDateTime.now().format(formatter);
-        System.out.println("[" + timestamp + "] " + message);
+        System.out.println("[" + timestamp + "] " + message.trim());
     }
 }

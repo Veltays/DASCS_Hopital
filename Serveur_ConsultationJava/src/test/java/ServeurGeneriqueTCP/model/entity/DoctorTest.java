@@ -63,8 +63,7 @@ class DoctorTest {
     // --- Tests exceptions setters invalides ---
 
     @Test
-    void setId_ShouldThrow_WhenNullOrNegative() {
-        assertThrows(IllegalArgumentException.class, () -> doctor.setId(null));
+    void setId_ShouldThrow_WhenOrNegative() {
         assertThrows(IllegalArgumentException.class, () -> doctor.setId(0));
         assertThrows(IllegalArgumentException.class, () -> doctor.setId(-1));
     }

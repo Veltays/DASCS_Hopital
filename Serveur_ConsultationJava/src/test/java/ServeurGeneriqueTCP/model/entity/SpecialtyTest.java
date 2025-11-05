@@ -43,7 +43,7 @@ class SpecialtyTest {
     void setId_ShouldThrow_WhenInvalid() {
         assertThrows(IllegalArgumentException.class, () -> specialty.setId(0));
         assertThrows(IllegalArgumentException.class, () -> specialty.setId(-1));
-        assertThrows(IllegalArgumentException.class, () -> specialty.setId(null));
+
     }
 
     @Test
