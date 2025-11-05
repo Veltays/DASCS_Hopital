@@ -39,6 +39,7 @@ pthread_cond_t condSocketsAcceptees;
 pthread_t thClient;
 pthread_t thAdmin;
 
+
 int main()
 {
 
@@ -160,41 +161,47 @@ void *FctThreadAdmin(void *p)
 {
     int sEcouteAdmin = *((int *)p);
     char ipClient[50];
-    int sService;
 
     printf("[ADMIN] Serveur ACBP prêt sur le port admin.\n");
 
     while (1)
     {
-        if ((sService = Accept(sEcouteAdmin, ipClient)) == -1)
-        {
-            perror("[ADMIN] Erreur de Accept");
-            continue;
-        }
+        int sService = Accept(sEcouteAdmin, ipClient);
+        if (sService == -1) continue;
 
-        printf("[ADMIN] Connexion Admin depuis %s\n", ipClient);
-
-        // ici tu traites la commande "LIST_CLIENTS"
-        char requete[200], reponse[200];
-        int nbLus = Receive(sService, requete);
-        printf("[ADMIN] Requete recue = %s\n", requete);
-        if (nbLus > 0)
-        {
-            
-            if (ACBP(requete, reponse, sService) == false)
-            {
-                printf("[ADMIN] Erreur dans le traitement de la requete admin.\n");
-            }
-            else
-            {
-                Send(sService, reponse, strlen(reponse));
-            }
-
-        }
-
-        close(sService);
+        pthread_t th;
+        int *arg = (int *)malloc(sizeof(int)); 
+        *arg = sService;
+        pthread_create(&th, NULL, FctThreadAdminClient, arg);
+        pthread_detach(th);
     }
 }
+
+
+
+
+void *FctThreadAdminClient(void *p)
+{
+    int sService = *((int *)p);
+    free(p);
+
+    char requete[200], reponse[200];
+    int nbLus = Receive(sService, requete);
+
+    if (nbLus > 0)
+    {
+        if (!ACBP(requete, reponse, sService))
+            printf("[ADMIN] Erreur traitement requête admin\n");
+        else
+            Send(sService, reponse, strlen(reponse));
+    }
+
+    close(sService);
+    return NULL;
+}
+
+
+
 
 
 void TraitementConnexion(int sService)

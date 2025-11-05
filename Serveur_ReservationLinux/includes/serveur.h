@@ -14,7 +14,7 @@ void HandlerSIGINT(int s);
 void TraitementConnexion(int sService);
 void *FctThreadClientReservation(void *p);
 void *FctThreadAdmin(void *p);
-
+void *FctThreadAdminClient(void *p);
 
 
 
