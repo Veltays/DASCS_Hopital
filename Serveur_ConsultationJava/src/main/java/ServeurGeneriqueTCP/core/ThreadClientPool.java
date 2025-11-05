@@ -22,8 +22,8 @@ public class ThreadClientPool extends ThreadClient
             try
             {
                 logger.Trace("Attente d'une connexion...");
-                csocket = connexionsEnAttente.getConnexion();
-                logger.Trace("Connexion prise en charge.");
+                csocket = connexionsEnAttente.getConnexion(); // personne qui sort
+                logger.Trace("Connexion prise en charge du client " + csocket.getInetAddress().getHostAddress() + ":" + csocket.getPort() + ".");
                 super.run();
             }
             catch (InterruptedException ex)

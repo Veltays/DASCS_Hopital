@@ -170,6 +170,13 @@ public class DoctorDAO {
     }
 
 
+    Doctor Anissa = new Doctor(1, 2, "Ben Amor", "Anissa");
+
+
+
+
+
+
 
 
 }

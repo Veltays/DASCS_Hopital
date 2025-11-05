@@ -9,15 +9,15 @@ public class ConnectDB {
     private static Connection conn = null;
     private static final Logger logger = Logger.getLogger(ConnectDB.class.getName());
 
-    public static Connection getConnection() {
+    public ConnectDB() {
         if (conn == null) {
             try {
                 ConfigLoader config = new ConfigLoader();
 
-                String host = config.get("db.host");
-                String name = config.get("db.name");
-                String user = config.get("db.user");
-                String pass = config.get("db.password");
+                String host = config.get("DB.HOST");
+                String name = config.get("DB.NAME");
+                String user = config.get("DB.USER");
+                String pass = config.get("DB.PASSWORD");
 
                 String url = "jdbc:mysql://" + host + "/" + name + "?useSSL=false&serverTimezone=UTC";
 
@@ -28,7 +28,6 @@ public class ConnectDB {
                 logger.log(Level.SEVERE, "Erreur de connexion BD", e);
             }
         }
-        return conn;
     }
 
     public Connection getConn() {

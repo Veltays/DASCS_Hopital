@@ -12,4 +12,11 @@ public class Reponse_SEARCH_CONSULTATIONS implements Reponse{
         consultationsList = new ArrayList<>();
     }
 
+    public void addConsultation(Consultation c){
+        consultationsList.add(c);
+    }
+    public ArrayList<Consultation> getConsultationsList() {
+        return consultationsList;
+    }
+
 }

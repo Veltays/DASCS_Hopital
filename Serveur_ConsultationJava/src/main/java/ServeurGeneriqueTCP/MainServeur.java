@@ -14,10 +14,10 @@ public class MainServeur {
             ConfigLoader config = new ConfigLoader();
 
             int port = Integer.parseInt(config.get("PORT_CONSULTATION"));
+            int taillePool = Integer.parseInt(config.get("TAILLE_POOL"));
 
-            int taillePool = 5;
 
-            Logger logger = new ConsoleLogger(); // ton logger maison
+            Logger logger = new ConsoleLogger();
             Protocole protocole = new CAP(logger); // le protocole que tu veux utiliser (CAP, etc.)
 
             ThreadServeurPool serveur = new ThreadServeurPool(port, protocole, taillePool, logger);
@@ -28,6 +28,7 @@ public class MainServeur {
         catch (Exception e) {
             System.err.println("Erreur au lancement du serveur : " + e.getMessage());
             e.printStackTrace();
+
         }
     }
 }

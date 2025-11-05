@@ -2,9 +2,11 @@ package ProtocoleCAP;
 import ProtocoleCAP.Reponse.*;
 import ProtocoleCAP.Requete.*;
 import ServeurGeneriqueTCP.logging.Logger;
+import ServeurGeneriqueTCP.model.entity.Consultation;
 import ServeurGeneriqueTCP.protocol.*;
 
 import java.net.Socket;
+import java.util.Date;
 import java.util.HashMap;
 public class CAP implements Protocole
 {
@@ -79,21 +81,32 @@ public class CAP implements Protocole
 
 
     private synchronized Reponse_ADD_CONSULTATION TraiteRequeteADD_CONSUTATION(Requete_ADD_CONSULTATION requete, Socket socket) {
+    return new Reponse_ADD_CONSULTATION(true);
+
     }
 
 
     private synchronized Reponse_ADD_PATIENT TraiteRequeteADD_PATIENT(Requete_ADD_PATIENT requete, Socket socket) {
+        return new Reponse_ADD_PATIENT(1);
     }
 
 
     private synchronized Reponse_UPDATE_CONSULTATION TraiteRequeteUPDATE_CONSULTATION(Requete_UPDATE_CONSULTATION requete, Socket socket) {
+    return new Reponse_UPDATE_CONSULTATION(true);
     }
 
 
     private synchronized Reponse_SEARCH_CONSULTATIONS TraiteRequeteSEARCH_CONSULTATIONS(Requete_SEARCH_CONSULTATIONS requete, Socket socket) {
+
+        Reponse_SEARCH_CONSULTATIONS response = new Reponse_SEARCH_CONSULTATIONS();
+        response.addConsultation(new Consultation(1, 1, 1, "8", new Date(2004), "blblblbl"));
+
+        return response;
     }
 
-    private Reponse_DELETE_CONSULTATION TraiteRequeteDELETE_CONSULTATION(Requete_DELETE_CONSULTATION requete, Socket socket) {
+    private Reponse_DELETE_CONSULTATION TraiteRequeteDELETE_CONSULTATION(Requete_DELETE_CONSULTATION requete, Socket socket)
+    {
+        return new Reponse_DELETE_CONSULTATION(true);
     }
 
     private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete) throws FinConnexionException

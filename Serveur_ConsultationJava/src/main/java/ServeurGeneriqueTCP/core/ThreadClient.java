@@ -38,9 +38,11 @@ public abstract class ThreadClient extends Thread
             {
                 ois = new ObjectInputStream(csocket.getInputStream());
                 oos = new ObjectOutputStream(csocket.getOutputStream());
+
                 Requete requete = (Requete) ois.readObject();
                 Reponse reponse = protocole.TraiteRequete(requete, csocket);
                 oos.writeObject(reponse);
+
             }
             catch (FinConnexionException ex)
             {
@@ -54,8 +56,14 @@ public abstract class ThreadClient extends Thread
         }
         finally
         {
-            try { csocket.close(); }
-            catch (IOException ex) { logger.Trace("Erreur fermeture socket"); }
+            try
+            {
+                csocket.close();
+            }
+            catch (IOException ex)
+            {
+                logger.Trace("Erreur fermeture socket");
+            }
         }
     }
 }

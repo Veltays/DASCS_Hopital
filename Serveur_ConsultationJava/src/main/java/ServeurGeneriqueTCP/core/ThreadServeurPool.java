@@ -16,6 +16,7 @@ public class ThreadServeurPool extends ThreadServeur
         pool = new ThreadGroup("POOL");
         this.taillePool = taillePool;
     }
+
     @Override
     public void run()
     {
@@ -42,11 +43,12 @@ public class ThreadServeurPool extends ThreadServeur
             {
                 ssocket.setSoTimeout(2000);
                 csocket = ssocket.accept();
-                logger.Trace("Connexion acceptée, mise en file d'attente.");
+                logger.Trace("Connexion acceptée du client " + csocket.getInetAddress().getHostAddress()
+                        + ":" + csocket.getPort() + ", mise en file d'attente.");
                 connexionsEnAttente.addConnexion(csocket);
             }
             catch (SocketTimeoutException ex)
-            {// Pour vérifier si le thread a été interrompu
+            {
                 logger.Trace("Le thread a été timeOut");
             }
             catch (IOException ex)

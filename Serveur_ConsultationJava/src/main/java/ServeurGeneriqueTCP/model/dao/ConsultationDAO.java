@@ -19,6 +19,12 @@ public class ConsultationDAO {
         consultationsList = new ArrayList<>();
     }
 
+    public ConsultationDAO(ConnectDB connectDB) {
+        this.connectDB = connectDB;
+        this.consultationsList = new ArrayList<>();
+    }
+
+
     public ArrayList<Consultation> getList()
     {
         return consultationsList;
