@@ -1,48 +1,84 @@
 package ProtocoleCAP.Requete;
 
 import org.junit.jupiter.api.Test;
-
+import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
-class Requete_UPDATE_CONSULTATIONTest {
+public class Requete_UPDATE_CONSULTATIONTest {
 
     @Test
-    void getIdCons() {
+    public void testCreationValide() {
+        Date date = new Date();
+        Date heure = new Date();
+        Requete_UPDATE_CONSULTATION requete =
+                new Requete_UPDATE_CONSULTATION(1, date, heure, 2, "Nouvelle raison");
+
+        assertEquals(1, requete.getIdConsultation());
+        assertEquals(date, requete.getNouvelleDate());
+        assertEquals(heure, requete.getNouvelleHeure());
+        assertEquals(2, requete.getIdPatient());
+        assertEquals("Nouvelle raison", requete.getNouvelleRaison());
     }
 
     @Test
-    void getNewDate() {
+    public void testSettersValides() {
+        Date d1 = new Date();
+        Date h1 = new Date();
+        Requete_UPDATE_CONSULTATION requete =
+                new Requete_UPDATE_CONSULTATION(1, d1, h1, 2, "Test");
+
+        Date d2 = new Date(System.currentTimeMillis() + 100000);
+        Date h2 = new Date(System.currentTimeMillis() + 200000);
+        requete.setIdConsultation(10);
+        requete.setNouvelleDate(d2);
+        requete.setNouvelleHeure(h2);
+        requete.setIdPatient(99);
+        requete.setNouvelleRaison("Consultation modifiée");
+
+        assertEquals(10, requete.getIdConsultation());
+        assertEquals(d2, requete.getNouvelleDate());
+        assertEquals(h2, requete.getNouvelleHeure());
+        assertEquals(99, requete.getIdPatient());
+        assertEquals("Consultation modifiée", requete.getNouvelleRaison());
     }
 
     @Test
-    void getNewHours() {
+    public void testValeursInvalides() {
+        Date d = new Date();
+        Date h = new Date();
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new Requete_UPDATE_CONSULTATION(null, d, h, 1, "Raison"),
+                "idConsultation ne peut pas être null");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new Requete_UPDATE_CONSULTATION(1, null, h, 1, "Raison"),
+                "nouvelleDate ne peut pas être null");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new Requete_UPDATE_CONSULTATION(1, d, null, 1, "Raison"),
+                "nouvelleHeure ne peut pas être null");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new Requete_UPDATE_CONSULTATION(1, d, h, 0, "Raison"),
+                "idPatient doit être > 0");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new Requete_UPDATE_CONSULTATION(1, d, h, 2, ""),
+                "nouvelleRaison ne peut pas être vide");
     }
 
     @Test
-    void getPatientId() {
-    }
+    public void testToStringContientChamps() {
+        Date d = new Date();
+        Date h = new Date();
+        Requete_UPDATE_CONSULTATION requete =
+                new Requete_UPDATE_CONSULTATION(3, d, h, 5, "Changement de motif");
 
-    @Test
-    void getNewReason() {
-    }
-
-    @Test
-    void setIdCons() {
-    }
-
-    @Test
-    void setNewDate() {
-    }
-
-    @Test
-    void setNewHours() {
-    }
-
-    @Test
-    void setPatientId() {
-    }
-
-    @Test
-    void setNewReason() {
+        String ts = requete.toString();
+        assertTrue(ts.contains("3"));
+        assertTrue(ts.contains("5"));
+        assertTrue(ts.contains("Changement de motif"));
+        assertTrue(ts.contains("Requete_UPDATE_CONSULTATION"));
     }
 }

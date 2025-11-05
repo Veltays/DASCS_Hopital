@@ -1,32 +1,37 @@
 package ProtocoleCAP.Requete;
+
 import ServeurGeneriqueTCP.protocol.Requete;
+
 public class Requete_ADD_PATIENT implements Requete {
 
-    String FirstName;
-    String LastName;
+    private String firstName;
+    private String lastName;
 
     public Requete_ADD_PATIENT(String firstName, String lastName) {
-        FirstName = firstName;
-        LastName = lastName;
+        setFirstName(firstName);
+        setLastName(lastName);
     }
 
-
-    public String getFirstName() {
-        return FirstName;
-    }
-
-    public String getLastName() {
-        return LastName;
-    }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        if (firstName == null || firstName.isBlank())
+            throw new IllegalArgumentException("Le prénom ne peut pas être vide.");
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        if (lastName == null || lastName.isBlank())
+            throw new IllegalArgumentException("Le nom ne peut pas être vide.");
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Requete_ADD_PATIENT{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }
-
-
-

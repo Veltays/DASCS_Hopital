@@ -1,63 +1,71 @@
 package ProtocoleCAP.Requete;
 
 import ServeurGeneriqueTCP.protocol.Requete;
-
 import java.util.Date;
 
 public class Requete_UPDATE_CONSULTATION implements Requete {
 
-    Integer idCons;
-    Date newDate;
-    Date NewHours;
-    Integer PatientId;
-    String NewReason;
+    private Integer idConsultation;
+    private Date nouvelleDate;
+    private Date nouvelleHeure;
+    private Integer idPatient;
+    private String nouvelleRaison;
 
-    public Requete_UPDATE_CONSULTATION(Integer idCons, Date newDate, Date newHours, Integer patientId, String newReason) {
-        this.idCons = idCons;
-        this.newDate = newDate;
-        NewHours = newHours;
-        PatientId = patientId;
-        NewReason = newReason;
+    public Requete_UPDATE_CONSULTATION(Integer idConsultation, Date nouvelleDate, Date nouvelleHeure,
+                                       Integer idPatient, String nouvelleRaison) {
+        setIdConsultation(idConsultation);
+        setNouvelleDate(nouvelleDate);
+        setNouvelleHeure(nouvelleHeure);
+        setIdPatient(idPatient);
+        setNouvelleRaison(nouvelleRaison);
     }
 
-    public Integer getIdCons() {
-        return idCons;
+    // 🔹 GETTERS
+    public Integer getIdConsultation() { return idConsultation; }
+    public Date getNouvelleDate() { return nouvelleDate; }
+    public Date getNouvelleHeure() { return nouvelleHeure; }
+    public Integer getIdPatient() { return idPatient; }
+    public String getNouvelleRaison() { return nouvelleRaison; }
+
+    // 🔹 SETTERS avec validations
+    public void setIdConsultation(Integer idConsultation) {
+        if (idConsultation == null || idConsultation <= 0)
+            throw new IllegalArgumentException("L'identifiant de la consultation doit être positif et non nul.");
+        this.idConsultation = idConsultation;
     }
 
-    public Date getNewDate() {
-        return newDate;
+    public void setNouvelleDate(Date nouvelleDate) {
+        if (nouvelleDate == null)
+            throw new IllegalArgumentException("La date ne peut pas être nulle.");
+        this.nouvelleDate = nouvelleDate;
     }
 
-    public Date getNewHours() {
-        return NewHours;
+    public void setNouvelleHeure(Date nouvelleHeure) {
+        if (nouvelleHeure == null)
+            throw new IllegalArgumentException("L'heure ne peut pas être nulle.");
+        this.nouvelleHeure = nouvelleHeure;
     }
 
-    public Integer getPatientId() {
-        return PatientId;
+    public void setIdPatient(Integer idPatient) {
+        if (idPatient == null || idPatient <= 0)
+            throw new IllegalArgumentException("L'identifiant du patient doit être positif et non nul.");
+        this.idPatient = idPatient;
     }
 
-    public String getNewReason() {
-        return NewReason;
+    public void setNouvelleRaison(String nouvelleRaison) {
+        if (nouvelleRaison == null || nouvelleRaison.isBlank())
+            throw new IllegalArgumentException("La raison ne peut pas être vide ou nulle.");
+        this.nouvelleRaison = nouvelleRaison;
     }
 
-    public void setIdCons(Integer idCons) {
-        this.idCons = idCons;
-    }
-
-    public void setNewDate(Date newDate) {
-        this.newDate = newDate;
-    }
-
-    public void setNewHours(Date newHours) {
-        NewHours = newHours;
-    }
-
-    public void setPatientId(Integer patientId) {
-        PatientId = patientId;
-    }
-
-    public void setNewReason(String newReason) {
-        NewReason = newReason;
+    @Override
+    public String toString() {
+        return "Requete_UPDATE_CONSULTATION{" +
+                "idConsultation=" + idConsultation +
+                ", nouvelleDate=" + nouvelleDate +
+                ", nouvelleHeure=" + nouvelleHeure +
+                ", idPatient=" + idPatient +
+                ", nouvelleRaison='" + nouvelleRaison + '\'' +
+                '}';
     }
 }
-

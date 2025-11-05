@@ -1,18 +1,36 @@
 package ProtocoleCAP.Requete;
+
 import ServeurGeneriqueTCP.protocol.Requete;
 
-public class Requete_LOGIN implements Requete
-{
+public class Requete_LOGIN implements Requete {
+
     private String login;
     private String password;
-    public Requete_LOGIN(String l, String p) {
-        login = l;
-        password = p;
+
+    public Requete_LOGIN(String login, String password) {
+        setLogin(login);
+        setPassword(password);
     }
-    public String getLogin() {
-        return login;
+
+    public String getLogin() { return login; }
+    public String getPassword() { return password; }
+
+    public void setLogin(String login) {
+        if (login == null || login.isBlank())
+            throw new IllegalArgumentException("Le login ne peut pas être vide ou nul.");
+        this.login = login;
     }
-    public String getPassword() {
-        return password;
+
+    public void setPassword(String password) {
+        if (password == null || password.isBlank())
+            throw new IllegalArgumentException("Le mot de passe ne peut pas être vide ou nul.");
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Requete_LOGIN{" +
+                "login='" + login + '\'' +
+                ", password='********'}"; // Masqué pour éviter les fuites dans les logs
     }
 }
