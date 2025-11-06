@@ -103,9 +103,10 @@ public class CAPTest {
     // ============================================================
     @Test
     public void testUpdateConsultation() throws Exception {
+        String Midi = "12h00";
         Date now = new Date();
         Requete_UPDATE_CONSULTATION req =
-                new Requete_UPDATE_CONSULTATION(1, now, now, 2, "Nouvelle raison");
+                new Requete_UPDATE_CONSULTATION(1, now, Midi, 2, "Nouvelle raison");
         Reponse rep = cap.TraiteRequete(req, fakeSocket);
 
         assertInstanceOf(Reponse_UPDATE_CONSULTATION.class, rep);

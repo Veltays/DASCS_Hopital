@@ -1,11 +1,13 @@
 package ServeurGeneriqueTCP.model.viewmodel;
 
+import java.util.Date;
+
 public class ConsultationSearchVM {
 
     private Integer id;
     private Integer doctor_id;
     private Integer patient_id;
-    private Integer user_id;
+    private Date date;
 
     // --- Constructeur ---
     public ConsultationSearchVM(Integer id, Integer doctor_id, Integer patient_id) {
@@ -34,6 +36,10 @@ public class ConsultationSearchVM {
         return patient_id;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
 
     // --- Setters avec vérifications ---
     public void setId(Integer id) {
@@ -54,6 +60,9 @@ public class ConsultationSearchVM {
         this.patient_id = patient_id;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     @Override
     public String toString() {

@@ -197,7 +197,7 @@ public class CAP implements Protocole {
         }
         catch (CAPException e)
         {
-            logger.Trace("❌ Erreur logique lors de la création : " + e.getMessage());
+            logger.Trace("Erreur logique lors de la création : " + e.getMessage());
             return new Reponse_ADD_CONSULTATION(false);
         }
         catch (SQLException e) {
@@ -226,7 +226,7 @@ public class CAP implements Protocole {
 
 
     // ============================================================
-    // 🔹 ADD_PATIENT
+    // ADD_PATIENT
     // ============================================================
     private synchronized Reponse_ADD_PATIENT TraiteRequeteADD_PATIENT(Requete_ADD_PATIENT requete, Socket socket) {
         try
@@ -260,18 +260,47 @@ public class CAP implements Protocole {
 
 
     // ============================================================
-    // 🔹 UPDATE_CONSULTATION
+    // UPDATE_CONSULTATION
     // ============================================================
     private synchronized Reponse_UPDATE_CONSULTATION TraiteRequeteUPDATE_CONSULTATION(Requete_UPDATE_CONSULTATION requete, Socket socket) {
-        logger.Trace("Mise à jour consultation ID=" + requete.getIdConsultation());
 
+        try
+        {
+            logger.Trace("Mise à jour consultation ID=" + requete.getIdConsultation());
+            Integer idCons = requete.getIdConsultation();
 
+            Consultation cons1 = consultationDAO.getById(idCons);
 
-        
-        return new Reponse_UPDATE_CONSULTATION(true);
+            if(cons1 == null)
+            {
+                logger.Trace("Consultation ID=" + idCons + " non trouvée.");
+                throw new CAPException("Erreur : Consultation non trouvée.");
+            }
 
+            if(cons1.getPatient_id() == null)
+            {
+                // attribue un patient
+                cons1.setPatient_id(requete.getIdPatient());
+                cons1.setReason(requete.getNouvelleRaison());
+            }
+            else
+            {
+               // modifie date et heure
+                cons1.setDate(requete.getNouvelleDate());
+                cons1.setHour(requete.getNouvelleHeure());
+            }
 
+            consultationDAO.save(cons1);
 
+            return new Reponse_UPDATE_CONSULTATION(true);
+        } catch (CAPException e) {
+            logger.Trace("Erreur logique lors de la mise a jour : " + e.getMessage());
+            return new Reponse_UPDATE_CONSULTATION(false);
+        }
+        catch (SQLException e) {
+            logger.Trace("💾 Erreur SQL : " + e.getMessage());
+            return new Reponse_UPDATE_CONSULTATION(false);
+        }
 
     }
 
@@ -282,14 +311,41 @@ public class CAP implements Protocole {
 
 
     // ============================================================
-    // 🔹 SEARCH_CONSULTATIONS
+    // SEARCH_CONSULTATIONS
     // ============================================================
     private synchronized Reponse_SEARCH_CONSULTATIONS TraiteRequeteSEARCH_CONSULTATIONS(Requete_SEARCH_CONSULTATIONS requete, Socket socket) {
-        logger.Trace("Recherche consultations (critères : " + requete + ")");
-        Reponse_SEARCH_CONSULTATIONS response = new Reponse_SEARCH_CONSULTATIONS();
-        response.addConsultation(new Consultation(1, 1, 1, "8:00", new Date(), "Routine"));
-        response.addConsultation(new Consultation(2, 2, 1, "10:00", new Date(), "Checkup"));
-        return response;
+        try{
+            logger.Trace("Recherche consultations (critères : " + requete + ")");
+
+
+            ConsultationSearchVM consultationSearchVM = new ConsultationSearchVM();
+            consultationSearchVM.setId(requete.getIdPatient());
+            consultationSearchVM.setDate(requete.getDate());
+
+            consultationDAO.load(consultationSearchVM);
+
+            if (consultationDAO.getList().isEmpty()) {
+                throw new CAPException("Aucune Consultation trouvé associé a cette utilistateur et a cette date");
+            }
+
+            Reponse_SEARCH_CONSULTATIONS response = new Reponse_SEARCH_CONSULTATIONS();
+
+            for(Consultation cons : consultationDAO.getList())
+            {
+                logger.Trace("Consultation trouvée : " + cons);
+                response.addConsultation(cons);
+            }
+
+            return response;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (CAPException e) {
+            logger.Trace("Erreur logique lors de la création : " + e.getMessage());
+            return new Reponse_SEARCH_CONSULTATIONS();
+        }
+
+
     }
 
 
@@ -300,11 +356,23 @@ public class CAP implements Protocole {
 
 
     // ============================================================
-    // 🔹 DELETE_CONSULTATION
+    // DELETE_CONSULTATION
     // ============================================================
     private synchronized Reponse_DELETE_CONSULTATION TraiteRequeteDELETE_CONSULTATION(Requete_DELETE_CONSULTATION requete, Socket socket) {
-        logger.Trace("Suppression consultation ID=" + requete.getIdConsultation());
-        return new Reponse_DELETE_CONSULTATION(true);
+
+        try{
+            Integer idCons = requete.getIdConsultation();
+            consultationDAO.delete(idCons);
+
+
+            logger.Trace("Suppression consultation ID=" + requete.getIdConsultation());
+
+            return new Reponse_DELETE_CONSULTATION(true);
+        } catch (Exception e) {
+            logger.Trace("Erreur Inconnu : " + e.getMessage());
+            return new Reponse_DELETE_CONSULTATION(false);
+        }
+
     }
 
 
