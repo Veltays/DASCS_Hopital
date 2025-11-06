@@ -5,6 +5,7 @@ public class ConsultationSearchVM {
     private Integer id;
     private Integer doctor_id;
     private Integer patient_id;
+    private Integer user_id;
 
     // --- Constructeur ---
     public ConsultationSearchVM(Integer id, Integer doctor_id, Integer patient_id) {
@@ -12,6 +13,13 @@ public class ConsultationSearchVM {
         setDoctor_id(doctor_id);
         setPatient_id(patient_id);
     }
+
+
+    public ConsultationSearchVM() {
+
+    }
+
+
 
     // --- Getters ---
     public Integer getId() {
@@ -25,6 +33,7 @@ public class ConsultationSearchVM {
     public Integer getPatient_id() {
         return patient_id;
     }
+
 
     // --- Setters avec vérifications ---
     public void setId(Integer id) {
@@ -44,6 +53,7 @@ public class ConsultationSearchVM {
             throw new IllegalArgumentException("L'id du patient doit être positif.");
         this.patient_id = patient_id;
     }
+
 
     @Override
     public String toString() {

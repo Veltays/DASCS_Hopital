@@ -6,6 +6,7 @@ public class Doctor implements Entity {
     private Integer specialty_id;
     private String lastname;
     private String firstname;
+    private Integer user_id;
 
     public Doctor(Integer id, Integer specialty_id, String lastname, String firstname) {
         setId(id);
@@ -31,6 +32,12 @@ public class Doctor implements Entity {
         return firstname;
     }
 
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+
     // --- Setters avec vérifications ---
     public void setId(Integer id) {
         if (id != null && id <= 0)
@@ -55,6 +62,11 @@ public class Doctor implements Entity {
             throw new IllegalArgumentException("Firstname cannot be null or empty.");
         this.firstname = firstname.trim();
     }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
 
     @Override
     public String toString() {

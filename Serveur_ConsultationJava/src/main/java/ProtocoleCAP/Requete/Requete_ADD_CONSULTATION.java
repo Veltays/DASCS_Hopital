@@ -1,5 +1,6 @@
 package ProtocoleCAP.Requete;
 
+import ServeurGeneriqueTCP.model.entity.Consultation;
 import ServeurGeneriqueTCP.protocol.Requete;
 import java.util.Date;
 
@@ -16,6 +17,8 @@ public class Requete_ADD_CONSULTATION implements Requete {
         setDuree(duree);
         setNombreConsultations(nombreConsultations);
     }
+
+
 
     // 🔹 GETTERS
     public Date getDate() { return date; }

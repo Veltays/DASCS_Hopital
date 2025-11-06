@@ -58,6 +58,8 @@ public class ConsultationDAO {
                 if (ConsultationSearchVMParameter.getPatient_id() != null) {
                     where += " AND patient_id = ?";
                 }
+
+                if(ConsultationSearchVMParameter.getUserId())
                 sql += where;
             }
 
