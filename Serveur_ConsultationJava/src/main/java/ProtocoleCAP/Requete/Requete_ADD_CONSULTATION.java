@@ -5,6 +5,8 @@ import ServeurGeneriqueTCP.protocol.Requete;
 import java.util.Date;
 
 public class Requete_ADD_CONSULTATION implements Requete {
+    private static final long serialVersionUID = 1L;
+
 
     private Date date;
     private String heure;

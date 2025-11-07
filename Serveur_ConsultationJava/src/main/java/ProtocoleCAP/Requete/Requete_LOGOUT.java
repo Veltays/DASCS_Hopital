@@ -3,6 +3,8 @@ package ProtocoleCAP.Requete;
 import ServeurGeneriqueTCP.protocol.Requete;
 
 public class Requete_LOGOUT implements Requete {
+    private static final long serialVersionUID = 1L;
+
 
     private String login;
 

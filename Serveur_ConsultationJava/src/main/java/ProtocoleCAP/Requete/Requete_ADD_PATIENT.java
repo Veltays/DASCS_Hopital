@@ -3,6 +3,8 @@ package ProtocoleCAP.Requete;
 import ServeurGeneriqueTCP.protocol.Requete;
 
 public class Requete_ADD_PATIENT implements Requete {
+    private static final long serialVersionUID = 1L;
+
 
     private String firstName;
     private String lastName;
