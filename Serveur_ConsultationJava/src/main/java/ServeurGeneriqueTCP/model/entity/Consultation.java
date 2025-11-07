@@ -20,6 +20,10 @@ public class Consultation implements Entity {
         setReason(reason);
     }
 
+    public Consultation() {
+
+    }
+
     // 🔹 GETTERS
     public Integer getId() {
         return id;
@@ -44,6 +48,7 @@ public class Consultation implements Entity {
     public String getHour() {
         return hour;
     }
+
 
     // SETTERS AVEC VALIDATIONS
     public void setId(Integer id) {
@@ -90,6 +95,7 @@ public class Consultation implements Entity {
             throw new IllegalArgumentException("Hour cannot be null or empty.");
         this.hour = hour;
     }
+
 
     // 🔹 TO STRING
     @Override

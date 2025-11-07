@@ -16,6 +16,10 @@ public class Patient implements Entity {
         setBirthDate(birth_date);
     }
 
+    public Patient() {
+
+    }
+
     // --- Getters ---
     public Integer getId() {
         return id;

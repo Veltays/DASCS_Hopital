@@ -5,12 +5,17 @@ public class DoctorSearchVM {
     private Integer id;
     private Integer specialty_id;
     private String lastname;
+    private Integer user_id;
 
     // --- Constructeur ---
     public DoctorSearchVM(Integer id, Integer specialty_id, String lastname) {
         setId(id);
         setSpecialty_id(specialty_id);
         setLastname(lastname);
+    }
+
+    public DoctorSearchVM() {
+
     }
 
     // --- Getters ---
@@ -24,6 +29,9 @@ public class DoctorSearchVM {
 
     public String getLastname() {
         return lastname;
+    }
+    public Integer getUser_id() {
+        return null;
     }
 
     // --- Setters avec validations ---
@@ -43,6 +51,9 @@ public class DoctorSearchVM {
         if (lastname != null && lastname.isBlank())
             throw new IllegalArgumentException("Le nom de famille ne peut pas être vide.");
         this.lastname = lastname != null ? lastname.trim() : null;
+    }
+    public  void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
     @Override

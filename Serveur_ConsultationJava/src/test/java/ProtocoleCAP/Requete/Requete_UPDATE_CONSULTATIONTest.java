@@ -9,7 +9,7 @@ public class Requete_UPDATE_CONSULTATIONTest {
     @Test
     public void testCreationValide() {
         Date date = new Date();
-        Date heure = new Date();
+        String heure = "15h45";
         Requete_UPDATE_CONSULTATION requete =
                 new Requete_UPDATE_CONSULTATION(1, date, heure, 2, "Nouvelle raison");
 
@@ -23,12 +23,12 @@ public class Requete_UPDATE_CONSULTATIONTest {
     @Test
     public void testSettersValides() {
         Date d1 = new Date();
-        Date h1 = new Date();
+        String h1 = "0h30";
         Requete_UPDATE_CONSULTATION requete =
                 new Requete_UPDATE_CONSULTATION(1, d1, h1, 2, "Test");
 
         Date d2 = new Date(System.currentTimeMillis() + 100000);
-        Date h2 = new Date(System.currentTimeMillis() + 200000);
+        String h2 = "9h30";
         requete.setIdConsultation(10);
         requete.setNouvelleDate(d2);
         requete.setNouvelleHeure(h2);
@@ -45,7 +45,7 @@ public class Requete_UPDATE_CONSULTATIONTest {
     @Test
     public void testValeursInvalides() {
         Date d = new Date();
-        Date h = new Date();
+        String h = "14h00";
 
         assertThrows(IllegalArgumentException.class,
                 () -> new Requete_UPDATE_CONSULTATION(null, d, h, 1, "Raison"),
@@ -71,7 +71,7 @@ public class Requete_UPDATE_CONSULTATIONTest {
     @Test
     public void testToStringContientChamps() {
         Date d = new Date();
-        Date h = new Date();
+        String h = "11h15";
         Requete_UPDATE_CONSULTATION requete =
                 new Requete_UPDATE_CONSULTATION(3, d, h, 5, "Changement de motif");
 

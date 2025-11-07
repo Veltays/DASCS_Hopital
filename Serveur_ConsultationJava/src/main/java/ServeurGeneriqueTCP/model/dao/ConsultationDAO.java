@@ -58,7 +58,11 @@ public class ConsultationDAO {
                 if (ConsultationSearchVMParameter.getPatient_id() != null) {
                     where += " AND patient_id = ?";
                 }
+                if(ConsultationSearchVMParameter.getDate() != null) {
+                    where += " AND date = ?";
+                }
                 sql += where;
+
             }
 
             PreparedStatement stmt = connectDB.getConn().prepareStatement(sql);
@@ -75,6 +79,10 @@ public class ConsultationDAO {
                 if (ConsultationSearchVMParameter.getPatient_id() != null) {
                     paramNumber++;
                     stmt.setInt(paramNumber, ConsultationSearchVMParameter.getPatient_id());
+                }
+                if(ConsultationSearchVMParameter.getDate() != null) {
+                    paramNumber++;
+                    stmt.setDate(paramNumber, (Date)ConsultationSearchVMParameter.getDate());
                 }
             }
 
