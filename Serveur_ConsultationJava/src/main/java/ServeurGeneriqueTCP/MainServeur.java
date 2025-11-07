@@ -9,7 +9,7 @@ import ProtocoleCAP.CAP; // ou ton protocole concret (par ex. ProtocoleConsultat
 import ServeurGeneriqueTCP.utils.ConfigLoader;
 
 public class MainServeur {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         try {
             ConfigLoader config = new ConfigLoader();
 

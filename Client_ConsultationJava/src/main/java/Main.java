@@ -7,7 +7,7 @@ public class Main {
     public static void main (String[] args)
     {
         MaPage view = new MaPage();
-        ConnectServer connectServer = new ConnectServer("192.168.0.167",6768);
+        ConnectServer connectServer = new ConnectServer("127.0.0.1",6768);
 
         try {
             new MainController(view, connectServer);

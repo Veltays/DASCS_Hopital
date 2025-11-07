@@ -1,10 +1,14 @@
 package controller;
 
-
+import ProtocoleCAP.Requete.*;
 import com.sun.source.util.SourcePositions;
 import model.ConnectServer;
+import protocol.Requete;
 import view.MaPage;
 import model.ConnectServer;
+
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,16 +39,15 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            System.out.println("**********LOGIN***********");Scanner sc = new Scanner(System.in);
+            System.out.println("**********LOGIN***********");
+            Scanner sc = new Scanner(System.in);
             System.out.println("Entrer votre nom d'utilisateur : ");
             String nom = sc.nextLine();
             System.out.println("Entrer votre mot de passe : ");
             String mdp = sc.nextLine();
-            String requete = "LOGIN#" + nom + "#" + mdp;
-            System.out.println("Envoi de la requête " + requete + " au serveur...");
-
+            System.out.println("Envoi de la requête au serveur...");
+            Requete requete = new Requete_LOGIN(nom,mdp);
             connectServer.Login(requete);
-
 
         }
     }
@@ -55,6 +58,10 @@ public class MainController {
         public void actionPerformed(ActionEvent e)
         {
             System.out.println("**********LOGOUT**********");
+            System.out.println("Entrer votre login que vs voulez logout????? gurl");
+            Scanner sc = new Scanner(System.in);
+            String nom = sc.nextLine();
+            connectServer.Logout(nom);
         }
     }
 
@@ -64,6 +71,22 @@ public class MainController {
         public void actionPerformed(ActionEvent e)
         {
             System.out.println("**********ADD_CONSULTATION**********");
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Entrer la date");
+            String date = sc.nextLine();
+            System.out.println("Entrer l'heure");
+            String heure = sc.nextLine();
+            System.out.println("Entrer la durée des consultations");
+            String duree = sc.nextLine();
+            System.out.println("Entrer le nombre de consultations consécutives");
+            String nombre = sc.nextLine();
+
+            Requete requete = new Requete_ADD_CONSULTATION(LocalDate.parse(date), heure,duree, Integer.parseInt(nombre));
+
+            System.out.println("[CLIENT] Envoi de la requête au serveur");
+            connectServer.AddConsultation(requete);
+
+
         }
     }
     class AddPatient implements ActionListener
@@ -72,6 +95,7 @@ public class MainController {
         public void actionPerformed(ActionEvent e)
         {
             System.out.println("**********ADD_PATIENT**********");
+
         }
 
     }
