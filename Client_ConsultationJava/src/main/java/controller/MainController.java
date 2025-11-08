@@ -95,6 +95,15 @@ public class MainController {
         public void actionPerformed(ActionEvent e)
         {
             System.out.println("**********ADD_PATIENT**********");
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Entrer le nom du patient à ajouter");
+            String nom = sc.nextLine();
+            System.out.println("Entrer le prénom du patient à ajouter");
+            String prenom = sc.nextLine();
+
+            System.out.println("[CLIENT] Envoi de la requête au serveur");
+            Requete requete = new Requete_ADD_PATIENT(prenom,nom);
+            connectServer.AddPatient(requete);
 
         }
 

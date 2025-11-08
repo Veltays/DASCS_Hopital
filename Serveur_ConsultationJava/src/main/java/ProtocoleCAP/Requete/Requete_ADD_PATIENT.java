@@ -12,6 +12,7 @@ public class Requete_ADD_PATIENT implements Requete {
     public Requete_ADD_PATIENT(String firstName, String lastName) {
         setFirstName(firstName);
         setLastName(lastName);
+
     }
 
     public String getFirstName() { return firstName; }

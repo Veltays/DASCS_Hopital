@@ -1,5 +1,6 @@
 package model;
 import ProtocoleCAP.Reponse.Reponse_ADD_CONSULTATION;
+import ProtocoleCAP.Reponse.Reponse_ADD_PATIENT;
 import ProtocoleCAP.Reponse.Reponse_LOGIN;
 import ProtocoleCAP.Requete.*;
 import protocol.Reponse;
@@ -107,6 +108,26 @@ public class ConnectServer {
 
     public void AddPatient(Requete requete)
     {
+        try(Socket socket = new Socket("localhost",6769))
+        {
+            try(ObjectOutputStream  dos = new ObjectOutputStream (socket.getOutputStream());
+                ObjectInputStream dis = new ObjectInputStream(socket.getInputStream());)
+            {
+                System.out.println("[CLIENT] Envoi de la requête");
+                dos.writeObject(requete);
+                System.out.println("[CLIENT] Requête envoyée");
 
+                Reponse_ADD_PATIENT reponse = (Reponse_ADD_PATIENT) dis.readObject();
+
+                System.out.println("[CLIENT] ok! patient ajouté avec l'id : "+ reponse.getIdAttribuer());
+
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("Erreur d’E/S : " + e.getMessage());
+        }
     }
 }
