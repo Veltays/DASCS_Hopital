@@ -1,4 +1,4 @@
-package ServeurGeneriqueTCP.model.entity;
+package model.entity;
 
 import java.util.Date;
 

@@ -1,10 +1,13 @@
 package ProtocoleCAP.Reponse;
-import ServeurGeneriqueTCP.model.entity.Consultation;
+import model.entity.Consultation;
 import ServeurGeneriqueTCP.protocol.Reponse;
 
 import java.util.ArrayList;
 
 public class Reponse_SEARCH_CONSULTATIONS implements Reponse{
+    private static final long serialVersionUID = 1L;
+
+
 
     private ArrayList<Consultation> consultationsList;
 

@@ -1,4 +1,4 @@
-package ServeurGeneriqueTCP.model.viewmodel;
+package model.viewmodel;
 
 public class UserSearchVM {
     private String login;

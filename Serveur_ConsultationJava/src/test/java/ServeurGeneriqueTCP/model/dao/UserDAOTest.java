@@ -1,6 +1,8 @@
 package ServeurGeneriqueTCP.model.dao;
 
-import ServeurGeneriqueTCP.model.entity.User;
+import model.dao.ConnectDB;
+import model.dao.UserDAO;
+import model.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

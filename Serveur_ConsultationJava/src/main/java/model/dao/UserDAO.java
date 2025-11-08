@@ -1,5 +1,5 @@
-package ServeurGeneriqueTCP.model.dao;
-import ServeurGeneriqueTCP.model.entity.User;
+package model.dao;
+import model.entity.User;
 
 
 import java.sql.*;

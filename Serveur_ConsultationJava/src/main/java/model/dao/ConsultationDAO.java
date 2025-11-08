@@ -1,10 +1,11 @@
-package ServeurGeneriqueTCP.model.dao;
+package model.dao;
 
-import ServeurGeneriqueTCP.model.entity.Consultation;
-import ServeurGeneriqueTCP.model.viewmodel.ConsultationSearchVM;
+import model.entity.Consultation;
+import model.viewmodel.ConsultationSearchVM;
 
 import java.sql.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.*;
 
@@ -82,7 +83,7 @@ public class ConsultationDAO {
                 }
                 if(ConsultationSearchVMParameter.getDate() != null) {
                     paramNumber++;
-                    stmt.setDate(paramNumber, (Date)ConsultationSearchVMParameter.getDate());
+                    stmt.setDate(paramNumber, Date.valueOf((LocalDate)ConsultationSearchVMParameter.getDate()));
                 }
             }
 

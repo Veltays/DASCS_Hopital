@@ -1,18 +1,17 @@
 package ProtocoleCAP.Requete;
 
 import protocol.Requete;
-
 import java.util.Date;
 
 public class Requete_UPDATE_CONSULTATION implements Requete {
 
     private Integer idConsultation;
     private Date nouvelleDate;
-    private Date nouvelleHeure;
+    private String nouvelleHeure;
     private Integer idPatient;
     private String nouvelleRaison;
 
-    public Requete_UPDATE_CONSULTATION(Integer idConsultation, Date nouvelleDate, Date nouvelleHeure,
+    public Requete_UPDATE_CONSULTATION(Integer idConsultation, Date nouvelleDate, String nouvelleHeure,
                                        Integer idPatient, String nouvelleRaison) {
         setIdConsultation(idConsultation);
         setNouvelleDate(nouvelleDate);
@@ -24,7 +23,7 @@ public class Requete_UPDATE_CONSULTATION implements Requete {
     // 🔹 GETTERS
     public Integer getIdConsultation() { return idConsultation; }
     public Date getNouvelleDate() { return nouvelleDate; }
-    public Date getNouvelleHeure() { return nouvelleHeure; }
+    public String getNouvelleHeure() { return nouvelleHeure; }
     public Integer getIdPatient() { return idPatient; }
     public String getNouvelleRaison() { return nouvelleRaison; }
 
@@ -41,7 +40,7 @@ public class Requete_UPDATE_CONSULTATION implements Requete {
         this.nouvelleDate = nouvelleDate;
     }
 
-    public void setNouvelleHeure(Date nouvelleHeure) {
+    public void setNouvelleHeure(String nouvelleHeure) {
         if (nouvelleHeure == null)
             throw new IllegalArgumentException("L'heure ne peut pas être nulle.");
         this.nouvelleHeure = nouvelleHeure;

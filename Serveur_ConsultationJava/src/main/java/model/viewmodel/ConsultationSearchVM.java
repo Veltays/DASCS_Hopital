@@ -1,5 +1,6 @@
-package ServeurGeneriqueTCP.model.viewmodel;
+package model.viewmodel;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ConsultationSearchVM {
@@ -7,7 +8,7 @@ public class ConsultationSearchVM {
     private Integer id;
     private Integer doctor_id;
     private Integer patient_id;
-    private Date date;
+    private LocalDate date;
 
     // --- Constructeur ---
     public ConsultationSearchVM(Integer id, Integer doctor_id, Integer patient_id) {
@@ -36,7 +37,7 @@ public class ConsultationSearchVM {
         return patient_id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -60,7 +61,7 @@ public class ConsultationSearchVM {
         this.patient_id = patient_id;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -1,6 +1,5 @@
 package ProtocoleCAP.Requete;
 
-import ServeurGeneriqueTCP.model.entity.Consultation;
 import ServeurGeneriqueTCP.protocol.Requete;
 import java.util.Date;
 

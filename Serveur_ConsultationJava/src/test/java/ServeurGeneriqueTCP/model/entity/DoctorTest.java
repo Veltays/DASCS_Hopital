@@ -1,5 +1,6 @@
 package ServeurGeneriqueTCP.model.entity;
 
+import model.entity.Doctor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

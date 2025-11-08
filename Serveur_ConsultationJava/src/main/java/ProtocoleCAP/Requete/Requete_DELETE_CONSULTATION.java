@@ -3,6 +3,8 @@ package ProtocoleCAP.Requete;
 import ServeurGeneriqueTCP.protocol.Requete;
 
 public class Requete_DELETE_CONSULTATION implements Requete {
+    private static final long serialVersionUID = 1L;
+
 
     private Integer idConsultation;
 

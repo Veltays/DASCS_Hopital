@@ -1,6 +1,6 @@
-package ServeurGeneriqueTCP.model.dao;
-import ServeurGeneriqueTCP.model.entity.Specialty;
-import ServeurGeneriqueTCP.model.viewmodel.SpecialtySearchVM;
+package model.dao;
+import model.entity.Specialty;
+import model.viewmodel.SpecialtySearchVM;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

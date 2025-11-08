@@ -1,14 +1,18 @@
 package ProtocoleCAP.Requete;
 
 import ServeurGeneriqueTCP.protocol.Requete;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 public class Requete_SEARCH_CONSULTATIONS implements Requete {
+    private static final long serialVersionUID = 1L;
+
+
 
     private Integer idPatient;
-    private Date date;
+    private LocalDate date;
 
-    public Requete_SEARCH_CONSULTATIONS(Integer idPatient, Date date) {
+    public Requete_SEARCH_CONSULTATIONS(Integer idPatient, LocalDate date) {
         setIdPatient(idPatient);
         setDate(date);
     }
@@ -17,7 +21,7 @@ public class Requete_SEARCH_CONSULTATIONS implements Requete {
         return idPatient;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -27,7 +31,7 @@ public class Requete_SEARCH_CONSULTATIONS implements Requete {
         this.idPatient = idPatient;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         if (date == null)
             throw new IllegalArgumentException("La date ne peut pas être nulle.");
         this.date = date;

@@ -1,5 +1,6 @@
 package ServeurGeneriqueTCP.model.viewmodel;
 
+import model.viewmodel.UserSearchVM;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -7,6 +7,8 @@ import protocol.Requete;
 import view.MaPage;
 import model.ConnectServer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Scanner;
@@ -115,6 +117,14 @@ public class MainController {
         public void actionPerformed(ActionEvent e)
         {
             System.out.println("**********DELETE_CONSULTATION**********");
+            Scanner sc  = new Scanner(System.in);
+            System.out.println("Entrer l'id de la consultation à supprimer");
+            String id = sc.nextLine();
+
+            System.out.println("[CLIENT] Envoi de la requête au serveur");
+            Requete requete = new Requete_DELETE_CONSULTATION(Integer.parseInt(id));
+            connectServer.Delete_Consultation(requete);
+
         }
     }
 
@@ -124,6 +134,15 @@ public class MainController {
         public void actionPerformed(ActionEvent e)
         {
             System.out.println("**********SEARCH_CONSULTATION**********");
+            System.out.println("Entrer l'id du patient à rechercher");
+            Scanner sc = new Scanner(System.in);
+            String id = sc.nextLine();
+            System.out.println("Entrer la date de la consultation");
+            String date = sc.nextLine();
+
+            System.out.println("[CLIENT] Envoi de la requête au serveur");
+            Requete requete = new Requete_SEARCH_CONSULTATIONS(Integer.parseInt(id),LocalDate.parse(date));
+            connectServer.Search_Consultation(requete);
         }
     }
 
@@ -133,8 +152,33 @@ public class MainController {
         public void actionPerformed(ActionEvent e)
         {
             System.out.println("**********UPDATE_CONSULTATION**********");
+            System.out.println("entrer l'id de la consultation à modifier");
+            Scanner sc = new Scanner(System.in);
+            String id = sc.nextLine();
+            System.out.println("entrer le nouvelle date");
+            String nouvelledate = sc.nextLine();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date date = null;
+            try {
+                date = sdf.parse(nouvelledate);
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
+            System.out.println("entrer la nouvelle heure");
+            String heure = sc.nextLine();
+            System.out.println("entrer l'id du patient");
+            String idpatient = sc.nextLine();
+            System.out.println("entrer la nouvelle raison");
+            String raison = sc.nextLine();
+            System.out.println("[CLIENT] Envoi de la requête au serveur");
+
+
+            Requete requete= new Requete_UPDATE_CONSULTATION(Integer.parseInt(id),date,
+                    heure, Integer.parseInt(idpatient), raison);
+
+            connectServer.Update_Consultation(requete);
+
         }
     }
-
-
 }

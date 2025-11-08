@@ -1,4 +1,4 @@
-package ServeurGeneriqueTCP.model.dao;
+package model.dao;
 
 import ServeurGeneriqueTCP.utils.ConfigLoader;
 import java.sql.*;

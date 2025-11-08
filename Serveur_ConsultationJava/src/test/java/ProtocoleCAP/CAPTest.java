@@ -3,7 +3,7 @@ package ProtocoleCAP;
 import ProtocoleCAP.Reponse.*;
 import ProtocoleCAP.Requete.*;
 import ServeurGeneriqueTCP.logging.Logger;
-import ServeurGeneriqueTCP.model.entity.Consultation;
+import model.entity.Consultation;
 import ServeurGeneriqueTCP.protocol.FinConnexionException;
 import ServeurGeneriqueTCP.protocol.Reponse;
 
@@ -11,7 +11,6 @@ import ServeurGeneriqueTCP.protocol.Requete;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Date;
 

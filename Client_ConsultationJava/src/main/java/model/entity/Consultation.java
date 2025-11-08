@@ -2,7 +2,9 @@ package model.entity;
 
 import java.util.Date;
 
-public class Consultation implements Entity {
+public class Consultation implements Entity  {
+    private static final long serialVersionUID = 1L;
+
 
     private Integer id;
     private Integer doctor_id;

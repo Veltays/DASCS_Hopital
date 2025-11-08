@@ -1,10 +1,10 @@
 package ServeurGeneriqueTCP.model.dao;
 
-import ServeurGeneriqueTCP.model.entity.Consultation;
-import ServeurGeneriqueTCP.model.viewmodel.ConsultationSearchVM;
+import model.dao.ConnectDB;
+import model.dao.ConsultationDAO;
+import model.entity.Consultation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.sql.*;
 import java.util.ArrayList;

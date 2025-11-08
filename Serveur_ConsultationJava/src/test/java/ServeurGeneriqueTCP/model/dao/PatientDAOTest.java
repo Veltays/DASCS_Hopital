@@ -1,7 +1,8 @@
 package ServeurGeneriqueTCP.model.dao;
 
-import ServeurGeneriqueTCP.model.entity.Patient;
-import ServeurGeneriqueTCP.model.viewmodel.PatientSearchVM;
+import model.dao.ConnectDB;
+import model.dao.PatientDAO;
+import model.entity.Patient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

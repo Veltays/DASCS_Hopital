@@ -4,19 +4,20 @@ import ProtocoleCAP.Reponse.*;
 import ProtocoleCAP.Requete.*;
 import ProtocoleCAP.Exception.CAPException;
 import ServeurGeneriqueTCP.logging.Logger;
-import ServeurGeneriqueTCP.model.dao.*;
-import ServeurGeneriqueTCP.model.entity.Consultation;
-import ServeurGeneriqueTCP.model.entity.Doctor;
-import ServeurGeneriqueTCP.model.entity.Patient;
-import ServeurGeneriqueTCP.model.entity.User;
-import ServeurGeneriqueTCP.model.viewmodel.*;
+import model.dao.*;
+import model.dao.*;
+import model.entity.Consultation;
+import model.entity.Doctor;
+import model.entity.Patient;
+import model.entity.User;
 import ServeurGeneriqueTCP.protocol.*;
+import model.viewmodel.ConsultationSearchVM;
+import model.viewmodel.DoctorSearchVM;
 
 import java.net.Socket;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.HashMap;
 
 public class CAP implements Protocole {
@@ -242,7 +243,7 @@ public class CAP implements Protocole {
             patientDAO.save(patient);
 
 
-            return new Reponse_ADD_PATIENT(1); // simulate success
+            return new Reponse_ADD_PATIENT(patient.getId()); // simulate success
         }
         catch (SQLException e)
         {

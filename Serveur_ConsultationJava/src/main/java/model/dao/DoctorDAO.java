@@ -1,10 +1,9 @@
-package ServeurGeneriqueTCP.model.dao;
+package model.dao;
 
 
-import ServeurGeneriqueTCP.model.entity.Doctor;
-import ServeurGeneriqueTCP.model.viewmodel.DoctorSearchVM;
+import model.entity.Doctor;
+import model.viewmodel.DoctorSearchVM;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

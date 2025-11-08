@@ -1,7 +1,7 @@
 package ProtocoleCAP.Reponse;
 
 import org.junit.jupiter.api.Test;
-import ServeurGeneriqueTCP.model.entity.Consultation;
+import model.entity.Consultation;
 
 import java.util.ArrayList;
 import java.util.Date;

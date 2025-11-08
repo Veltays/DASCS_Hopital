@@ -1,8 +1,8 @@
-package ServeurGeneriqueTCP.model.dao;
+package model.dao;
 
 
-import ServeurGeneriqueTCP.model.entity.Patient;
-import ServeurGeneriqueTCP.model.viewmodel.PatientSearchVM;
+import model.entity.Patient;
+import model.viewmodel.PatientSearchVM;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;

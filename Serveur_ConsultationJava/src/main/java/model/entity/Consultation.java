@@ -1,8 +1,10 @@
-package ServeurGeneriqueTCP.model.entity;
+package model.entity;
 
 import java.util.Date;
 
 public class Consultation implements Entity {
+    private static final long serialVersionUID = 1L;
+
 
     private Integer id;
     private Integer doctor_id;
@@ -77,9 +79,9 @@ public class Consultation implements Entity {
         long diff = date.getTime() - now.getTime();
 
         // autorise aujourd'hui si la différence est inférieure à 24h dans le passé
-        if (diff < -86400000) {
-            throw new IllegalArgumentException("Date must be today or in the future.");
-        }
+//        if (diff < -86400000) {
+//            throw new IllegalArgumentException("Date must be today or in the future.");
+//        }
 
         this.date = date;
     }
