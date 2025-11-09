@@ -80,7 +80,7 @@ public class CAP implements Protocole {
                 return TraiteRequeteDELETE_CONSULTATION(requeteDeleteConsultation, socket);
             }
             case Requete_LOGOUT requeteLogout -> {
-                TraiteRequeteLOGOUT(requeteLogout);
+                TraiteRequeteLOGOUT(requeteLogout,socket);
             }
             default -> {
                 logger.Trace("Requête de type inconnu reçue : " + requete.getClass().getName());
@@ -107,7 +107,7 @@ public class CAP implements Protocole {
         String Password = requete.getPassword();
         String UserName =  requete.getLogin();
 
-        if(userDAO.checkLogin(UserName,Password))
+        if (userDAO.checkOrCreateUser(UserName, Password, requete.isNewUser()))
         {
             if (clientsConnectes.containsKey(UserName)) {
                 logger.Trace("Échec du login pour " + UserName + " : déjà connecté.");
@@ -171,7 +171,7 @@ public class CAP implements Protocole {
 
             // 5 - Boucle de création des consultations
             LocalTime heureDebut = LocalTime.parse(requete.getHeure());
-            Duration interval = Duration.ofMinutes(30);
+            Duration interval = Duration.ofMinutes(Integer.parseInt(requete.getDuree()));
 
             requete.getHeure();
             for (int i = 0; i < requete.getNombreConsultations(); i++) {
@@ -355,7 +355,6 @@ public class CAP implements Protocole {
 
 
 
-
     // ============================================================
     // DELETE_CONSULTATION
     // ============================================================
@@ -385,9 +384,13 @@ public class CAP implements Protocole {
     // ============================================================
     // 🔹 LOGOUT
     // ============================================================
-    private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete) throws FinConnexionException {
-        logger.Trace("RequeteLOGOUT reçue de " + requete.getLogin());
-        clientsConnectes.remove(requete.getLogin());
-        logger.Trace(requete.getLogin() + " correctement déloggé");
+    private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete, Socket socket) throws FinConnexionException {
+        String login = getLoginBySocket(socket);
+        if (login != null) {
+            clientsConnectes.remove(login);
+            logger.Trace(login + " correctement déloggé");
+        } else {
+            logger.Trace("⚠️ Tentative de logout d’un socket non reconnu.");
+        }
     }
 }

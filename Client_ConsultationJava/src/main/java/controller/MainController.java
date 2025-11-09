@@ -1,12 +1,14 @@
 package controller;
 
+import ProtocoleCAP.Reponse.Reponse_LOGIN;
 import ProtocoleCAP.Requete.*;
-import com.sun.source.util.SourcePositions;
 import model.ConnectServer;
 import protocol.Requete;
-import view.MaPage;
-import model.ConnectServer;
+import view.AddConsultationDialog;
+import view.Client;
+import view.LoginDialog;
 
+import javax.swing.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -15,87 +17,139 @@ import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.sql.SQLOutput;
 
 public class MainController {
 
-    private final MaPage view;
+    private final Client view;
     private final ConnectServer connectServer;
-    public MainController(MaPage view, ConnectServer connectServer) throws IOException
-    {
-        this.view=view;
-        this.connectServer=connectServer;
 
-        view.getBoutonLogin().addActionListener(new Login());
+    public MainController(Client view, ConnectServer connectServer) throws IOException {
+        this.view = view;
+        this.connectServer = connectServer;
+
+        // Afficher le login au lancement
+        showLoginDialog();
+
+        // Ensuite, on attache les listeners de la vue principale
         view.getBoutonLogout().addActionListener(new Logout());
         view.getBoutonAddConsultation().addActionListener(new AddConsultation());
         view.getBoutonAddPatient().addActionListener(new AddPatient());
         view.getBoutonDeleteConsultation().addActionListener(new DeleteConsultation());
-        view.getBoutonSearchConsultation().addActionListener(new SearchConsultation());
         view.getBoutonUpdateConsultation().addActionListener(new UpdateConsultation());
-
     }
 
-    class Login implements ActionListener
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            System.out.println("**********LOGIN***********");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Entrer votre nom d'utilisateur : ");
-            String nom = sc.nextLine();
-            System.out.println("Entrer votre mot de passe : ");
-            String mdp = sc.nextLine();
-            System.out.println("Envoi de la requête au serveur...");
-            Requete requete = new Requete_LOGIN(nom,mdp);
-            connectServer.Login(requete);
 
-        }
+
+    // ============================================================
+    // 🔐 LOGIN (fenêtre de connexion Swing)
+    // ============================================================
+    private void showLoginDialog() {
+        LoginDialog dialog = new LoginDialog();
+
+        // Action bouton OK
+        dialog.onLogin(e -> {
+            String username = dialog.getLogin();
+            String password = dialog.getPassword();
+            Boolean NewUser = dialog.isNewUser();
+
+
+            if (username.isEmpty() || password.isEmpty()) {
+                dialog.showError("Veuillez remplir tous les champs.");
+                return;
+            }
+
+            try {
+                System.out.println("**********LOGIN***********");
+                Requete requete = new Requete_LOGIN(username, password,NewUser);
+                System.out.println("[CLIENT] Envoi de la requête de login...");
+
+                if (connectServer.Login(requete)) {
+                    System.out.println("[CLIENT] Connexion réussie ");
+                    dialog.dispose();
+                    view.setVisible(true);
+                } else {
+                    dialog.showError("Identifiants incorrects ");
+                }
+            } catch (Exception ex) {
+                dialog.showError("Erreur de connexion : " + ex.getMessage());
+            }
+        });
+
+        // Action bouton Cancel
+        dialog.onCancel(e -> {
+            dialog.dispose();
+            System.exit(0);
+        });
+
+        dialog.setVisible(true);
     }
 
-    class Logout implements ActionListener
-    {
+
+
+    // ============================================================
+    // LOGOUT
+    // ============================================================
+    class Logout implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             System.out.println("**********LOGOUT**********");
-            System.out.println("Entrer votre login que vs voulez logout????? gurl");
-            Scanner sc = new Scanner(System.in);
-            String nom = sc.nextLine();
-            connectServer.Logout(nom);
+            Requete requete = new Requete_LOGOUT();
+            connectServer.Logout(requete);
+            view.setVisible(false);
+            showLoginDialog();
         }
     }
 
-    class AddConsultation implements ActionListener
-    {
+
+    // ============================================================
+    // ADD_CONSULTATION
+    // ============================================================
+    class AddConsultation implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             System.out.println("**********ADD_CONSULTATION**********");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Entrer la date");
-            String date = sc.nextLine();
-            System.out.println("Entrer l'heure");
-            String heure = sc.nextLine();
-            System.out.println("Entrer la durée des consultations");
-            String duree = sc.nextLine();
-            System.out.println("Entrer le nombre de consultations consécutives");
-            String nombre = sc.nextLine();
 
-            Requete requete = new Requete_ADD_CONSULTATION(LocalDate.parse(date), heure,duree, Integer.parseInt(nombre));
-
-            System.out.println("[CLIENT] Envoi de la requête au serveur");
-            connectServer.AddConsultation(requete);
+            // Ouvre la boîte de dialogue Swing
+            AddConsultationDialog dialog = new AddConsultationDialog();
+            dialog.setVisible(true);
 
 
+            // Récupère les données saisies
+            String date = dialog.getDate();
+            String heure = dialog.getHeure();
+            String duree = dialog.getDuree();
+            String nombreStr = dialog.getNombre();
+
+            if (date.isEmpty() || heure.isEmpty() || duree.isEmpty() || nombreStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Tous les champs doivent être remplis.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                int nombre = Integer.parseInt(nombreStr);
+
+                System.out.println("[CLIENT] Envoi de la requête au serveur...");
+                Requete requete = new Requete_ADD_CONSULTATION(LocalDate.parse(date), heure, duree, nombre);
+                connectServer.AddConsultation(requete);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Le nombre de consultations doit être un entier valide.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erreur : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
         }
     }
-    class AddPatient implements ActionListener
-    {
+
+
+
+
+
+    // ============================================================
+    // ADD_PATIENT
+    // ============================================================
+    class AddPatient implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             System.out.println("**********ADD_PATIENT**********");
             Scanner sc = new Scanner(System.in);
             System.out.println("Entrer le nom du patient à ajouter");
@@ -103,36 +157,26 @@ public class MainController {
             System.out.println("Entrer le prénom du patient à ajouter");
             String prenom = sc.nextLine();
 
-            System.out.println("[CLIENT] Envoi de la requête au serveur");
-            Requete requete = new Requete_ADD_PATIENT(prenom,nom);
+            System.out.println("[CLIENT] Envoi de la requête au serveur...");
+            Requete requete = new Requete_ADD_PATIENT(prenom, nom);
             connectServer.AddPatient(requete);
-
-        }
-
-    }
-
-    class DeleteConsultation implements ActionListener
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            System.out.println("**********DELETE_CONSULTATION**********");
-            Scanner sc  = new Scanner(System.in);
-            System.out.println("Entrer l'id de la consultation à supprimer");
-            String id = sc.nextLine();
-
-            System.out.println("[CLIENT] Envoi de la requête au serveur");
-            Requete requete = new Requete_DELETE_CONSULTATION(Integer.parseInt(id));
-            connectServer.Delete_Consultation(requete);
-
         }
     }
 
-    class SearchConsultation implements ActionListener
-    {
+
+
+
+
+
+
+
+
+    // ============================================================
+    // SEARCH_CONSULTATION
+    // ============================================================
+    class SearchConsultation implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             System.out.println("**********SEARCH_CONSULTATION**********");
             System.out.println("Entrer l'id du patient à rechercher");
             Scanner sc = new Scanner(System.in);
@@ -140,45 +184,72 @@ public class MainController {
             System.out.println("Entrer la date de la consultation");
             String date = sc.nextLine();
 
-            System.out.println("[CLIENT] Envoi de la requête au serveur");
-            Requete requete = new Requete_SEARCH_CONSULTATIONS(Integer.parseInt(id),LocalDate.parse(date));
-            connectServer.Search_Consultation(requete);
+            System.out.println("[CLIENT] Envoi de la requête au serveur...");
+            Requete requete = new Requete_SEARCH_CONSULTATIONS(Integer.parseInt(id), LocalDate.parse(date));
+            connectServer.SearchConsultation(requete);
         }
     }
 
-    class UpdateConsultation implements ActionListener
-    {
+    // ============================================================
+    // DELETE_CONSULTATION
+    // ============================================================
+    class DeleteConsultation implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            System.out.println("**********UPDATE_CONSULTATION**********");
-            System.out.println("entrer l'id de la consultation à modifier");
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("**********DELETE_CONSULTATION**********");
             Scanner sc = new Scanner(System.in);
+            System.out.println("Entrer l'id de la consultation à supprimer");
             String id = sc.nextLine();
-            System.out.println("entrer le nouvelle date");
-            String nouvelledate = sc.nextLine();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+            System.out.println("[CLIENT] Envoi de la requête au serveur...");
+            Requete requete = new Requete_DELETE_CONSULTATION(Integer.parseInt(id));
+            connectServer.DeleteConsultation(requete);
+        }
+    }
+
+
+
+
+    // ============================================================
+    // UPDATE_CONSULTATION
+    // ============================================================
+    class UpdateConsultation implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("**********UPDATE_CONSULTATION**********");
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Entrer l'id de la consultation à modifier");
+            String id = sc.nextLine();
+            System.out.println("Entrer la nouvelle date (format : yyyy-MM-dd)");
+            String nouvelleDate = sc.nextLine();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = null;
             try {
-                date = sdf.parse(nouvelledate);
+                date = sdf.parse(nouvelleDate);
             } catch (ParseException ex) {
                 throw new RuntimeException(ex);
             }
-            System.out.println("entrer la nouvelle heure");
+
+            System.out.println("Entrer la nouvelle heure (HH:mm)");
             String heure = sc.nextLine();
-            System.out.println("entrer l'id du patient");
-            String idpatient = sc.nextLine();
-            System.out.println("entrer la nouvelle raison");
+            System.out.println("Entrer l'id du patient");
+            String idPatient = sc.nextLine();
+            System.out.println("Entrer la nouvelle raison");
             String raison = sc.nextLine();
-            System.out.println("[CLIENT] Envoi de la requête au serveur");
 
+            System.out.println("[CLIENT] Envoi de la requête au serveur...");
+            Requete requete = new Requete_UPDATE_CONSULTATION(
+                    Integer.parseInt(id),
+                    date,
+                    heure,
+                    Integer.parseInt(idPatient),
+                    raison
+            );
 
-            Requete requete= new Requete_UPDATE_CONSULTATION(Integer.parseInt(id),date,
-                    heure, Integer.parseInt(idpatient), raison);
-
-            connectServer.Update_Consultation(requete);
-
+            connectServer.UpdateConsultation(requete);
         }
     }
+
+
 }

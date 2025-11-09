@@ -7,14 +7,23 @@ public class Requete_LOGIN implements Requete {
 
     private String login;
     private String password;
+    private boolean NewUser;
 
-    public Requete_LOGIN(String login, String password) {
+    public Requete_LOGIN(String login, String password,boolean NewUser) {
         setLogin(login);
         setPassword(password);
+        setNewUser(NewUser);
     }
+
 
     public String getLogin() { return login; }
     public String getPassword() { return password; }
+    public boolean isNewUser() {
+        return NewUser;
+    }
+
+
+
 
     public void setLogin(String login) {
         if (login == null || login.isBlank())
@@ -27,6 +36,12 @@ public class Requete_LOGIN implements Requete {
             throw new IllegalArgumentException("Le mot de passe ne peut pas être vide ou nul.");
         this.password = password;
     }
+
+    public void setNewUser(boolean newUser) {
+        NewUser = newUser;
+    }
+
+
 
     @Override
     public String toString() {

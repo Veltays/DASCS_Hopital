@@ -47,10 +47,6 @@ public class User implements Entity {
     }
 
     public void setPassword(String password) {
-        if (password == null || password.isBlank())
-            throw new IllegalArgumentException("Password cannot be null or empty.");
-        if (password.length() < 6)
-            throw new IllegalArgumentException("Password must contain at least 6 characters.");
         this.password = password;
     }
 

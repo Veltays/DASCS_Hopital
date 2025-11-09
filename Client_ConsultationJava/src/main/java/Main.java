@@ -1,23 +1,18 @@
-import model.ConnectServer;
-import view.MaPage;
 import controller.MainController;
-import java.io.IOException;
+import model.ConnectServer;
+import view.Client;
+import view.MaPage;
 
 public class Main {
-    public static void main (String[] args)
-    {
-        MaPage view = new MaPage();
-        ConnectServer connectServer = new ConnectServer("127.0.0.1",6768);
-
-        try {
-            new MainController(view, connectServer);
-        } catch(IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-
-        view.setVisible(true);
-
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            try {
+                Client mainView = new Client();
+                ConnectServer connectServer = new ConnectServer("127.0.0.1", 6769);
+                new MainController(mainView, connectServer);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
-
 }

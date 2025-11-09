@@ -1,7 +1,6 @@
 package model.dao;
+
 import model.entity.User;
-
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -17,6 +16,9 @@ public class UserDAO {
         connectDB = mockConnectDB;
     }
 
+    // ============================================================
+    // Charger tous les utilisateurs
+    // ============================================================
     public ArrayList<User> loadAll() {
         ArrayList<User> list = new ArrayList<>();
         String sql = "SELECT id, login, password, role FROM users";
@@ -36,6 +38,9 @@ public class UserDAO {
         return list;
     }
 
+    // ============================================================
+    // Récupérer un utilisateur par login
+    // ============================================================
     public User getByLogin(String login) {
         String sql = "SELECT id, login, password, role FROM users WHERE login = ?";
         try (PreparedStatement stmt = connectDB.getConn().prepareStatement(sql)) {
@@ -55,6 +60,9 @@ public class UserDAO {
         return null;
     }
 
+    // ============================================================
+    // Vérifier un login existant
+    // ============================================================
     public boolean checkLogin(String login, String password) {
         String sql = "SELECT 1 FROM users WHERE login = ? AND password = ?";
         try (PreparedStatement stmt = connectDB.getConn().prepareStatement(sql)) {
@@ -65,6 +73,41 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    // ============================================================
+    // 🔹 Insérer le mot de passe à la première connexion
+    // ============================================================
+    public boolean setPasswordForFirstLogin(String login, String password) {
+        String sql = "UPDATE users SET password = ? WHERE login = ? AND password IS NULL";
+        try (PreparedStatement stmt = connectDB.getConn().prepareStatement(sql)) {
+            stmt.setString(1, password);
+            stmt.setString(2, login);
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+                System.out.println("[UserDAO] ✅ Premier mot de passe défini pour " + login);
+                return true;
+            } else {
+                System.out.println("[UserDAO] ⚠️ Aucun utilisateur à activer ou mot de passe déjà défini.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // ============================================================
+    // 🔹 Vérifier ou insérer selon le type d'utilisateur
+    // ============================================================
+    public boolean checkOrCreateUser(String login, String password, boolean isNewUser) {
+        if (isNewUser) {
+            // Cas d’un utilisateur déjà existant mais sans mot de passe (première connexion)
+            return setPasswordForFirstLogin(login, password);
+        } else {
+            // Cas normal : vérifie les identifiants
+            return checkLogin(login, password);
         }
     }
 }
