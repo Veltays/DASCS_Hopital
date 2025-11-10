@@ -67,6 +67,8 @@ public class MainController {
                     System.out.println("[CLIENT] Connexion réussie ");
                     dialog.dispose();
                     view.setVisible(true);
+                    LoadAllConsultations();
+
                 } else {
                     dialog.showError("Identifiants incorrects ");
                 }
@@ -84,6 +86,9 @@ public class MainController {
         dialog.setVisible(true);
     }
 
+    private void LoadAllConsultations() {
+        System.out.println("**********LOAD_ALL_CONSULTATIONS**********");
+    }
 
 
     // ============================================================

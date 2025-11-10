@@ -5,7 +5,6 @@ import ProtocoleCAP.Requete.*;
 import ProtocoleCAP.Exception.CAPException;
 import ServeurGeneriqueTCP.logging.Logger;
 import model.dao.*;
-import model.dao.*;
 import model.entity.Consultation;
 import model.entity.Doctor;
 import model.entity.Patient;
@@ -13,6 +12,7 @@ import model.entity.User;
 import ServeurGeneriqueTCP.protocol.*;
 import model.viewmodel.ConsultationSearchVM;
 import model.viewmodel.DoctorSearchVM;
+import model.viewmodel.UserSearchVM;
 
 import java.net.Socket;
 import java.sql.SQLException;
@@ -139,37 +139,9 @@ public class CAP implements Protocole {
         try {
             logger.Trace("Ajout d'une consultation par " + socket.getInetAddress());
 
-            // 1 - Récupérer le login
-            String login = getLoginBySocket(socket);
-            if (login == null) {
-                throw new CAPException("Socket non reconnu — utilisateur introuvable.");
-            }
-
-            // 2 - Charger l'utilisateur
-            User userLogin = userDAO.getByLogin(login);
-            if (userLogin == null) {
-                throw new CAPException("Utilisateur introuvable pour le login : " + login);
-            }
-            int userId = userLogin.getId();
+           Integer idDoctor = getDoctorIdByUserLogin(socket);
 
 
-            // 3 - Trouver le docteur associé à cet utilisateur
-            DoctorSearchVM doctorSearch = new DoctorSearchVM();
-            doctorSearch.setUser_id(userId);
-            doctorDAO.load(doctorSearch);
-
-            if (doctorDAO.getList().isEmpty()) {
-                throw new CAPException("Aucun docteur associé à cet utilisateur (" + login + ")");
-            }
-
-            // 4 - Recupérer l'ID du docteur
-            Doctor doctor = doctorDAO.getList().get(0);
-            Integer idDoctor = doctor.getId();
-
-
-
-
-            // 5 - Boucle de création des consultations
             LocalTime heureDebut = LocalTime.parse(requete.getHeure());
             Duration interval = Duration.ofMinutes(Integer.parseInt(requete.getDuree()));
 
@@ -182,7 +154,6 @@ public class CAP implements Protocole {
                     throw new CAPException("Heure de consultation dépasse la limite autorisée (17:00).");
                 }
 
-
                 Consultation newConsultation = new Consultation();
                 newConsultation.setDoctor_id(idDoctor);
                 newConsultation.setPatient_id(null);
@@ -193,7 +164,7 @@ public class CAP implements Protocole {
             }
 
 
-            logger.Trace("✅ Consultations créées avec succès pour le docteur " + doctor.getLastname() + doctor.getFirstname());
+            logger.Trace("✅ Consultations créées avec succès pour le docteur " + idDoctor);
             return new Reponse_ADD_CONSULTATION(true);
         }
         catch (CAPException e)
@@ -319,9 +290,16 @@ public class CAP implements Protocole {
             logger.Trace("Recherche consultations (critères : " + requete + ")");
 
 
+            Integer DoctorId= getDoctorIdByUserLogin(socket);
+
+
+
+
+
             ConsultationSearchVM consultationSearchVM = new ConsultationSearchVM();
             consultationSearchVM.setId(requete.getIdPatient());
             consultationSearchVM.setDate(requete.getDate());
+            consultationSearchVM.setDoctor_id(DoctorId);
 
             consultationDAO.load(consultationSearchVM);
 
@@ -349,10 +327,20 @@ public class CAP implements Protocole {
 
     }
 
+    private Integer getDoctorIdByUserLogin(Socket socket) throws SQLException {
+        String login = getLoginBySocket(socket);
+        UserSearchVM userSearchVM = new UserSearchVM();
+        User user = userDAO.getByLogin(login);
 
 
+        DoctorSearchVM doctorSearchVM = new DoctorSearchVM();
+        doctorSearchVM.setUser_id(user.getId());
+        DoctorDAO doctorDAO = new DoctorDAO();
+        doctorDAO.load(doctorSearchVM);
+        Doctor doctor = doctorDAO.getList().get(0);
 
-
+        return doctor.getId();
+    }
 
 
     // ============================================================
