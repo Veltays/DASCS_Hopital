@@ -100,8 +100,6 @@ public class ConnectServer {
             return true;
         }
 
-
-
     }
 
     // ============================================================
@@ -133,11 +131,19 @@ public class ConnectServer {
     // ============================================================
     // UPDATE CONSULTATION
     // ============================================================
-    public void UpdateConsultation(Requete requete) {
+    public boolean UpdateConsultation(Requete requete) {
         Reponse_UPDATE_CONSULTATION reponse = (Reponse_UPDATE_CONSULTATION) sendRequest(requete);
         if (reponse != null && reponse.isValide())
+        {
             System.out.println("[CLIENT] ok! consultation modifiée");
+            return true;
+        }
+
         else
+        {
             System.out.println("[CLIENT] pas ok! pb lors de la modification :(");
+            return false;
+        }
+
     }
 }

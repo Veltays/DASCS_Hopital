@@ -124,6 +124,8 @@ public class ConsultationDAO {
 
                     sql = "UPDATE consultations SET doctor_id=?, patient_id=?, date=?, hour=?, reason=? WHERE id=?";
 
+                    System.out.println(c);
+
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
                     pStmt.setInt(1, c.getDoctor_id());
                     if (c.getPatient_id() == null)

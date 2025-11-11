@@ -236,6 +236,7 @@ public class CAP implements Protocole {
         {
             logger.Trace("Mise à jour consultation ID=" + requete.getIdConsultation());
             Integer idCons = requete.getIdConsultation();
+            logger.Trace("id patient reçu :" + requete.getIdPatient());
 
             Consultation cons1 = consultationDAO.getById(idCons);
 
@@ -245,7 +246,7 @@ public class CAP implements Protocole {
                 throw new CAPException("Erreur : Consultation non trouvée.");
             }
 
-            if(cons1.getPatient_id() == null)
+            if(cons1.getPatient_id() == 0)
             {
                 // attribue un patient
                 cons1.setPatient_id(requete.getIdPatient());

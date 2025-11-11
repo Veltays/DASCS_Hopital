@@ -7,6 +7,9 @@ import java.util.Date;
 
 public class Requete_UPDATE_CONSULTATION implements Requete {
 
+    private static final long serialVersionUID = 1L;
+
+
     private Integer idConsultation;
     private LocalDate nouvelleDate;
     private String nouvelleHeure;

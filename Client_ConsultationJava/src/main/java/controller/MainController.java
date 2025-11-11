@@ -5,10 +5,7 @@ import ProtocoleCAP.Requete.*;
 import model.ConnectServer;
 import model.entity.Consultation;
 import protocol.Requete;
-import view.AddConsultationDialog;
-import view.AddPatientDialog;
-import view.Client;
-import view.LoginDialog;
+import view.*;
 
 import javax.swing.*;
 import java.text.ParseException;
@@ -292,8 +289,6 @@ public class MainController {
     }
 
 
-
-
     // ============================================================
     // UPDATE_CONSULTATION
     // ============================================================
@@ -301,37 +296,49 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("**********UPDATE_CONSULTATION**********");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Entrer l'id de la consultation à modifier");
-            String id = sc.nextLine();
-            System.out.println("Entrer la nouvelle date (format : yyyy-MM-dd)");
-            String nouvelleDate = sc.nextLine();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = null;
-            try {
-                date = sdf.parse(nouvelleDate);
-            } catch (ParseException ex) {
-                throw new RuntimeException(ex);
+            // ouvre la boite de dialogue
+            UpdateConsultationsDialog dialog = new UpdateConsultationsDialog();
+            dialog.setVisible(true);
+
+            //Recuperer les données
+            String nouvelleDate = dialog.getDate();
+            String nouvelleHeure = dialog.getHeure();
+            String idPatient = dialog.getIdPatient();
+            String raison = dialog.getRaison();
+
+            int selectedRow = view.getTableConsultations().getSelectedRow();
+            Object value = view.getTableConsultations().getValueAt(selectedRow, 0);
+            int idConsultation = Integer.parseInt(value.toString());
+
+            System.out.println(idPatient);
+
+            if(nouvelleDate.isEmpty() || nouvelleHeure.isEmpty() || idPatient.isEmpty() || raison.isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Tous les champs doivent être remplis.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
-            System.out.println("Entrer la nouvelle heure (HH:mm)");
-            String heure = sc.nextLine();
-            System.out.println("Entrer l'id du patient");
-            String idPatient = sc.nextLine();
-            System.out.println("Entrer la nouvelle raison");
-            String raison = sc.nextLine();
+            try {
 
-            System.out.println("[CLIENT] Envoi de la requête au serveur...");
-            Requete requete = new Requete_UPDATE_CONSULTATION(
-                    Integer.parseInt(id),
-                    date,
-                    heure,
-                    Integer.parseInt(idPatient),
-                    raison
-            );
+                System.out.println("[CLIENT] Envoi de la requête au serveur...");
+                Requete requete = new Requete_UPDATE_CONSULTATION(idConsultation, LocalDate.parse(nouvelleDate), nouvelleHeure, Integer.parseInt(idPatient), raison);
+                if(connectServer.UpdateConsultation(requete))
+                {
+                    JOptionPane.showMessageDialog(null, "Consultation modifiée avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    // Rafraîchir la table après ajout
+                    LoadAllConsultations();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Échec de la modification des consultations.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
 
-            connectServer.UpdateConsultation(requete);
+            }  catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erreur : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+
         }
     }
 

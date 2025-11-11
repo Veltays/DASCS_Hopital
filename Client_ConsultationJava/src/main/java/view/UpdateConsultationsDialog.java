@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class UpdateConsultationsDialog extends JDialog {
@@ -20,6 +21,10 @@ public class UpdateConsultationsDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+
+        setPreferredSize(new Dimension(400, 200));
+        pack();
+        setLocationRelativeTo(null);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -48,6 +53,15 @@ public class UpdateConsultationsDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
+
+    // ============================================================
+    // Getters pour le contrôleur
+    // ============================================================
+
+    public String getDate() { return TextDate.getText().trim(); }
+    public String getHeure() { return TextHeure.getText().trim(); }
+    public String getIdPatient() { return TextIdPatient.getText().trim(); }
+    public String getRaison() { return TextRaison.getText().trim(); }
 
     private void onOK() {
         // add your code here
