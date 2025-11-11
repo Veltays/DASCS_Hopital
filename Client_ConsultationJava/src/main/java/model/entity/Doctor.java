@@ -6,12 +6,14 @@ public class Doctor implements Entity {
     private Integer specialty_id;
     private String lastname;
     private String firstname;
+    private Integer user_id;
 
-    public Doctor(Integer id, Integer specialty_id, String lastname, String firstname) {
+    public Doctor(Integer id, Integer specialty_id, String lastname, String firstname, int userId) {
         setId(id);
         setSpecialty_id(specialty_id);
         setLastname(lastname);
         setFirstname(firstname);
+        setUser_id(userId);
     }
 
     // --- Getters ---
@@ -31,30 +33,33 @@ public class Doctor implements Entity {
         return firstname;
     }
 
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+
     // --- Setters avec vérifications ---
     public void setId(Integer id) {
-        if (id != null && id <= 0)
-            throw new IllegalArgumentException("ID must be positive");
         this.id = id;
     }
 
     public void setSpecialty_id(Integer specialty_id) {
-        if (specialty_id == null || specialty_id <= 0)
-            throw new IllegalArgumentException("Specialty ID must be positive and non-null.");
         this.specialty_id = specialty_id;
     }
 
     public void setLastname(String lastname) {
-        if (lastname == null || lastname.isBlank())
-            throw new IllegalArgumentException("Lastname cannot be null or empty.");
         this.lastname = lastname.trim();
     }
 
     public void setFirstname(String firstname) {
-        if (firstname == null || firstname.isBlank())
-            throw new IllegalArgumentException("Firstname cannot be null or empty.");
         this.firstname = firstname.trim();
     }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
 
     @Override
     public String toString() {

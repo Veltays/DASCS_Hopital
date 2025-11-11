@@ -74,21 +74,34 @@ public class ConnectServer {
     // ============================================================
     // ADD CONSULTATION
     // ============================================================
-    public void AddConsultation(Requete requete) {
+    public boolean AddConsultation(Requete requete) {
         Reponse_ADD_CONSULTATION reponse = (Reponse_ADD_CONSULTATION) sendRequest(requete);
-        if (reponse != null && reponse.isValide())
+        if (reponse != null && reponse.isValide()) {
             System.out.println("[CLIENT] ok!");
-        else
+            return true;
+        }
+        else {
             System.out.println("[CLIENT] pas ok ! :(");
+            return false;
+        }
+
     }
 
     // ============================================================
     // ADD PATIENT
     // ============================================================
-    public void AddPatient(Requete requete) {
+    public boolean AddPatient(Requete requete) {
         Reponse_ADD_PATIENT reponse = (Reponse_ADD_PATIENT) sendRequest(requete);
-        if (reponse != null)
-            System.out.println("[CLIENT] ok! patient ajouté avec l'id : " + reponse.getIdAttribuer());
+        if (reponse.getIdAttribuer() == -1) {
+            System.out.println("[CLIENT] pas ok ! :(");
+            return false;
+        } else {
+            System.out.println("[CLIENT] ok! id attribué : " + reponse.getIdAttribuer());
+            return true;
+        }
+
+
+
     }
 
     // ============================================================

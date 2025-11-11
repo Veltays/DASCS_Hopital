@@ -31,7 +31,7 @@ public class DoctorSearchVM {
         return lastname;
     }
     public Integer getUser_id() {
-        return null;
+        return user_id;
     }
 
     // --- Setters avec validations ---
@@ -62,6 +62,7 @@ public class DoctorSearchVM {
                 "id=" + id +
                 ", specialty_id=" + specialty_id +
                 ", lastname='" + lastname + '\'' +
+                ", user_id=" + user_id +
                 '}';
     }
 }

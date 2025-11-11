@@ -12,7 +12,7 @@ class DoctorTest {
 
     @BeforeEach
     void setUp() {
-        doctor = new Doctor(1, 10, "Dupont", "Jean");
+        doctor = new Doctor(1, 10, "Dupont", "Jean", rs.getInt("user_id"));
     }
 
     // --- Tests getters ---

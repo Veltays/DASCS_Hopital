@@ -35,14 +35,10 @@ public class User implements Entity {
 
     // --- Setters avec validations ---
     public void setId(Integer id) {
-        if (id == null || id <= 0)
-            throw new IllegalArgumentException("ID must be positive and non-null.");
         this.id = id;
     }
 
     public void setLogin(String login) {
-        if (login == null || login.isBlank())
-            throw new IllegalArgumentException("Login cannot be null or empty.");
         this.login = login.trim();
     }
 
@@ -51,12 +47,6 @@ public class User implements Entity {
     }
 
     public void setRole(String role) {
-        if (role == null || role.isBlank())
-            throw new IllegalArgumentException("Role cannot be null or empty.");
-
-        role = role.trim().toLowerCase();
-        if (!role.equals("admin") && !role.equals("doctor") && !role.equals("patient"))
-            throw new IllegalArgumentException("Role must be one of: admin, doctor, patient.");
         this.role = role;
     }
 

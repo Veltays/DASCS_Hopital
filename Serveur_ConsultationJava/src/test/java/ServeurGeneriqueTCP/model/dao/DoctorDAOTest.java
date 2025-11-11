@@ -43,7 +43,7 @@ class DoctorDAOTest {
 
     @Test
     void getById_ShouldReturnDoctor_WhenFound() {
-        Doctor d1 = new Doctor(1, 2, "Dupont", "Jean");
+        Doctor d1 = new Doctor(1, 2, "Dupont", "Jean", rs.getInt("user_id"));
         dao.getList().add(d1);
         assertEquals(d1, dao.getById(1));
     }
@@ -74,7 +74,7 @@ class DoctorDAOTest {
     // --- save (INSERT) ---
     @Test
     void save_ShouldInsert_WhenIdIsNull() throws Exception {
-        Doctor d = new Doctor(null, 2, "Martin", "Paul");
+        Doctor d = new Doctor(null, 2, "Martin", "Paul", rs.getInt("user_id"));
 
         when(mockConnection.prepareStatement(anyString(), eq(PreparedStatement.RETURN_GENERATED_KEYS)))
                 .thenReturn(mockStmt);
@@ -92,7 +92,7 @@ class DoctorDAOTest {
     // --- save (UPDATE) ---
     @Test
     void save_ShouldUpdate_WhenIdNotNull() throws Exception {
-        Doctor d = new Doctor(1, 3, "Durand", "Alice");
+        Doctor d = new Doctor(1, 3, "Durand", "Alice", rs.getInt("user_id"));
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
 
         dao.save(d);
@@ -104,7 +104,7 @@ class DoctorDAOTest {
     // --- delete by entity ---
     @Test
     void delete_ShouldCallDeleteById_WhenEntityNotNull() throws Exception {
-        Doctor d = new Doctor(4, 1, "Rossi", "Luca");
+        Doctor d = new Doctor(4, 1, "Rossi", "Luca", rs.getInt("user_id"));
         PreparedStatement stmt = mock(PreparedStatement.class);
         when(mockConnection.prepareStatement(anyString())).thenReturn(stmt);
 

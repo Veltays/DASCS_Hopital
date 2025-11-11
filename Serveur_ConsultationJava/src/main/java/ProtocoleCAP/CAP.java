@@ -81,7 +81,7 @@ public class CAP implements Protocole {
                 return TraiteRequeteDELETE_CONSULTATION(requeteDeleteConsultation, socket);
             }
             case Requete_LOGOUT requeteLogout -> {
-                TraiteRequeteLOGOUT(requeteLogout,socket);
+                TraiteRequeteLOGOUT(requeteLogout, socket);
             }
             default -> {
                 logger.Trace("Requête de type inconnu reçue : " + requete.getClass().getName());
@@ -157,7 +157,8 @@ public class CAP implements Protocole {
                 }
 
                 Consultation newConsultation = new Consultation();
-                newConsultation.setDoctor_id(idDoctor);logger.Trace("ICI");
+
+                newConsultation.setDoctor_id(idDoctor);
                 newConsultation.setPatient_id(null);
                 newConsultation.setHour(NewHeure.toString());
                 newConsultation.setDate(requete.getDate());
@@ -186,17 +187,6 @@ public class CAP implements Protocole {
         }
     }
 
-    String getLoginByIP(Socket socket) {
-        String ipaddr = socket.getInetAddress().getHostAddress(); // Récupère l'IP du socket sous forme String
-        for (var entry : clientsConnectes.entrySet()) {
-            String ip = entry.getValue();
-            if (ip.equals(ipaddr)) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
 
 
 
@@ -217,7 +207,6 @@ public class CAP implements Protocole {
             patient.setLastname(requete.getLastName());
             patient.setFirstname(requete.getFirstName());
 
-            PatientDAO patientDAO = new PatientDAO();
             patientDAO.save(patient);
 
 
@@ -297,7 +286,7 @@ public class CAP implements Protocole {
             logger.Trace("Recherche consultations (critères : " + requete + ")");
 
 
-            Integer DoctorId= getDoctorIdByUserLogin(socket);
+            Integer DoctorId = getDoctorIdByUserLogin(socket);
 
             ConsultationSearchVM consultationSearchVM = new ConsultationSearchVM();
             consultationSearchVM.setId(requete.getIdPatient());
@@ -331,21 +320,6 @@ public class CAP implements Protocole {
 
     }
 
-    private Integer getDoctorIdByUserLogin(Socket socket) throws SQLException {
-        String login = getLoginByIP(socket);
-        System.out.println("login" + login);
-        UserSearchVM userSearchVM = new UserSearchVM();
-        User user = userDAO.getByLogin(login);
-
-
-        DoctorSearchVM doctorSearchVM = new DoctorSearchVM();
-        doctorSearchVM.setUser_id(user.getId());
-        DoctorDAO doctorDAO = new DoctorDAO();
-        doctorDAO.load(doctorSearchVM);
-        Doctor doctor = doctorDAO.getList().get(0);
-
-        return doctor.getId();
-    }
 
 
     // ============================================================
@@ -370,15 +344,67 @@ public class CAP implements Protocole {
 
 
     // ============================================================
-    // 🔹 LOGOUT
+    // LOGOUT
     // ============================================================
-    private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete) throws FinConnexionException {
-        String login = requete.getLogin();
-        if (login != null) {
-            clientsConnectes.remove(login);
-            logger.Trace(login + " correctement déloggé");
-        } else {
-            logger.Trace("⚠️ Tentative de logout d’un socket non reconnu.");
+    private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete, Socket socket) {
+        try {
+            String login = getLoginByIP(socket);
+            if (login != null) {
+                clientsConnectes.remove(login);
+                logger.Trace(login + " correctement déloggé");
+            } else {
+                logger.Trace("⚠️ Tentative de logout d’un socket non reconnu.");
+            }
+        } catch (SQLException e) {
+            logger.Trace("💾 Erreur SQL lors du logout : " + e.getMessage());
         }
+
     }
+
+
+
+
+    String getLoginByIP(Socket socket) throws SQLException {
+        String ipaddr = socket.getInetAddress().getHostAddress();
+        System.out.println("Recherche du login pour IP : " + ipaddr);
+
+        System.out.println(clientsConnectes);
+
+        for (var entry : clientsConnectes.entrySet()) {
+            String ip = entry.getValue();
+            if (ip.equals(ipaddr)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+
+
+
+    private Integer getDoctorIdByUserLogin(Socket socket) throws SQLException {
+        String login = getLoginByIP(socket);
+        System.out.println("login " + login);
+
+        User user = userDAO.getByLogin(login);
+        System.out.println("user " + user);
+
+        DoctorSearchVM doctorSearchVM = new DoctorSearchVM();
+        doctorSearchVM.setUser_id(user.getId());
+
+
+
+        doctorDAO.load(doctorSearchVM);
+        if (doctorDAO.getList().isEmpty()) {
+            throw new SQLException("Aucun docteur trouvé pour user_id = " + user.getId());
+        }
+
+        Doctor doctor = doctorDAO.getList().get(0);
+        return doctor.getId();
+    }
+
+
+
+
+
 }

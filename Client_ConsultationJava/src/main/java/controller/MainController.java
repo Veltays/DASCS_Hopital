@@ -53,7 +53,7 @@ public class MainController {
 
 
     // ============================================================
-    // 🔐 LOGIN (fenêtre de connexion Swing)
+    // LOGIN (fenêtre de connexion Swing)
     // ============================================================
     private void showLoginDialog() {
         LoginDialog dialog = new LoginDialog();
@@ -162,10 +162,19 @@ public class MainController {
 
             try {
                 int nombre = Integer.parseInt(nombreStr);
-
                 System.out.println("[CLIENT] Envoi de la requête au serveur...");
                 Requete requete = new Requete_ADD_CONSULTATION(LocalDate.parse(date), heure, duree, nombre);
-                connectServer.AddConsultation(requete);
+                if(connectServer.AddConsultation(requete))
+                {
+                    JOptionPane.showMessageDialog(null, "Consultations ajoutées avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    // Rafraîchir la table après ajout
+                    LoadAllConsultations();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Échec de l'ajout des consultations.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Le nombre de consultations doit être un entier valide.", "Erreur", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
@@ -204,7 +213,14 @@ public class MainController {
             {
                 System.out.println("[CLIENT] Envoi de la requête au serveur...");
                 Requete requete = new Requete_ADD_PATIENT(prenom, nom);
-                connectServer.AddPatient(requete);
+                if(connectServer.AddPatient(requete))
+                {
+                    JOptionPane.showMessageDialog(null, "Patient ajouté avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Échec de l'ajout du patient.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
             }
             catch(Exception ex)
             {

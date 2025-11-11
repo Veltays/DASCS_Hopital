@@ -64,7 +64,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="Z"/>
+              <text value="2025-10-30"/>
             </properties>
           </component>
           <component id="ce297" class="javax.swing.JLabel" binding="LabelDate">
@@ -89,7 +89,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="13:30"/>
+            </properties>
           </component>
           <component id="164cc" class="javax.swing.JLabel" binding="LabelDuree">
             <constraints>
@@ -105,7 +107,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="30"/>
+            </properties>
           </component>
           <component id="3b049" class="javax.swing.JLabel" binding="LabelNombre">
             <constraints>
@@ -121,7 +125,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="2"/>
+            </properties>
           </component>
         </children>
       </grid>

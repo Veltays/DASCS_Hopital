@@ -126,7 +126,11 @@ public class ConsultationDAO {
 
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
                     pStmt.setInt(1, c.getDoctor_id());
-                    pStmt.setInt(2, c.getPatient_id());
+                    if (c.getPatient_id() == null)
+                        pStmt.setNull(2, java.sql.Types.INTEGER);
+                    else
+                        pStmt.setInt(2, c.getPatient_id());
+
                     pStmt.setDate(3, Date.valueOf(c.getDate()));
                     pStmt.setString(4, c.getHour());
                     pStmt.setString(5, c.getReason());
@@ -139,7 +143,11 @@ public class ConsultationDAO {
                     sql = "INSERT INTO consultations (doctor_id, patient_id, date, hour, reason) VALUES (?, ?, ?, ?, ?)";
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                     pStmt.setInt(1, c.getDoctor_id());
-                    pStmt.setInt(2, c.getPatient_id());
+                    if (c.getPatient_id() == null)
+                        pStmt.setNull(2, java.sql.Types.INTEGER);
+                    else
+                        pStmt.setInt(2, c.getPatient_id());
+
                     pStmt.setDate(3, Date.valueOf(c.getDate()));
                     pStmt.setString(4, c.getHour());
                     pStmt.setString(5, c.getReason());

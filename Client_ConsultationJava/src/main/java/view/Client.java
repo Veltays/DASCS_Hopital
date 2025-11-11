@@ -82,6 +82,8 @@ public class Client extends JFrame {
     public void updateConsultationTable(Object[][] data) {
         String[] colonnes = {"ID", "Date", "Heure", "Patient", "Raison", "Docteur"};
         TableOfConsultation.setModel(new javax.swing.table.DefaultTableModel(data, colonnes));
+        TableOfConsultation.revalidate();
+        TableOfConsultation.repaint();
     }
 
     // ============================================================

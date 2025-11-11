@@ -21,14 +21,10 @@ public class Specialty implements Entity {
 
     // --- Setters avec vérifications ---
     public void setId(Integer id) {
-        if (id != null && id <= 0)
-            throw new IllegalArgumentException("ID must be positive and non-null.");
         this.id = id;
     }
 
     public void setName(String name) {
-        if (name == null || name.isBlank())
-            throw new IllegalArgumentException("Name cannot be null or empty.");
         this.name = name.trim();
     }
 

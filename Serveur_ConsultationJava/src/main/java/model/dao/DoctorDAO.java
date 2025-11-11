@@ -47,7 +47,11 @@ public class DoctorDAO {
 
     public ArrayList<Doctor> load(DoctorSearchVM doctorSearchVMParameter) throws SQLException {
         try {
-            String sql = "SELECT id, specialty_id, last_name, first_name FROM doctors";
+
+            System.out.println("Les paramètres de recherches recu sont : " + doctorSearchVMParameter);
+
+
+            String sql = "SELECT id, specialty_id, last_name, first_name,user_id FROM doctors";
 
             if (doctorSearchVMParameter != null) {
 
@@ -64,10 +68,9 @@ public class DoctorDAO {
                 if (doctorSearchVMParameter.getLastname() != null) {
                     where += " AND last_name LIKE ?";
                 }
-                if (doctorSearchVMParameter.getUser_id() != null) {
+                if(doctorSearchVMParameter.getUser_id() != null){
                     where += " AND user_id = ?";
                 }
-
 
                 sql += where;
             }
@@ -87,13 +90,10 @@ public class DoctorDAO {
                     paramNumber++;
                     stmt.setString(paramNumber, "%" + doctorSearchVMParameter.getLastname() + "%");
                 }
-
-                if (doctorSearchVMParameter.getUser_id() != null) {
+                if(doctorSearchVMParameter.getUser_id() != null){
                     paramNumber++;
                     stmt.setInt(paramNumber, doctorSearchVMParameter.getUser_id());
                 }
-
-
             }
 
             ResultSet rs = stmt.executeQuery();
@@ -104,9 +104,11 @@ public class DoctorDAO {
                 Integer specialityId = rs.getInt("specialty_id");
                 String lastName = rs.getString("last_name");
                 String firstName = rs.getString("first_name");
+                Integer userID = rs.getInt("user_id");
 
-                Doctor doctor = new Doctor(id, specialityId, lastName,firstName);
-
+                Doctor doctor = new Doctor(id, specialityId, lastName,firstName,userID);
+                System.out.println("docteur recu : " + doctor);
+                System.out.println("-----------------------------------");
                 doctorsList.add(doctor);
 
             }
@@ -183,15 +185,5 @@ public class DoctorDAO {
             }
         }
     }
-
-
-    Doctor Anissa = new Doctor(1, 2, "Ben Amor", "Anissa");
-
-
-
-
-
-
-
 
 }
