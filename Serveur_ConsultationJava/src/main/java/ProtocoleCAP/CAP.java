@@ -19,10 +19,11 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CAP implements Protocole {
 
-    private final HashMap<String, Socket> clientsConnectes;
+    private final HashMap<String, String> clientsConnectes;
     private final Logger logger;
 
 
@@ -106,6 +107,7 @@ public class CAP implements Protocole {
 
         String Password = requete.getPassword();
         String UserName =  requete.getLogin();
+        String ipaddr = socket.getInetAddress().getHostAddress();
 
         if (userDAO.checkOrCreateUser(UserName, Password, requete.isNewUser()))
         {
@@ -115,7 +117,7 @@ public class CAP implements Protocole {
             }
 
             // ajouter à la liste des connectés
-            clientsConnectes.put(UserName, socket);
+            clientsConnectes.put(UserName, ipaddr);
             logger.Trace(UserName + " connecté avec succès.");
         }
         else
@@ -155,10 +157,11 @@ public class CAP implements Protocole {
                 }
 
                 Consultation newConsultation = new Consultation();
-                newConsultation.setDoctor_id(idDoctor);
+                newConsultation.setDoctor_id(idDoctor);logger.Trace("ICI");
                 newConsultation.setPatient_id(null);
                 newConsultation.setHour(NewHeure.toString());
                 newConsultation.setDate(requete.getDate());
+
 
                 consultationDAO.save(newConsultation);
             }
@@ -183,14 +186,18 @@ public class CAP implements Protocole {
         }
     }
 
-    String getLoginBySocket(Socket socket) {
+    String getLoginByIP(Socket socket) {
+        String ipaddr = socket.getInetAddress().getHostAddress(); // Récupère l'IP du socket sous forme String
         for (var entry : clientsConnectes.entrySet()) {
-            if (entry.getValue().equals(socket)) {
+            String ip = entry.getValue();
+            if (ip.equals(ipaddr)) {
                 return entry.getKey();
             }
         }
-        return null; // si pas trouvé
+        return null;
     }
+
+
 
 
 
@@ -292,16 +299,13 @@ public class CAP implements Protocole {
 
             Integer DoctorId= getDoctorIdByUserLogin(socket);
 
-
-
-
-
             ConsultationSearchVM consultationSearchVM = new ConsultationSearchVM();
             consultationSearchVM.setId(requete.getIdPatient());
             consultationSearchVM.setDate(requete.getDate());
             consultationSearchVM.setDoctor_id(DoctorId);
 
             consultationDAO.load(consultationSearchVM);
+            logger.Trace("DoctorId utilisé : " + DoctorId);
 
             if (consultationDAO.getList().isEmpty()) {
                 throw new CAPException("Aucune Consultation trouvé associé a cette utilistateur et a cette date");
@@ -328,7 +332,8 @@ public class CAP implements Protocole {
     }
 
     private Integer getDoctorIdByUserLogin(Socket socket) throws SQLException {
-        String login = getLoginBySocket(socket);
+        String login = getLoginByIP(socket);
+        System.out.println("login" + login);
         UserSearchVM userSearchVM = new UserSearchVM();
         User user = userDAO.getByLogin(login);
 
@@ -367,8 +372,8 @@ public class CAP implements Protocole {
     // ============================================================
     // 🔹 LOGOUT
     // ============================================================
-    private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete, Socket socket) throws FinConnexionException {
-        String login = getLoginBySocket(socket);
+    private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete) throws FinConnexionException {
+        String login = requete.getLogin();
         if (login != null) {
             clientsConnectes.remove(login);
             logger.Trace(login + " correctement déloggé");

@@ -7,6 +7,8 @@ import protocol.Requete;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConnectServer {
     private final String host;
@@ -92,12 +94,16 @@ public class ConnectServer {
     // ============================================================
     // SEARCH CONSULTATIONS
     // ============================================================
-    public void SearchConsultation(Requete requete) {
+    public List<Consultation> SearchConsultation(Requete requete) {
+
         Reponse_SEARCH_CONSULTATIONS reponse = (Reponse_SEARCH_CONSULTATIONS) sendRequest(requete);
         if (reponse != null && reponse.getConsultationsList() != null) {
             for (Consultation c : reponse.getConsultationsList())
                 System.out.println("[CLIENT] " + c);
+            return reponse.getConsultationsList();
         }
+        System.out.println("vide");
+        return new ArrayList<>();
     }
 
     // ============================================================

@@ -64,6 +64,10 @@ public class DoctorDAO {
                 if (doctorSearchVMParameter.getLastname() != null) {
                     where += " AND last_name LIKE ?";
                 }
+                if (doctorSearchVMParameter.getUser_id() != null) {
+                    where += " AND user_id = ?";
+                }
+
 
                 sql += where;
             }
@@ -83,6 +87,13 @@ public class DoctorDAO {
                     paramNumber++;
                     stmt.setString(paramNumber, "%" + doctorSearchVMParameter.getLastname() + "%");
                 }
+
+                if (doctorSearchVMParameter.getUser_id() != null) {
+                    paramNumber++;
+                    stmt.setInt(paramNumber, doctorSearchVMParameter.getUser_id());
+                }
+
+
             }
 
             ResultSet rs = stmt.executeQuery();

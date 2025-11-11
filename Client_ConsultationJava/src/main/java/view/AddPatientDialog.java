@@ -45,6 +45,9 @@ public class AddPatientDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    public String getNom() {return textNom.getText().trim(); }
+
+    public String getPrenom() {return textPrenom.getText().trim(); }
     private void onOK() {
         // add your code here
         dispose();

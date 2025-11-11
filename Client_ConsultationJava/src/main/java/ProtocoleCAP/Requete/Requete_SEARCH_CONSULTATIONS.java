@@ -27,14 +27,14 @@ public class Requete_SEARCH_CONSULTATIONS implements Requete {
     }
 
     public void setIdPatient(Integer idPatient) {
-        if (idPatient == null || idPatient <= 0)
-            throw new IllegalArgumentException("L'identifiant du patient doit être positif et non nul.");
+//        if (idPatient == null || idPatient <= 0)
+//            throw new IllegalArgumentException("L'identifiant du patient doit être positif et non nul.");
         this.idPatient = idPatient;
     }
 
     public void setDate(LocalDate date) {
-        if (date == null)
-            throw new IllegalArgumentException("La date ne peut pas être nulle.");
+//        if (date == null)
+//            throw new IllegalArgumentException("La date ne peut pas être nulle.");
         this.date = date;
     }
 

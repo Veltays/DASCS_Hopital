@@ -1,18 +1,20 @@
 package ProtocoleCAP.Requete;
 
 import ServeurGeneriqueTCP.protocol.Requete;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Requete_ADD_CONSULTATION implements Requete {
     private static final long serialVersionUID = 1L;
 
 
-    private Date date;
+    private LocalDate date;
     private String heure;
     private String duree;
     private Integer nombreConsultations;
 
-    public Requete_ADD_CONSULTATION(Date date, String heure, String duree, Integer nombreConsultations) {
+    public Requete_ADD_CONSULTATION(LocalDate date, String heure, String duree, Integer nombreConsultations) {
         setDate(date);
         setHeure(heure);
         setDuree(duree);
@@ -22,13 +24,13 @@ public class Requete_ADD_CONSULTATION implements Requete {
 
 
     // 🔹 GETTERS
-    public Date getDate() { return date; }
+    public LocalDate getDate() { return date; }
     public String getHeure() { return heure; }
     public String getDuree() { return duree; }
     public Integer getNombreConsultations() { return nombreConsultations; }
 
     // 🔹 SETTERS (avec validations simples)
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         if (date == null)
             throw new IllegalArgumentException("La date ne peut pas être nulle.");
         this.date = date;

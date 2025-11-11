@@ -1,17 +1,19 @@
 package ProtocoleCAP.Requete;
 
 import ServeurGeneriqueTCP.protocol.Requete;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Requete_UPDATE_CONSULTATION implements Requete {
 
     private Integer idConsultation;
-    private Date nouvelleDate;
+    private LocalDate nouvelleDate;
     private String nouvelleHeure;
     private Integer idPatient;
     private String nouvelleRaison;
 
-    public Requete_UPDATE_CONSULTATION(Integer idConsultation, Date nouvelleDate, String nouvelleHeure,
+    public Requete_UPDATE_CONSULTATION(Integer idConsultation, LocalDate nouvelleDate, String nouvelleHeure,
                                        Integer idPatient, String nouvelleRaison) {
         setIdConsultation(idConsultation);
         setNouvelleDate(nouvelleDate);
@@ -22,7 +24,7 @@ public class Requete_UPDATE_CONSULTATION implements Requete {
 
     // 🔹 GETTERS
     public Integer getIdConsultation() { return idConsultation; }
-    public Date getNouvelleDate() { return nouvelleDate; }
+    public LocalDate getNouvelleDate() { return nouvelleDate; }
     public String getNouvelleHeure() { return nouvelleHeure; }
     public Integer getIdPatient() { return idPatient; }
     public String getNouvelleRaison() { return nouvelleRaison; }
@@ -34,7 +36,7 @@ public class Requete_UPDATE_CONSULTATION implements Requete {
         this.idConsultation = idConsultation;
     }
 
-    public void setNouvelleDate(Date nouvelleDate) {
+    public void setNouvelleDate(LocalDate nouvelleDate) {
         if (nouvelleDate == null)
             throw new IllegalArgumentException("La date ne peut pas être nulle.");
         this.nouvelleDate = nouvelleDate;
@@ -47,8 +49,8 @@ public class Requete_UPDATE_CONSULTATION implements Requete {
     }
 
     public void setIdPatient(Integer idPatient) {
-        if (idPatient == null || idPatient <= 0)
-            throw new IllegalArgumentException("L'identifiant du patient doit être positif et non nul.");
+//        if (idPatient == null || idPatient <= 0)
+//            throw new IllegalArgumentException("L'identifiant du patient doit être positif et non nul.");
         this.idPatient = idPatient;
     }
 

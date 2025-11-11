@@ -95,7 +95,7 @@ public class ConsultationDAO {
                 Integer doctor_id = rs.getInt("doctor_id");
                 Integer patient_id = rs.getInt("patient_id");
                 String hour = rs.getString("hour");
-                Date date = rs.getDate("date");
+                LocalDate date = rs.getDate("date").toLocalDate();
                 String reason = rs.getString("reason");
 
                 Consultation consultation = new Consultation(id, doctor_id, patient_id, hour, date, reason);
@@ -127,7 +127,7 @@ public class ConsultationDAO {
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
                     pStmt.setInt(1, c.getDoctor_id());
                     pStmt.setInt(2, c.getPatient_id());
-                    pStmt.setDate(3, new java.sql.Date(c.getDate().getTime()));
+                    pStmt.setDate(3, Date.valueOf(c.getDate()));
                     pStmt.setString(4, c.getHour());
                     pStmt.setString(5, c.getReason());
                     pStmt.setInt(6, c.getId());
@@ -140,7 +140,7 @@ public class ConsultationDAO {
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                     pStmt.setInt(1, c.getDoctor_id());
                     pStmt.setInt(2, c.getPatient_id());
-                    pStmt.setDate(3, new java.sql.Date(c.getDate().getTime()));
+                    pStmt.setDate(3, Date.valueOf(c.getDate()));
                     pStmt.setString(4, c.getHour());
                     pStmt.setString(5, c.getReason());
                     pStmt.executeUpdate();

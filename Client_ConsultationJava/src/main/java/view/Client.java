@@ -1,5 +1,9 @@
 package view;
 
+import ProtocoleCAP.Requete.Requete_LOGOUT;
+import model.ConnectServer;
+import protocol.Requete;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
@@ -12,6 +16,7 @@ public class Client extends JFrame {
     private JButton LOGOUTButton;
     private JTable TableOfConsultation;
     private JPanel contentPane;
+    private WindowCloseListener windowCloseListener;
 
 
     private JButton boutonLogin;
@@ -23,9 +28,27 @@ public class Client extends JFrame {
 
         // ---- Liaison du panel principal (généré par le Form Designer) ----
         setContentPane(contentPane);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(800, 500);
         setLocationRelativeTo(null);
+
+        addWindowListener(new java.awt.event.WindowAdapter()
+        {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e)
+            {
+                if (windowCloseListener != null)
+                    windowCloseListener.onWindowClose();
+            }
+        });
+    }
+
+    public void setWindowCloseListener(WindowCloseListener listener){
+        this.windowCloseListener = listener;
+    }
+
+    public interface WindowCloseListener {
+        void onWindowClose();
     }
 
     // ============================================================

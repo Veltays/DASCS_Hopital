@@ -3,8 +3,10 @@ package controller;
 import ProtocoleCAP.Reponse.Reponse_LOGIN;
 import ProtocoleCAP.Requete.*;
 import model.ConnectServer;
+import model.entity.Consultation;
 import protocol.Requete;
 import view.AddConsultationDialog;
+import view.AddPatientDialog;
 import view.Client;
 import view.LoginDialog;
 
@@ -13,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +39,15 @@ public class MainController {
         view.getBoutonAddPatient().addActionListener(new AddPatient());
         view.getBoutonDeleteConsultation().addActionListener(new DeleteConsultation());
         view.getBoutonUpdateConsultation().addActionListener(new UpdateConsultation());
+
+        view.setWindowCloseListener(() -> {
+            // Effectuer le logout ici
+            Requete requete = new Requete_LOGOUT();
+            connectServer.Logout(requete);
+            try { Thread.sleep(150); } catch (InterruptedException ignored) {}
+            view.dispose();
+            System.exit(0);
+        });
     }
 
 
@@ -88,6 +100,23 @@ public class MainController {
 
     private void LoadAllConsultations() {
         System.out.println("**********LOAD_ALL_CONSULTATIONS**********");
+        Requete requete = new Requete_SEARCH_CONSULTATIONS(null,null);
+        List<Consultation> consultations = connectServer.SearchConsultation(requete);
+
+        Object[][] data = new Object[consultations.size()][6];
+
+        for (int i = 0; i < consultations.size(); i++) {
+            Consultation c = consultations.get(i);
+            data[i][0] = c.getId();
+            data[i][1] = c.getDate();
+            data[i][2] = c.getHour();
+            data[i][3] = c.getPatient_id() != null ? c.getPatient_id() : "Libre";
+            data[i][4] = c.getReason() != null ? c.getReason() : "";
+            data[i][5] = c.getDoctor_id();
+        }
+
+        // Appel de la vue
+        view.updateConsultationTable(data);
     }
 
 
@@ -99,6 +128,7 @@ public class MainController {
         public void actionPerformed(ActionEvent e) {
             System.out.println("**********LOGOUT**********");
             Requete requete = new Requete_LOGOUT();
+
             connectServer.Logout(requete);
             view.setVisible(false);
             showLoginDialog();
@@ -156,24 +186,34 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("**********ADD_PATIENT**********");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Entrer le nom du patient à ajouter");
-            String nom = sc.nextLine();
-            System.out.println("Entrer le prénom du patient à ajouter");
-            String prenom = sc.nextLine();
 
-            System.out.println("[CLIENT] Envoi de la requête au serveur...");
-            Requete requete = new Requete_ADD_PATIENT(prenom, nom);
-            connectServer.AddPatient(requete);
+            AddPatientDialog dialog = new AddPatientDialog();
+            dialog.setVisible(true);
+
+            // Récupérer les données saisies
+            String nom = dialog.getNom();
+            String prenom = dialog.getPrenom();
+
+            if( nom.isEmpty() || prenom.isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Tous les champs doivent être remplis.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try
+            {
+                System.out.println("[CLIENT] Envoi de la requête au serveur...");
+                Requete requete = new Requete_ADD_PATIENT(prenom, nom);
+                connectServer.AddPatient(requete);
+            }
+            catch(Exception ex)
+            {
+                JOptionPane.showMessageDialog(null, "Erreur : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+
         }
     }
-
-
-
-
-
-
-
 
 
     // ============================================================
@@ -201,14 +241,18 @@ public class MainController {
     class DeleteConsultation implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+
             System.out.println("**********DELETE_CONSULTATION**********");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Entrer l'id de la consultation à supprimer");
-            String id = sc.nextLine();
+            int selectedRow = view.getTableConsultations().getSelectedRow();
+            Object value = view.getTableConsultations().getValueAt(selectedRow, 0);
+            int id = Integer.parseInt(value.toString());
 
             System.out.println("[CLIENT] Envoi de la requête au serveur...");
-            Requete requete = new Requete_DELETE_CONSULTATION(Integer.parseInt(id));
+            Requete requete = new Requete_DELETE_CONSULTATION(id);
             connectServer.DeleteConsultation(requete);
+
+            // Rafraîchir la table après suppression
+            LoadAllConsultations();
         }
     }
 
