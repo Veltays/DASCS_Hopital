@@ -1,9 +1,5 @@
 package view;
 
-import ProtocoleCAP.Requete.Requete_LOGOUT;
-import model.ConnectServer;
-import protocol.Requete;
-
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
@@ -16,6 +12,7 @@ public class Client extends JFrame {
     private JButton LOGOUTButton;
     private JTable TableOfConsultation;
     private JPanel contentPane;
+    private JButton SEARCHCONSULTATION;
     private WindowCloseListener windowCloseListener;
 
 

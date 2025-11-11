@@ -44,7 +44,6 @@ public class MainController {
             // Effectuer le logout ici
             Requete requete = new Requete_LOGOUT();
             connectServer.Logout(requete);
-            try { Thread.sleep(150); } catch (InterruptedException ignored) {}
             view.dispose();
             System.exit(0);
         });
@@ -257,15 +256,35 @@ public class MainController {
     class DeleteConsultation implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
             System.out.println("**********DELETE_CONSULTATION**********");
-            int selectedRow = view.getTableConsultations().getSelectedRow();
-            Object value = view.getTableConsultations().getValueAt(selectedRow, 0);
-            int id = Integer.parseInt(value.toString());
 
-            System.out.println("[CLIENT] Envoi de la requête au serveur...");
-            Requete requete = new Requete_DELETE_CONSULTATION(id);
-            connectServer.DeleteConsultation(requete);
+            int[] selectedRows = view.getTableConsultations().getSelectedRows();
+
+            if (selectedRows.length == 0) {
+                JOptionPane.showMessageDialog(null,
+                        "Veuillez sélectionner au moins une consultation à supprimer.",
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Supprimer " + selectedRows.length + " consultation(s) ?",
+                    "Confirmation",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm != JOptionPane.YES_OPTION) return;
+
+            for (int row : selectedRows) {
+                Object value = view.getTableConsultations().getValueAt(row, 0);
+                int id = Integer.parseInt(value.toString());
+
+                System.out.println("[CLIENT] Envoi de la requête de suppression pour ID=" + id);
+                Requete requete = new Requete_DELETE_CONSULTATION(id);
+                connectServer.DeleteConsultation(requete);
+            }
 
             // Rafraîchir la table après suppression
             LoadAllConsultations();
