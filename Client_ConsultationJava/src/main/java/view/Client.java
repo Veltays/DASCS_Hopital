@@ -57,6 +57,7 @@ public class Client extends JFrame {
     public JButton getBoutonAddPatient() { return ADDPATIENT; }
     public JButton getBoutonDeleteConsultation() { return DELETECONSULTATION; }
     public JButton getBoutonUpdateConsultation() { return UPDATECONSULTATION; }
+    public JButton getBoutonSearchConsultation() { return SEARCHCONSULTATION; }
     public JTable getTableConsultations() { return TableOfConsultation; }
 
     // ============================================================

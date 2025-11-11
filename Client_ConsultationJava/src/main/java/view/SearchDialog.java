@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class SearchDialog extends JDialog {
@@ -14,6 +15,13 @@ public class SearchDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+
+
+        // ✅ Taille et centrage
+        setPreferredSize(new Dimension(400, 200));
+        pack();
+        setLocationRelativeTo(null); // centre la fenêtre sur l’écran
+
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -43,6 +51,12 @@ public class SearchDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    ///////////////////////////////////////////
+    // GETTERS
+    /////////////////////////////////////////////
+
+    public String getIdPatient() { return textPatientID.getText().trim(); }
+    public String getDate() { return textDate.getText().trim(); }
     private void onOK() {
         // add your code here
         dispose();

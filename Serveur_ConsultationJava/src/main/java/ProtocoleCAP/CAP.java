@@ -290,7 +290,7 @@ public class CAP implements Protocole {
             Integer DoctorId = getDoctorIdByUserLogin(socket);
 
             ConsultationSearchVM consultationSearchVM = new ConsultationSearchVM();
-            consultationSearchVM.setId(requete.getIdPatient());
+            consultationSearchVM.setPatient_id(requete.getIdPatient());
             consultationSearchVM.setDate(requete.getDate());
             consultationSearchVM.setDoctor_id(DoctorId);
 

@@ -36,6 +36,7 @@ public class MainController {
         view.getBoutonAddPatient().addActionListener(new AddPatient());
         view.getBoutonDeleteConsultation().addActionListener(new DeleteConsultation());
         view.getBoutonUpdateConsultation().addActionListener(new UpdateConsultation());
+        view.getBoutonSearchConsultation().addActionListener(new SearchConsultation());
 
         view.setWindowCloseListener(() -> {
             // Effectuer le logout ici
@@ -235,15 +236,58 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("**********SEARCH_CONSULTATION**********");
-            System.out.println("Entrer l'id du patient à rechercher");
-            Scanner sc = new Scanner(System.in);
-            String id = sc.nextLine();
-            System.out.println("Entrer la date de la consultation");
-            String date = sc.nextLine();
 
-            System.out.println("[CLIENT] Envoi de la requête au serveur...");
-            Requete requete = new Requete_SEARCH_CONSULTATIONS(Integer.parseInt(id), LocalDate.parse(date));
-            connectServer.SearchConsultation(requete);
+            SearchDialog dialog = new SearchDialog();
+            dialog.setVisible(true);
+
+            // recup les donnes
+            String patientID= dialog.getIdPatient();
+            String date = dialog.getDate();
+
+            try {
+                Integer idPatient = null;
+                LocalDate localDate = null;
+
+                if (patientID != null && !patientID.isEmpty())
+                    idPatient = Integer.parseInt(patientID);
+                if (date != null && !date.isEmpty())
+                    localDate = LocalDate.parse(date);
+
+                System.out.println("[CLIENT] Envoi de la requête au serveur...");
+                Requete requete = new Requete_SEARCH_CONSULTATIONS(idPatient, localDate);
+
+                List<Consultation> consultations = connectServer.SearchConsultation(requete);
+
+                System.out.println(requete);
+
+                for (Consultation c :consultations)
+                {
+                    System.out.println(c);
+                }
+
+                if (consultations.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Aucune consultation trouvée.", "Résultat", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // Conversion en tableau pour la JTable
+                    Object[][] data = new Object[consultations.size()][6];
+                    for (int i = 0; i < consultations.size(); i++) {
+                        Consultation c = consultations.get(i);
+                        data[i][0] = c.getId();
+                        data[i][1] = c.getDate();
+                        data[i][2] = c.getHour();
+                        data[i][3] = c.getPatient_id() != null ? c.getPatient_id() : "Libre";
+                        data[i][4] = c.getReason() != null ? c.getReason() : "";
+                        data[i][5] = c.getDoctor_id();
+                    }
+
+                    view.updateConsultationTable(data);
+                }
+            }
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erreur : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+
         }
     }
 
