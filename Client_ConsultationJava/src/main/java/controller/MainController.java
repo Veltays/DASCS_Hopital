@@ -100,7 +100,7 @@ public class MainController {
         Requete requete = new Requete_SEARCH_CONSULTATIONS(null,null);
         List<Consultation> consultations = connectServer.SearchConsultation(requete);
 
-        Object[][] data = new Object[consultations.size()][6];
+        Object[][] data = new Object[consultations.size()][7];
 
         for (int i = 0; i < consultations.size(); i++) {
             Consultation c = consultations.get(i);
@@ -110,6 +110,7 @@ public class MainController {
             data[i][3] = c.getPatient_id() != null ? c.getPatient_id() : "Libre";
             data[i][4] = c.getReason() != null ? c.getReason() : "";
             data[i][5] = c.getDoctor_id();
+            data[i][6] = c.getDuration();
         }
 
         // Appel de la vue
@@ -269,7 +270,7 @@ public class MainController {
                     JOptionPane.showMessageDialog(null, "Aucune consultation trouvée.", "Résultat", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     // Conversion en tableau pour la JTable
-                    Object[][] data = new Object[consultations.size()][6];
+                    Object[][] data = new Object[consultations.size()][7];
                     for (int i = 0; i < consultations.size(); i++) {
                         Consultation c = consultations.get(i);
                         data[i][0] = c.getId();
@@ -278,6 +279,7 @@ public class MainController {
                         data[i][3] = c.getPatient_id() != null ? c.getPatient_id() : "Libre";
                         data[i][4] = c.getReason() != null ? c.getReason() : "";
                         data[i][5] = c.getDoctor_id();
+                        data[i][6] = c.getDuration();
                     }
 
                     view.updateConsultationTable(data);

@@ -1,5 +1,6 @@
 package model.dao;
 
+import ProtocoleCAP.Exception.CAPException;
 import model.entity.Consultation;
 import model.viewmodel.ConsultationSearchVM;
 
@@ -44,7 +45,7 @@ public class ConsultationDAO {
 
     public ArrayList<Consultation> load(ConsultationSearchVM ConsultationSearchVMParameter) throws SQLException {
         try {
-            String sql = "SELECT id, doctor_id, patient_id, date, hour, reason FROM consultations ";
+            String sql = "SELECT id, doctor_id, patient_id, date, hour, reason, duration FROM consultations ";
 
             if (ConsultationSearchVMParameter != null) {
                 String where = " WHERE 1=1";
@@ -98,8 +99,9 @@ public class ConsultationDAO {
                 String hour = rs.getString("hour");
                 LocalDate date = rs.getDate("date").toLocalDate();
                 String reason = rs.getString("reason");
+                String duration = rs.getString("duration");
 
-                Consultation consultation = new Consultation(id, doctor_id, patient_id, hour, date, reason);
+                Consultation consultation = new Consultation(id, doctor_id, patient_id, hour, date, reason,duration);
 
                 consultationsList.add(consultation);
 
@@ -123,7 +125,7 @@ public class ConsultationDAO {
             {
                 if (c.getId() != null) // UPDATE
                 {
-                    sql = "UPDATE consultations SET doctor_id=?, patient_id=?, date=?, hour=?, reason= WHERE id=?";
+                    sql = "UPDATE consultations SET doctor_id=?, patient_id=?, date=?, hour=?, reason=?,duration=? WHERE id=?";
                     System.out.println(c);
 
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
@@ -131,12 +133,12 @@ public class ConsultationDAO {
                     if (c.getPatient_id() == null)
                         pStmt.setNull(2, java.sql.Types.INTEGER);
                     else
-                        pStmt.setInt(2, c.getPatient_id()
+                        pStmt.setInt(2, c.getPatient_id());
 
                     pStmt.setDate(3, Date.valueOf(c.getDate()));
                     pStmt.setString(4, c.getHour());
                     pStmt.setString(5, c.getReason());
-                    pStmt.setInt(6, c.getDuration());
+                    pStmt.setString(6, c.getDuration());
                     pStmt.setInt(7, c.getId());
                     pStmt.executeUpdate();
                     pStmt.close();
@@ -154,7 +156,7 @@ public class ConsultationDAO {
                     pStmt.setDate(3, Date.valueOf(c.getDate()));
                     pStmt.setString(4, c.getHour());
                     pStmt.setString(5, c.getReason());
-                    pStmt.setInt(6,c.getDuration());
+                    pStmt.setString(6,c.getDuration());
                     pStmt.executeUpdate();
 
                     ResultSet rs = pStmt.getGeneratedKeys();
@@ -164,48 +166,70 @@ public class ConsultationDAO {
                     pStmt.close();
                 }
             }
+            else
+            {
+                throw new CAPException("Erreur lors de l'ajout d'une consultation elle overlap une deja existante");
+            }
         }
         catch (SQLException sqlException)
         {
             Logger.getLogger(ConsultationDAO.class.getName()).log(Level.SEVERE, null, sqlException);
+        } catch (CAPException e) {
+            throw new RuntimeException(e);
         }
     }
 
     private boolean VerifyConsultationIsAvailable(Consultation ConsultationAInserer) {
-        //getAllConsultation trier et garder uniquement a celle de ConsultationAInserer.getDate
 
-        // recupere la date du jour
-        LocalDate targetDate = ConsultationAInserer.getDate();
-        Integer targetDoctor = ConsultationAInserer.getDoctor_id();
-        LocalTime targetHour = LocalTime.parse(ConsultationAInserer.getHour());
+            LocalDate targetDate = ConsultationAInserer.getDate();
+            int targetDoctor = ConsultationAInserer.getDoctor_id();
 
-        // 1) Créer une liste vide
-        List<Consultation> listeDuJourXEtDuMedecinY = new ArrayList<>();
+            int targetStart = convertHourToMinutes(ConsultationAInserer.getHour());
+            int targetDurationMinutes = convertDurationToMinutes(ConsultationAInserer.getDuration());
+            int targetEnd = targetStart + targetDurationMinutes;
 
-        // 2) Trier au niveau du medecin
-        for (Consultation c : consultationsList) {
-            if (c.getDoctor_id().equals(targetDoctor) && c.getDate().equals(targetDate) ) {
-                listeDuJourXEtDuMedecinY.add(c);
+            List<Consultation> liste = new ArrayList<>();
+
+            // Filtrer au niveau jour + docteur
+            for (Consultation c : consultationsList) {
+                if (c.getDoctor_id() == targetDoctor && c.getDate().equals(targetDate)) {
+                    liste.add(c);
+                }
             }
+
+            // Vérification OVERLAP en pure logique
+            for (Consultation c : liste) {
+
+                int start = convertHourToMinutes(c.getHour());
+                int duration = convertDurationToMinutes(c.getDuration());
+                int end = start + duration;
+
+
+                System.out.println(start + " - " + end + " - " + duration + " - " + " Pour la consultation " + ConsultationAInserer + "\n" );
+
+                if (targetStart < end && targetEnd > start) {
+                    System.out.println("Overlap avec -> " + c.getHour());
+                    return false;
+                }
+            }
+
+            System.out.println("✔️ Consultation disponible (logique pure).");
+            return true;
         }
 
-        listeDuJourXEtDuMedecinY.sort(Comparator.comparing(c -> LocalTime.parse(c.getHour())));
 
-        System.out.println("Consultation trouvé a cette heure ci : "+listeDuJourXEtDuMedecinY + " \n");
+    private int convertHourToMinutes(String hour) {
+        String[] parts = hour.split(":");
 
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
 
-        // regarder les consultation entre mon heure targetHour
-
-
-
-
-
-        return true;
-
-
-
+        return hours * 60 + minutes;
     }
 
+    private int convertDurationToMinutes(String duration) {
+        return Integer.parseInt(duration); // le plus simple du monde
+    }
 
     public void delete(Consultation entity) {
         if (entity != null && entity.getId() != null) {

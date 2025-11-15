@@ -78,7 +78,7 @@ public class Client extends JFrame {
     // Méthode pour actualiser la JTable
     // ============================================================
     public void updateConsultationTable(Object[][] data) {
-        String[] colonnes = {"ID", "Date", "Heure", "Patient", "Raison", "Docteur"};
+        String[] colonnes = {"ID", "Date", "Heure", "Patient", "Raison", "Docteur","Duration"};
         TableOfConsultation.setModel(new javax.swing.table.DefaultTableModel(data, colonnes));
         TableOfConsultation.revalidate();
         TableOfConsultation.repaint();

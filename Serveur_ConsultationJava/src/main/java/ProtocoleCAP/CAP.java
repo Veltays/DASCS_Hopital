@@ -162,6 +162,7 @@ public class CAP implements Protocole {
                 newConsultation.setPatient_id(null);
                 newConsultation.setHour(NewHeure.toString());
                 newConsultation.setDate(requete.getDate());
+                newConsultation.setDuration(requete.getDuree());
 
 
                 consultationDAO.save(newConsultation);

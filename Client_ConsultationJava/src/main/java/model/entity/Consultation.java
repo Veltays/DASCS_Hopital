@@ -1,6 +1,7 @@
 package model.entity;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Consultation implements Entity {
     private static final long serialVersionUID = 1L;
@@ -11,15 +12,20 @@ public class Consultation implements Entity {
     private Integer patient_id;
     private String hour;
     private LocalDate date;
+    private String Duration;
     private String reason;
 
-    public Consultation(Integer id, Integer doctor_id, Integer patient_id, String hour, LocalDate date, String reason) {
+
+
+
+    public Consultation(Integer id, Integer doctor_id, Integer patient_id, String hour, LocalDate date, String reason, String duration) {
         setId(id);
         setDoctor_id(doctor_id);
         setPatient_id(patient_id);
         setHour(hour);
         setDate(date);
         setReason(reason);
+        setDuration(duration);
     }
 
     public Consultation() {
@@ -51,6 +57,11 @@ public class Consultation implements Entity {
         return hour;
     }
 
+    public String getDuration() {
+        return Duration;
+    }
+
+
 
     // SETTERS AVEC VALIDATIONS
     public void setId(Integer id) {
@@ -75,6 +86,10 @@ public class Consultation implements Entity {
 
     public void setHour(String hour) {
         this.hour = hour;
+    }
+
+    public void setDuration(String duration) {
+        Duration = duration;
     }
 
 

@@ -1,10 +1,15 @@
+import com.formdev.flatlaf.FlatDarkLaf;
 import controller.MainController;
 import model.ConnectServer;
 import view.Client;
-import view.MaPage;
 
 public class Main {
+
     public static void main(String[] args) {
+
+        // 1. Appliquer le thème AVANT de créer les fenêtres
+        FlatDarkLaf.setup();
+
         javax.swing.SwingUtilities.invokeLater(() -> {
             try {
                 Client mainView = new Client();
