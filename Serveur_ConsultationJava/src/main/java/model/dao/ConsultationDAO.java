@@ -200,6 +200,12 @@ public class ConsultationDAO {
             // Vérification OVERLAP en pure logique
             for (Consultation c : liste) {
 
+                // IGNORE la consultation elle-même si on est en update
+                if (ConsultationAInserer.getId() != null &&
+                        c.getId().equals(ConsultationAInserer.getId())) {
+                    continue;
+                }
+
                 int start = convertHourToMinutes(c.getHour());
                 int duration = convertDurationToMinutes(c.getDuration());
                 int end = start + duration;
