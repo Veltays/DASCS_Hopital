@@ -12,7 +12,11 @@ public class Consultation implements Entity {
     private Integer patient_id;
     private String hour;
     private LocalDate date;
+    private Integer Duration;
     private String reason;
+
+
+
 
     public Consultation(Integer id, Integer doctor_id, Integer patient_id, String hour, LocalDate date, String reason) {
         setId(id);
@@ -52,6 +56,11 @@ public class Consultation implements Entity {
         return hour;
     }
 
+    public Integer getDuration() {
+        return Duration;
+    }
+
+
 
     // SETTERS AVEC VALIDATIONS
     public void setId(Integer id) {
@@ -76,6 +85,10 @@ public class Consultation implements Entity {
 
     public void setHour(String hour) {
         this.hour = hour;
+    }
+
+    public void setDuration(Integer duration) {
+        Duration = duration;
     }
 
 

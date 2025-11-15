@@ -6,6 +6,7 @@ import model.viewmodel.ConsultationSearchVM;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.logging.*;
 
@@ -116,14 +117,13 @@ public class ConsultationDAO {
     public void save(Consultation c) throws SQLException {
         try
         {
+
             String sql;
-            if (c != null)
+            if (c != null && VerifyConsultationIsAvailable(c))
             {
                 if (c.getId() != null) // UPDATE
                 {
-
-                    sql = "UPDATE consultations SET doctor_id=?, patient_id=?, date=?, hour=?, reason=? WHERE id=?";
-
+                    sql = "UPDATE consultations SET doctor_id=?, patient_id=?, date=?, hour=?, reason= WHERE id=?";
                     System.out.println(c);
 
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
@@ -131,18 +131,19 @@ public class ConsultationDAO {
                     if (c.getPatient_id() == null)
                         pStmt.setNull(2, java.sql.Types.INTEGER);
                     else
-                        pStmt.setInt(2, c.getPatient_id());
+                        pStmt.setInt(2, c.getPatient_id()
 
                     pStmt.setDate(3, Date.valueOf(c.getDate()));
                     pStmt.setString(4, c.getHour());
                     pStmt.setString(5, c.getReason());
-                    pStmt.setInt(6, c.getId());
+                    pStmt.setInt(6, c.getDuration());
+                    pStmt.setInt(7, c.getId());
                     pStmt.executeUpdate();
                     pStmt.close();
                 }
                 else // CREATE
                 {
-                    sql = "INSERT INTO consultations (doctor_id, patient_id, date, hour, reason) VALUES (?, ?, ?, ?, ?)";
+                    sql = "INSERT INTO consultations (doctor_id, patient_id, date, hour, reason,duration) VALUES (?, ?, ?, ?, ?,?)";
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                     pStmt.setInt(1, c.getDoctor_id());
                     if (c.getPatient_id() == null)
@@ -153,6 +154,7 @@ public class ConsultationDAO {
                     pStmt.setDate(3, Date.valueOf(c.getDate()));
                     pStmt.setString(4, c.getHour());
                     pStmt.setString(5, c.getReason());
+                    pStmt.setInt(6,c.getDuration());
                     pStmt.executeUpdate();
 
                     ResultSet rs = pStmt.getGeneratedKeys();
@@ -161,13 +163,47 @@ public class ConsultationDAO {
                     rs.close();
                     pStmt.close();
                 }
-
             }
         }
         catch (SQLException sqlException)
         {
             Logger.getLogger(ConsultationDAO.class.getName()).log(Level.SEVERE, null, sqlException);
         }
+    }
+
+    private boolean VerifyConsultationIsAvailable(Consultation ConsultationAInserer) {
+        //getAllConsultation trier et garder uniquement a celle de ConsultationAInserer.getDate
+
+        // recupere la date du jour
+        LocalDate targetDate = ConsultationAInserer.getDate();
+        Integer targetDoctor = ConsultationAInserer.getDoctor_id();
+        LocalTime targetHour = LocalTime.parse(ConsultationAInserer.getHour());
+
+        // 1) Créer une liste vide
+        List<Consultation> listeDuJourXEtDuMedecinY = new ArrayList<>();
+
+        // 2) Trier au niveau du medecin
+        for (Consultation c : consultationsList) {
+            if (c.getDoctor_id().equals(targetDoctor) && c.getDate().equals(targetDate) ) {
+                listeDuJourXEtDuMedecinY.add(c);
+            }
+        }
+
+        listeDuJourXEtDuMedecinY.sort(Comparator.comparing(c -> LocalTime.parse(c.getHour())));
+
+        System.out.println("Consultation trouvé a cette heure ci : "+listeDuJourXEtDuMedecinY + " \n");
+
+
+        // regarder les consultation entre mon heure targetHour
+
+
+
+
+
+        return true;
+
+
+
     }
 
 

@@ -74,3 +74,10 @@ SELECT d.id AS doctor_id,
 FROM doctors d
          LEFT JOIN users u ON d.user_id = u.id
 ORDER BY d.id;
+
+
+ALTER TABLE consultations
+    ADD COLUMN duration INTEGER;
+
+UPDATE consultations
+SET duration = 30;
