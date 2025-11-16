@@ -1,7 +1,7 @@
 package ServeurGeneriqueTCP.core;
 
 import ServeurGeneriqueTCP.logging.Logger;
-import ServeurGeneriqueTCP.protocol.Protocole;
+import protocol.Protocole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

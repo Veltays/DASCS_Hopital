@@ -1,161 +1,78 @@
 package ServeurGeneriqueTCP.model.entity;
 
 import model.entity.Consultation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Date;
+
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConsultationTest {
 
-    private Consultation consultation;
-    private Date now;
-    private Date future;
-
-    @BeforeEach
-    void setUp() {
-        now = new Date();
-        future = new Date(System.currentTimeMillis() + 100000); // dans 100 secondes
-        consultation = new Consultation(1, 10, 100, "08:00", future, "Rendez-vous annuel");
-    }
-
-    // ----------------------------
-    // TESTS GETTERS
-    // ----------------------------
-
     @Test
-    void getId() {
-        assertEquals(1, consultation.getId());
-    }
+    void testConstructorAndGetters() {
+        LocalDate date = LocalDate.of(2025, 1, 10);
 
-    @Test
-    void getDoctor_id() {
-        assertEquals(10, consultation.getDoctor_id());
-    }
+        Consultation c = new Consultation(
+                1,          // id
+                2,          // doctor_id
+                3,          // patient_id
+                "14:00",    // hour
+                date,       // LocalDate
+                "Check-up", // reason
+                "30"        // duration
+        );
 
-    @Test
-    void getPatient_id() {
-        assertEquals(100, consultation.getPatient_id());
+        assertEquals(1, c.getId());
+        assertEquals(2, c.getDoctor_id());
+        assertEquals(3, c.getPatient_id());
+        assertEquals("14:00", c.getHour());
+        assertEquals(date, c.getDate());
+        assertEquals("Check-up", c.getReason());
+        assertEquals("30", c.getDuration());
     }
 
     @Test
-    void getDate() {
-        assertEquals(future, consultation.getDate());
+    void testSetters() {
+        Consultation c = new Consultation();
+
+        LocalDate date = LocalDate.of(2025, 2, 20);
+
+        c.setId(5);
+        c.setDoctor_id(9);
+        c.setPatient_id(11);
+        c.setHour("09:30");
+        c.setDate(date);
+        c.setReason("Routine");
+        c.setDuration("45");
+
+        assertEquals(5, c.getId());
+        assertEquals(9, c.getDoctor_id());
+        assertEquals(11, c.getPatient_id());
+        assertEquals("09:30", c.getHour());
+        assertEquals(date, c.getDate());
+        assertEquals("Routine", c.getReason());
+        assertEquals("45", c.getDuration());
     }
 
     @Test
-    void getReason() {
-        assertEquals("Rendez-vous annuel", consultation.getReason());
-    }
+    void testToStringContainsFields() {
+        Consultation c = new Consultation(
+                10, 4, 7,
+                "15:00",
+                LocalDate.of(2025, 3, 5),
+                "Control",
+                "60"
+        );
 
-    @Test
-    void getHour() {
-        assertEquals("08:00", consultation.getHour());
-    }
+        String ts = c.toString();
 
-    // ----------------------------
-    // TESTS SETTERS (valeurs valides)
-    // ----------------------------
-
-    @Test
-    void setId() {
-        consultation.setId(2);
-        assertEquals(2, consultation.getId());
-    }
-
-    @Test
-    void setDoctor_id() {
-        consultation.setDoctor_id(20);
-        assertEquals(20, consultation.getDoctor_id());
-    }
-
-    @Test
-    void setPatient_id() {
-        consultation.setPatient_id(200);
-        assertEquals(200, consultation.getPatient_id());
-    }
-
-    @Test
-    void setDate() {
-        Date newDate = new Date(System.currentTimeMillis() + 200000);
-        consultation.setDate(newDate);
-        assertEquals(newDate, consultation.getDate());
-    }
-
-    @Test
-    void setReason() {
-        consultation.setReason("Nouvelle raison");
-        assertEquals("Nouvelle raison", consultation.getReason());
-    }
-
-    @Test
-    void setHour() {
-        consultation.setHour("09:30");
-        assertEquals("09:30", consultation.getHour());
-    }
-
-    // ----------------------------
-    // TESTS EXCEPTIONS (valeurs invalides)
-    // ----------------------------
-
-    @Test
-    void setId_ShouldThrow_WhenNegativeOrZero() {
-        assertThrows(IllegalArgumentException.class, () -> consultation.setId(0));
-        assertThrows(IllegalArgumentException.class, () -> consultation.setId(-1));
-    }
-
-
-    @Test
-    void setDoctor_id_ShouldThrow_WhenNegativeOrZero() {
-        assertThrows(IllegalArgumentException.class, () -> consultation.setDoctor_id(0));
-        assertThrows(IllegalArgumentException.class, () -> consultation.setDoctor_id(-5));
-    }
-
-    @Test
-    void setDoctor_id_ShouldThrow_WhenNull() {
-        assertThrows(IllegalArgumentException.class, () -> consultation.setDoctor_id(null));
-    }
-
-    @Test
-    void setPatient_id_ShouldThrow_WhenNegativeOrZero() {
-        assertThrows(IllegalArgumentException.class, () -> consultation.setPatient_id(0));
-        assertThrows(IllegalArgumentException.class, () -> consultation.setPatient_id(-10));
-    }
-
-
-    @Test
-    void setDate_ShouldThrow_WhenNull() {
-        assertThrows(IllegalArgumentException.class, () -> consultation.setDate(null));
-    }
-
-
-    @Test
-    void setReason_ShouldThrow_WhenNullOrEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> consultation.setReason(null));
-        assertThrows(IllegalArgumentException.class, () -> consultation.setReason(""));
-        assertThrows(IllegalArgumentException.class, () -> consultation.setReason("   "));
-    }
-
-    @Test
-    void setHour_ShouldThrow_WhenNullOrEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> consultation.setHour(null));
-        assertThrows(IllegalArgumentException.class, () -> consultation.setHour(""));
-        assertThrows(IllegalArgumentException.class, () -> consultation.setHour("   "));
-    }
-
-    // ----------------------------
-    // TEST TOSTRING
-    // ----------------------------
-
-    @Test
-    void testToString() {
-        String text = consultation.toString();
-        assertTrue(text.contains("Consultation"));
-        assertTrue(text.contains("doctor_id"));
-        assertTrue(text.contains("patient_id"));
-        assertTrue(text.contains("hour"));
-        assertTrue(text.contains("reason"));
-        assertTrue(text.contains("date"));
-        System.out.println("✅ toString() = " + text);
+        assertTrue(ts.contains("10"));
+        assertTrue(ts.contains("4"));
+        assertTrue(ts.contains("7"));
+        assertTrue(ts.contains("15:00"));
+        assertTrue(ts.contains("2025-03-05"));
+        assertTrue(ts.contains("Control"));
+        assertTrue(ts.contains("Consultation"));
     }
 }

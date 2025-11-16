@@ -1,10 +1,9 @@
 package ServeurGeneriqueTCP.core;
 
 import ServeurGeneriqueTCP.logging.Logger;
-import ServeurGeneriqueTCP.protocol.Protocole;
+import protocol.Protocole;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 

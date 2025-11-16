@@ -1,12 +1,11 @@
 package ProtocoleCAP.Reponse;
 import model.entity.Consultation;
-import ServeurGeneriqueTCP.protocol.Reponse;
+import protocol.Reponse;
 
 import java.util.ArrayList;
 
-public class Reponse_SEARCH_CONSULTATIONS implements Reponse{
+public class Reponse_SEARCH_CONSULTATIONS implements Reponse {
     private static final long serialVersionUID = 1L;
-
 
 
     private ArrayList<Consultation> consultationsList;

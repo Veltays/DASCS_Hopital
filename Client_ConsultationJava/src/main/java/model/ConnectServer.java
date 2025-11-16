@@ -13,6 +13,7 @@ import java.util.List;
 public class ConnectServer {
     private final String host;
     private final int port;
+    private Integer IdConnexionWithServer;
 
 
 
@@ -25,6 +26,9 @@ public class ConnectServer {
     // Fonction générique d’envoi de requête
     // ============================================================
     private Object sendRequest(Requete requete) {
+
+        requete.setIdConnexion(getIdConnexionWithServer());
+        System.out.println("Sending requete " + requete + " avec l'id de connexion " + getIdConnexionWithServer());
         try (Socket socket = new Socket(host, port);
              ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
              ObjectInputStream dis = new ObjectInputStream(socket.getInputStream())) {
@@ -46,6 +50,9 @@ public class ConnectServer {
         return null;
     }
 
+
+
+
     // ============================================================
     // LOGIN
     // ============================================================
@@ -53,25 +60,28 @@ public class ConnectServer {
         Reponse_LOGIN reponse = (Reponse_LOGIN) sendRequest(requete);
         if (reponse != null && reponse.isValide()) {
             System.out.println("[CLIENT] Réponse du serveur : connexion réussie!");
+            setIdConnexionWithServer(reponse.getIdConnexion());
+            System.out.println("[CLIENT] IdConnexionRecu " + getIdConnexionWithServer());
             return true;
         }
         System.out.println("[CLIENT] Réponse du serveur : connexion refusée");
         return false;
     }
 
+
+
+
     // ============================================================
     // LOGOUT
     // ============================================================
     public void Logout(Requete requete) {
-        try (Socket socket = new Socket(host, port);
-             ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream())) {
-            System.out.println("[CLIENT] Envoi de la requête LOGOUT");
-            dos.writeObject(requete);
-            System.out.println("[CLIENT] User correctement déloggé");
-        } catch (IOException e) {
-            System.err.println("Erreur d’E/S : " + e.getMessage());
-        }
+        System.out.println("[CLIENT] Envoi LOGOUT via sendRequest()");
+        sendRequest(requete);
+        IdConnexionWithServer = null; // on vide l'id après logout
     }
+
+
+
 
     // ============================================================
     // ADD CONSULTATION
@@ -89,20 +99,25 @@ public class ConnectServer {
 
     }
 
+
+
+
     // ============================================================
     // ADD PATIENT
     // ============================================================
-    public boolean AddPatient(Requete requete) {
+    public Integer AddPatient(Requete requete) {
         Reponse_ADD_PATIENT reponse = (Reponse_ADD_PATIENT) sendRequest(requete);
         if (reponse.getIdAttribuer() == -1) {
             System.out.println("[CLIENT] pas ok ! :(");
-            return false;
+            return reponse.getIdAttribuer();
         } else {
             System.out.println("[CLIENT] ok! id attribué : " + reponse.getIdAttribuer());
-            return true;
+            return reponse.getIdAttribuer();
         }
 
     }
+
+
 
     // ============================================================
     // SEARCH CONSULTATIONS
@@ -119,6 +134,9 @@ public class ConnectServer {
         return new ArrayList<>();
     }
 
+
+
+
     // ============================================================
     // DELETE CONSULTATION
     // ============================================================
@@ -129,6 +147,9 @@ public class ConnectServer {
         else
             System.out.println("[CLIENT] pas ok! pb lors de la suppression :(");
     }
+
+
+
 
     // ============================================================
     // UPDATE CONSULTATION
@@ -147,5 +168,17 @@ public class ConnectServer {
             return false;
         }
 
+    }
+
+
+
+    public Integer getIdConnexionWithServer() {
+        return IdConnexionWithServer;
+    }
+
+
+
+    public void setIdConnexionWithServer(Integer idConnexionWithServer) {
+        IdConnexionWithServer = idConnexionWithServer;
     }
 }

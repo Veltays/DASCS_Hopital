@@ -1,5 +1,5 @@
 package ProtocoleCAP.Reponse;
-import ServeurGeneriqueTCP.protocol.Reponse;
+import protocol.Reponse;
 
 
 public class Reponse_ERROR implements Reponse {

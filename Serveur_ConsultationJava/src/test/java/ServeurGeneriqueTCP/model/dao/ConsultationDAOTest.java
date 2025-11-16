@@ -3,12 +3,13 @@ package ServeurGeneriqueTCP.model.dao;
 import model.dao.ConnectDB;
 import model.dao.ConsultationDAO;
 import model.entity.Consultation;
+import model.viewmodel.ConsultationSearchVM;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -36,21 +37,19 @@ class ConsultationDAOTest {
     }
 
     @Test
-    void load_ShouldWorkWithRealDB() throws Exception {
-        ArrayList<Consultation> result = dao.load(null);
-        assertNotNull(result);
-        System.out.println("Nombre de consultations : " + result.size());
-    }
-
-    // --- getList et getById ---
-    @Test
     void getList_ShouldReturnEmptyInitially() {
         assertTrue(dao.getList().isEmpty());
     }
 
     @Test
     void getById_ShouldReturnEntity_WhenFound() {
-        Consultation c1 = new Consultation(1, 1, 2, "10:00", new Date(), "Check");
+        Consultation c1 = new Consultation(
+                1, 1, 2,
+                "10:00",
+                LocalDate.now(),
+                "Check",
+                "30"
+        );
         dao.getList().add(c1);
         assertEquals(c1, dao.getById(1));
     }
@@ -60,41 +59,44 @@ class ConsultationDAOTest {
         assertNull(dao.getById(999));
     }
 
-    // --- load ---
     @Test
     void load_ShouldReturnListOfConsultations() throws Exception {
-        // Arrange
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
-        when(mockStmt.executeQuery()).thenReturn(mockResultSet);
 
         when(mockResultSet.next()).thenReturn(true, false);
         when(mockResultSet.getInt("id")).thenReturn(1);
         when(mockResultSet.getInt("doctor_id")).thenReturn(10);
         when(mockResultSet.getInt("patient_id")).thenReturn(20);
         when(mockResultSet.getString("hour")).thenReturn("09:00");
-        when(mockResultSet.getDate("date")).thenReturn(new java.sql.Date(System.currentTimeMillis()));
+        when(mockResultSet.getDate("date")).thenReturn(java.sql.Date.valueOf(LocalDate.now()));
         when(mockResultSet.getString("reason")).thenReturn("Routine");
+        when(mockResultSet.getString("duration")).thenReturn("30");
 
-        // Act
         ArrayList<Consultation> list = dao.load(null);
 
-        // Assert
         assertEquals(1, list.size());
         Consultation c = list.get(0);
         assertEquals(1, c.getId());
         assertEquals(10, c.getDoctor_id());
+        assertEquals(20, c.getPatient_id());
         assertEquals("Routine", c.getReason());
+        assertEquals("30", c.getDuration());
     }
 
-    // --- save (INSERT) ---
+    // --- SAVE INSERT ---
     @Test
     void save_ShouldInsert_WhenIdIsNull() throws Exception {
-        // 📅 Crée une date dans le futur (+1 jour)
-        Date futureDate = new Date(System.currentTimeMillis() + 86400000); // + 1 jour en millisecondes
 
-        Consultation c = new Consultation(null, 10, 20, "11:00", futureDate, "New");
+        Consultation c = new Consultation(
+                null, 10, 20,
+                "11:00",
+                LocalDate.now(),
+                "New",
+                "30"
+        );
 
-        when(mockConnection.prepareStatement(anyString(), eq(PreparedStatement.RETURN_GENERATED_KEYS))).thenReturn(mockStmt);
+        when(mockConnection.prepareStatement(anyString(), eq(PreparedStatement.RETURN_GENERATED_KEYS)))
+                .thenReturn(mockStmt);
+
         ResultSet mockKeys = mock(ResultSet.class);
         when(mockStmt.getGeneratedKeys()).thenReturn(mockKeys);
         when(mockKeys.next()).thenReturn(true);
@@ -103,40 +105,54 @@ class ConsultationDAOTest {
         dao.save(c);
 
         verify(mockStmt, times(1)).executeUpdate();
-        assertNotNull(c.getId());
+        assertEquals(1, c.getId());
     }
 
-    // --- save (UPDATE) ---
+    // --- SAVE UPDATE ---
     @Test
     void save_ShouldUpdate_WhenIdNotNull() throws Exception {
-        Consultation c = new Consultation(1, 10, 20, "12:00", new Date(), "Follow-up");
+        Consultation c = new Consultation(
+                1, 10, 20,
+                "12:00",
+                LocalDate.now(),
+                "Follow-up",
+                "30"
+        );
+
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
 
         dao.save(c);
 
         verify(mockStmt, times(1)).executeUpdate();
-        verify(mockStmt, times(1)).close();
+        verify(mockStmt).close();
     }
 
-    // --- delete by entity ---
+    // --- DELETE entity ---
     @Test
     void delete_ShouldCallDeleteById_WhenEntityNotNull() throws Exception {
-        Consultation c = new Consultation(5, 1, 2, "08:00", new Date(), "Test");
+
+        Consultation c = new Consultation(
+                5, 1, 2,
+                "08:00",
+                LocalDate.now(),
+                "Test",
+                "30"
+        );
 
         PreparedStatement stmt = mock(PreparedStatement.class);
         when(mockConnection.prepareStatement(anyString())).thenReturn(stmt);
 
         dao.delete(c);
 
-        verify(mockConnection, times(1)).prepareStatement(anyString());
+        verify(mockConnection).prepareStatement(anyString());
     }
 
-    // --- delete by id ---
+    // --- DELETE by id ---
     @Test
     void delete_ShouldExecuteDelete_WhenIdNotNull() throws Exception {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
         dao.delete(10);
-        verify(mockStmt, times(1)).executeUpdate();
+        verify(mockStmt).executeUpdate();
     }
 
     @Test

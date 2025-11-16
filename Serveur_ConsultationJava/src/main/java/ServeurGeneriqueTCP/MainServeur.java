@@ -4,7 +4,7 @@ import ServeurGeneriqueTCP.core.ThreadServeurPool;
 import ServeurGeneriqueTCP.logging.ConsoleLogger;
 import ServeurGeneriqueTCP.logging.Logger;
 
-import ServeurGeneriqueTCP.protocol.Protocole;
+import protocol.Protocole;
 import ProtocoleCAP.CAP; // ou ton protocole concret (par ex. ProtocoleConsultation)
 import ServeurGeneriqueTCP.utils.ConfigLoader;
 

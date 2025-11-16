@@ -1,10 +1,10 @@
 package ServeurGeneriqueTCP.core;
 
 import ServeurGeneriqueTCP.logging.Logger;
-import ServeurGeneriqueTCP.protocol.FinConnexionException;
-import ServeurGeneriqueTCP.protocol.Protocole;
-import ServeurGeneriqueTCP.protocol.Reponse;
-import ServeurGeneriqueTCP.protocol.Requete;
+import protocol.FinConnexionException;
+import protocol.Protocole;
+import protocol.Reponse;
+import protocol.Requete;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

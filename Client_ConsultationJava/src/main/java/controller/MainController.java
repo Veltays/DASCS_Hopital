@@ -39,11 +39,14 @@ public class MainController {
         view.getBoutonSearchConsultation().addActionListener(new SearchConsultation());
 
         view.setWindowCloseListener(() -> {
-            // Effectuer le logout ici
-            Requete requete = new Requete_LOGOUT();
-            connectServer.Logout(requete);
+            try {
+                Requete requete = new Requete_LOGOUT();
+                connectServer.Logout(requete);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
             view.dispose();
-            System.exit(0);
         });
     }
 
@@ -95,27 +98,7 @@ public class MainController {
         dialog.setVisible(true);
     }
 
-    private void LoadAllConsultations() {
-        System.out.println("**********LOAD_ALL_CONSULTATIONS**********");
-        Requete requete = new Requete_SEARCH_CONSULTATIONS(null,null);
-        List<Consultation> consultations = connectServer.SearchConsultation(requete);
 
-        Object[][] data = new Object[consultations.size()][7];
-
-        for (int i = 0; i < consultations.size(); i++) {
-            Consultation c = consultations.get(i);
-            data[i][0] = c.getId();
-            data[i][1] = c.getDate();
-            data[i][2] = c.getHour();
-            data[i][3] = c.getPatient_id() != null ? c.getPatient_id() : "Libre";
-            data[i][4] = c.getReason() != null ? c.getReason() : "";
-            data[i][5] = c.getDoctor_id();
-            data[i][6] = c.getDuration();
-        }
-
-        // Appel de la vue
-        view.updateConsultationTable(data);
-    }
 
 
     // ============================================================
@@ -184,8 +167,6 @@ public class MainController {
 
 
 
-
-
     // ============================================================
     // ADD_PATIENT
     // ============================================================
@@ -211,9 +192,10 @@ public class MainController {
             {
                 System.out.println("[CLIENT] Envoi de la requête au serveur...");
                 Requete requete = new Requete_ADD_PATIENT(prenom, nom);
-                if(connectServer.AddPatient(requete))
+                Integer Idpatient = connectServer.AddPatient(requete);
+                if(Idpatient != -1 )
                 {
-                    JOptionPane.showMessageDialog(null, "Patient ajouté avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Patient" + Idpatient+ "ajouté avec succès. ", "Succès", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
                 {
@@ -241,57 +223,30 @@ public class MainController {
             SearchDialog dialog = new SearchDialog();
             dialog.setVisible(true);
 
-            // recup les donnes
-            String patientID= dialog.getIdPatient();
+            String patientID = dialog.getIdPatient();
             String date = dialog.getDate();
 
             try {
-                Integer idPatient = null;
-                LocalDate localDate = null;
+                Integer idPatient = (patientID != null && !patientID.isEmpty()) ? Integer.parseInt(patientID) : null;
+                LocalDate localDate = (date != null && !date.isEmpty()) ? LocalDate.parse(date) : null;
 
-                if (patientID != null && !patientID.isEmpty())
-                    idPatient = Integer.parseInt(patientID);
-                if (date != null && !date.isEmpty())
-                    localDate = LocalDate.parse(date);
-
-                System.out.println("[CLIENT] Envoi de la requête au serveur...");
                 Requete requete = new Requete_SEARCH_CONSULTATIONS(idPatient, localDate);
-
                 List<Consultation> consultations = connectServer.SearchConsultation(requete);
-
-                System.out.println(requete);
-
-                for (Consultation c :consultations)
-                {
-                    System.out.println(c);
-                }
 
                 if (consultations.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Aucune consultation trouvée.", "Résultat", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    // Conversion en tableau pour la JTable
-                    Object[][] data = new Object[consultations.size()][7];
-                    for (int i = 0; i < consultations.size(); i++) {
-                        Consultation c = consultations.get(i);
-                        data[i][0] = c.getId();
-                        data[i][1] = c.getDate();
-                        data[i][2] = c.getHour();
-                        data[i][3] = c.getPatient_id() != null ? c.getPatient_id() : "Libre";
-                        data[i][4] = c.getReason() != null ? c.getReason() : "";
-                        data[i][5] = c.getDoctor_id();
-                        data[i][6] = c.getDuration();
-                    }
-
-                    view.updateConsultationTable(data);
+                    loadConsultationsInJTable(consultations);
                 }
-            }
-            catch (Exception ex) {
+
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erreur : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
             }
-
         }
     }
+
+
 
     // ============================================================
     // DELETE_CONSULTATION
@@ -395,6 +350,41 @@ public class MainController {
 
         }
     }
+
+
+
+    // ============================================================
+    // UTILITAIRE
+    // ============================================================
+
+    private void LoadAllConsultations() {
+        System.out.println("**********LOAD_ALL_CONSULTATIONS**********");
+        Requete requete = new Requete_SEARCH_CONSULTATIONS(null,null);
+        List<Consultation> consultations = connectServer.SearchConsultation(requete);
+
+        loadConsultationsInJTable(consultations);
+    }
+
+
+
+    private void loadConsultationsInJTable(List<Consultation> consultations) {
+        Object[][] data = new Object[consultations.size()][7];
+
+        for (int i = 0; i < consultations.size(); i++) {
+            Consultation c = consultations.get(i);
+            data[i][0] = c.getId();
+            data[i][1] = c.getDate();
+            data[i][2] = c.getHour();
+            data[i][3] = c.getPatient_id() != null ? c.getPatient_id() : "Libre";
+            data[i][4] = c.getReason() != null ? c.getReason() : "";
+            data[i][5] = c.getDoctor_id();
+            data[i][6] = c.getDuration();
+        }
+
+        view.updateConsultationTable(data);
+    }
+
+
 
 
 }

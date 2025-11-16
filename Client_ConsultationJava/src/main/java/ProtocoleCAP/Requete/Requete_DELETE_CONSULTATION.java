@@ -1,10 +1,9 @@
 package ProtocoleCAP.Requete;
 
-import protocol.Requete;
+import protocol.RequeteCAP;
 
-public class Requete_DELETE_CONSULTATION implements Requete {
+public class Requete_DELETE_CONSULTATION extends RequeteCAP {
     private static final long serialVersionUID = 1L;
-
 
     private Integer idConsultation;
 
@@ -28,4 +27,6 @@ public class Requete_DELETE_CONSULTATION implements Requete {
                 "idConsultation=" + idConsultation +
                 '}';
     }
+
+
 }

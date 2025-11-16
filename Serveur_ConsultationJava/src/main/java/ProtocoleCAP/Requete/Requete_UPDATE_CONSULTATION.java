@@ -1,14 +1,11 @@
 package ProtocoleCAP.Requete;
 
-import ServeurGeneriqueTCP.protocol.Requete;
+import protocol.RequeteCAP;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-public class Requete_UPDATE_CONSULTATION implements Requete {
-
+public class Requete_UPDATE_CONSULTATION extends RequeteCAP {
     private static final long serialVersionUID = 1L;
-
 
     private Integer idConsultation;
     private LocalDate nouvelleDate;
@@ -52,8 +49,8 @@ public class Requete_UPDATE_CONSULTATION implements Requete {
     }
 
     public void setIdPatient(Integer idPatient) {
-//        if (idPatient == null || idPatient <= 0)
-//            throw new IllegalArgumentException("L'identifiant du patient doit être positif et non nul.");
+        if (idPatient == null || idPatient <= 0)
+            throw new IllegalArgumentException("L'identifiant du patient doit être positif et non nul.");
         this.idPatient = idPatient;
     }
 
@@ -73,4 +70,5 @@ public class Requete_UPDATE_CONSULTATION implements Requete {
                 ", nouvelleRaison='" + nouvelleRaison + '\'' +
                 '}';
     }
+
 }

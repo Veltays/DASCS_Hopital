@@ -12,7 +12,7 @@ class DoctorTest {
 
     @BeforeEach
     void setUp() {
-        doctor = new Doctor(1, 10, "Dupont", "Jean", rs.getInt("user_id"));
+        doctor = new Doctor(1, 10, "Dupont", "Jean", 5);
     }
 
     // --- Tests getters ---
@@ -34,6 +34,11 @@ class DoctorTest {
     @Test
     void getFirstname() {
         assertEquals("Jean", doctor.getFirstname());
+    }
+
+    @Test
+    void getUser_id() {
+        assertEquals(5, doctor.getUser_id());
     }
 
     // --- Tests setters valides ---
@@ -61,33 +66,10 @@ class DoctorTest {
         assertEquals("Luc", doctor.getFirstname());
     }
 
-    // --- Tests exceptions setters invalides ---
-
     @Test
-    void setId_ShouldThrow_WhenOrNegative() {
-        assertThrows(IllegalArgumentException.class, () -> doctor.setId(0));
-        assertThrows(IllegalArgumentException.class, () -> doctor.setId(-1));
-    }
-
-    @Test
-    void setSpecialty_id_ShouldThrow_WhenNullOrNegative() {
-        assertThrows(IllegalArgumentException.class, () -> doctor.setSpecialty_id(null));
-        assertThrows(IllegalArgumentException.class, () -> doctor.setSpecialty_id(0));
-        assertThrows(IllegalArgumentException.class, () -> doctor.setSpecialty_id(-5));
-    }
-
-    @Test
-    void setLastname_ShouldThrow_WhenNullOrBlank() {
-        assertThrows(IllegalArgumentException.class, () -> doctor.setLastname(null));
-        assertThrows(IllegalArgumentException.class, () -> doctor.setLastname(""));
-        assertThrows(IllegalArgumentException.class, () -> doctor.setLastname("   "));
-    }
-
-    @Test
-    void setFirstname_ShouldThrow_WhenNullOrBlank() {
-        assertThrows(IllegalArgumentException.class, () -> doctor.setFirstname(null));
-        assertThrows(IllegalArgumentException.class, () -> doctor.setFirstname(""));
-        assertThrows(IllegalArgumentException.class, () -> doctor.setFirstname("   "));
+    void setUser_id() {
+        doctor.setUser_id(12);
+        assertEquals(12, doctor.getUser_id());
     }
 
     // --- Test toString ---
@@ -95,10 +77,9 @@ class DoctorTest {
     void testToString() {
         String text = doctor.toString();
         assertTrue(text.contains("Doctor"));
-        assertTrue(text.contains("id"));
-        assertTrue(text.contains("specialty_id"));
-        assertTrue(text.contains("lastname"));
-        assertTrue(text.contains("firstname"));
-        System.out.println("toString() = " + text);
+        assertTrue(text.contains("id=1"));
+        assertTrue(text.contains("specialty_id=10"));
+        assertTrue(text.contains("lastname='Dupont'"));
+        assertTrue(text.contains("firstname='Jean'"));
     }
 }

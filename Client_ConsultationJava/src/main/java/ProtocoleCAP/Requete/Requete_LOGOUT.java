@@ -1,10 +1,9 @@
 package ProtocoleCAP.Requete;
 
-import protocol.Requete;
+import protocol.RequeteCAP;
 
-public class Requete_LOGOUT implements Requete {
+public class Requete_LOGOUT extends RequeteCAP {
     private static final long serialVersionUID = 1L;
-
     public Requete_LOGOUT() {
     }
 
@@ -13,4 +12,5 @@ public class Requete_LOGOUT implements Requete {
     public String toString() {
         return "Requete_LOGOUT{}";
     }
+
 }

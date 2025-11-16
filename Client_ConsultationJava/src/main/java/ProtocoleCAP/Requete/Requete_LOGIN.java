@@ -1,10 +1,9 @@
 package ProtocoleCAP.Requete;
 
-import protocol.Requete;
+import protocol.RequeteCAP;
 
-public class Requete_LOGIN implements Requete {
+public class Requete_LOGIN extends RequeteCAP {
     private static final long serialVersionUID = 1L;
-
     private String login;
     private String password;
     private boolean NewUser;
@@ -49,4 +48,6 @@ public class Requete_LOGIN implements Requete {
                 "login='" + login + '\'' +
                 ", password='********'}"; // Masqué pour éviter les fuites dans les logs
     }
+
+
 }

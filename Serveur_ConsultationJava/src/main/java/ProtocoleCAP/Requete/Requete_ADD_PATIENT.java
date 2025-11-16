@@ -1,10 +1,9 @@
 package ProtocoleCAP.Requete;
 
-import ServeurGeneriqueTCP.protocol.Requete;
+import protocol.RequeteCAP;
 
-public class Requete_ADD_PATIENT implements Requete {
+public class Requete_ADD_PATIENT extends RequeteCAP {
     private static final long serialVersionUID = 1L;
-
 
     private String firstName;
     private String lastName;
@@ -12,7 +11,6 @@ public class Requete_ADD_PATIENT implements Requete {
     public Requete_ADD_PATIENT(String firstName, String lastName) {
         setFirstName(firstName);
         setLastName(lastName);
-
     }
 
     public String getFirstName() { return firstName; }
@@ -37,4 +35,5 @@ public class Requete_ADD_PATIENT implements Requete {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
+
 }

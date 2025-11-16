@@ -9,21 +9,23 @@ import model.entity.Consultation;
 import model.entity.Doctor;
 import model.entity.Patient;
 import model.entity.User;
-import ServeurGeneriqueTCP.protocol.*;
 import model.viewmodel.ConsultationSearchVM;
 import model.viewmodel.DoctorSearchVM;
-import model.viewmodel.UserSearchVM;
+import protocol.FinConnexionException;
+import protocol.Protocole;
+import protocol.Reponse;
+import protocol.Requete;
 
 import java.net.Socket;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
 
 public class CAP implements Protocole {
 
-    private final HashMap<String, String> clientsConnectes;
+    private final HashMap<String, Integer> clientsConnectes;
     private final Logger logger;
 
 
@@ -59,7 +61,7 @@ public class CAP implements Protocole {
             return new Reponse_ERROR("Requête vide ou non reconnue.");
         }
 
-        logger.Trace("Traitement d'une requête de type " + requete.getClass().getSimpleName());
+        logger.Trace("Traitement d'une requête de type " + requete.getClass().getSimpleName() + "Pour l'utilisateur avec l'id connexion" + requete.getIdConnexion());
 
         switch (requete) {
             case Requete_LOGIN requeteLogin -> {
@@ -81,7 +83,7 @@ public class CAP implements Protocole {
                 return TraiteRequeteDELETE_CONSULTATION(requeteDeleteConsultation, socket);
             }
             case Requete_LOGOUT requeteLogout -> {
-                TraiteRequeteLOGOUT(requeteLogout, socket);
+                return TraiteRequeteLOGOUT(requeteLogout, socket);
             }
             default -> {
                 logger.Trace("Requête de type inconnu reçue : " + requete.getClass().getName());
@@ -89,7 +91,6 @@ public class CAP implements Protocole {
             }
         }
 
-        return null;
     }
 
 
@@ -103,31 +104,33 @@ public class CAP implements Protocole {
     private synchronized Reponse_LOGIN TraiteRequeteLOGIN(Requete_LOGIN requete, Socket socket) throws FinConnexionException {
         logger.Trace("RequeteLOGIN reçue de " + requete.getLogin());
 
-        // chercher dans le DB user si le login/mot de passe est correct
+        String password = requete.getPassword();
+        String userName = requete.getLogin();
 
-        String Password = requete.getPassword();
-        String UserName =  requete.getLogin();
-        String ipaddr = socket.getInetAddress().getHostAddress();
+        // Vérifier l'utilisateur dans la DB
+        if (userDAO.checkOrCreateUser(userName, password, requete.isNewUser())) {
 
-        if (userDAO.checkOrCreateUser(UserName, Password, requete.isNewUser()))
-        {
-            if (clientsConnectes.containsKey(UserName)) {
-                logger.Trace("Échec du login pour " + UserName + " : déjà connecté.");
-                return new Reponse_LOGIN(false);
+            // Vérifier si déjà connecté
+            if (clientsConnectes.containsKey(userName)) {
+                logger.Trace("Échec du login pour " + userName + " : déjà connecté.");
+                return new Reponse_LOGIN(false,-1);
             }
 
-            // ajouter à la liste des connectés
-            clientsConnectes.put(UserName, ipaddr);
-            logger.Trace(UserName + " connecté avec succès.");
-        }
-        else
-        {
-            logger.Trace("Échec du login pour " + UserName + " : identifiants incorrects.");
-            return new Reponse_LOGIN(false);
+            // Génération ID de connexion
+            int idConnexion = Math.abs(UUID.randomUUID().hashCode());
+            clientsConnectes.put(userName, idConnexion);
+            logger.Trace(userName + " connecté avec succès. IDConnexion = " + idConnexion);
+
+            // Construire la réponse
+
+            return new Reponse_LOGIN(true, idConnexion);
         }
 
-        return new Reponse_LOGIN(true);
+        // Identifiants incorrects
+        logger.Trace("Échec du login pour " + userName + " : identifiants incorrects.");
+        return new Reponse_LOGIN(false,-1);
     }
+
 
 
 
@@ -141,7 +144,7 @@ public class CAP implements Protocole {
         try {
             logger.Trace("Ajout d'une consultation par " + socket.getInetAddress());
 
-           Integer idDoctor = getDoctorIdByUserLogin(socket);
+           Integer idDoctor = getDoctorIdByUserLogin(requete);
 
 
             LocalTime heureDebut = LocalTime.parse(requete.getHeure());
@@ -288,7 +291,7 @@ public class CAP implements Protocole {
             logger.Trace("Recherche consultations (critères : " + requete + ")");
 
 
-            Integer DoctorId = getDoctorIdByUserLogin(socket);
+            Integer DoctorId = getDoctorIdByUserLogin(requete);
 
             ConsultationSearchVM consultationSearchVM = new ConsultationSearchVM();
             consultationSearchVM.setPatient_id(requete.getIdPatient());
@@ -348,44 +351,39 @@ public class CAP implements Protocole {
     // ============================================================
     // LOGOUT
     // ============================================================
-    private synchronized void TraiteRequeteLOGOUT(Requete_LOGOUT requete, Socket socket) {
-        try {
-            String login = getLoginByIP(socket);
-            if (login != null) {
-                clientsConnectes.remove(login);
-                logger.Trace(login + " correctement déloggé");
-            } else {
-                logger.Trace("⚠️ Tentative de logout d’un socket non reconnu.");
-            }
-        } catch (SQLException e) {
-            logger.Trace("💾 Erreur SQL lors du logout : " + e.getMessage());
-        }
+    private synchronized Reponse TraiteRequeteLOGOUT(Requete_LOGOUT requete, Socket socket) {
+        Integer idConnexion = requete.getIdConnexion();
+        String login = getLoginByConnexionId(idConnexion);
 
+        if (login != null) {
+            clientsConnectes.remove(login);
+            logger.Trace(login + " correctement déloggé");
+            return new Reponse_LOGOUT(true);
+        } else {
+            logger.Trace("⚠️ Logout impossible : idConnexion inconnu.");
+            return new Reponse_LOGOUT(false);
+        }
     }
 
 
 
 
-    String getLoginByIP(Socket socket) throws SQLException {
-        String ipaddr = socket.getInetAddress().getHostAddress();
-        System.out.println("Recherche du login pour IP : " + ipaddr);
+    private String getLoginByConnexionId(Integer idConnexion) {
+        if (idConnexion == null) return null;
 
-        System.out.println(clientsConnectes);
-
-        for (var entry : clientsConnectes.entrySet()) {
-            String ip = entry.getValue();
-            if (ip.equals(ipaddr)) {
-                return entry.getKey();
-            }
+        System.out.println();
+        for (var e : clientsConnectes.entrySet()) {
+            System.out.println("IdDeListe" + e.getValue() + "IdRechercher" + idConnexion);
+            if (e.getValue().equals(idConnexion))
+                return e.getKey();
         }
         return null;
     }
 
 
 
-
-    private Integer getDoctorIdByUserLogin(Socket socket) throws SQLException {
-        String login = getLoginByIP(socket);
+    private Integer getDoctorIdByUserLogin(Requete requete) throws SQLException {
+        String login = getLoginByConnexionId(requete.getIdConnexion());
         System.out.println("login " + login);
 
         User user = userDAO.getByLogin(login);

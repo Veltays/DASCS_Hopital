@@ -1,15 +1,16 @@
 package ProtocoleCAP.Requete;
 
 import org.junit.jupiter.api.Test;
-import java.util.Date;
+import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Requete_UPDATE_CONSULTATIONTest {
 
     @Test
     public void testCreationValide() {
-        Date date = new Date();
-        String heure = "15h45";
+        LocalDate date = LocalDate.of(2025, 1, 10);
+        String heure = "15:45";
+
         Requete_UPDATE_CONSULTATION requete =
                 new Requete_UPDATE_CONSULTATION(1, date, heure, 2, "Nouvelle raison");
 
@@ -22,13 +23,15 @@ public class Requete_UPDATE_CONSULTATIONTest {
 
     @Test
     public void testSettersValides() {
-        Date d1 = new Date();
-        String h1 = "0h30";
+        LocalDate d1 = LocalDate.of(2025, 1, 15);
+        String h1 = "00:30";
+
         Requete_UPDATE_CONSULTATION requete =
                 new Requete_UPDATE_CONSULTATION(1, d1, h1, 2, "Test");
 
-        Date d2 = new Date(System.currentTimeMillis() + 100000);
-        String h2 = "9h30";
+        LocalDate d2 = LocalDate.of(2025, 12, 25);
+        String h2 = "09:30";
+
         requete.setIdConsultation(10);
         requete.setNouvelleDate(d2);
         requete.setNouvelleHeure(h2);
@@ -44,8 +47,8 @@ public class Requete_UPDATE_CONSULTATIONTest {
 
     @Test
     public void testValeursInvalides() {
-        Date d = new Date();
-        String h = "14h00";
+        LocalDate d = LocalDate.now();
+        String h = "14:00";
 
         assertThrows(IllegalArgumentException.class,
                 () -> new Requete_UPDATE_CONSULTATION(null, d, h, 1, "Raison"),
@@ -70,12 +73,14 @@ public class Requete_UPDATE_CONSULTATIONTest {
 
     @Test
     public void testToStringContientChamps() {
-        Date d = new Date();
-        String h = "11h15";
+        LocalDate d = LocalDate.of(2025, 4, 2);
+        String h = "11:15";
+
         Requete_UPDATE_CONSULTATION requete =
                 new Requete_UPDATE_CONSULTATION(3, d, h, 5, "Changement de motif");
 
         String ts = requete.toString();
+
         assertTrue(ts.contains("3"));
         assertTrue(ts.contains("5"));
         assertTrue(ts.contains("Changement de motif"));

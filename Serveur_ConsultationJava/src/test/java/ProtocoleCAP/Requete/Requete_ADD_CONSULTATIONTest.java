@@ -1,30 +1,32 @@
 package ProtocoleCAP.Requete;
 
 import org.junit.jupiter.api.Test;
-import java.util.Date;
+import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Requete_ADD_CONSULTATIONTest {
 
     @Test
     public void testCreationValide() {
-        Date date = new Date();
+        LocalDate date = LocalDate.of(2025, 1, 10);
+
         Requete_ADD_CONSULTATION requete =
                 new Requete_ADD_CONSULTATION(date, "09:30", "30min", 2);
 
-        assertEquals(date, requete.getDate(), "La date doit correspondre à celle passée au constructeur");
-        assertEquals("09:30", requete.getHeure(), "L'heure doit être correctement enregistrée");
-        assertEquals("30min", requete.getDuree(), "La durée doit être correctement enregistrée");
-        assertEquals(2, requete.getNombreConsultations(), "Le nombre de consultations doit être correct");
+        assertEquals(date, requete.getDate());
+        assertEquals("09:30", requete.getHeure());
+        assertEquals("30min", requete.getDuree());
+        assertEquals(2, requete.getNombreConsultations());
     }
 
     @Test
     public void testSettersEtGetters() {
-        Date date = new Date();
+        LocalDate date = LocalDate.of(2025, 1, 1);
+
         Requete_ADD_CONSULTATION requete =
                 new Requete_ADD_CONSULTATION(date, "08:00", "20min", 1);
 
-        Date newDate = new Date();
+        LocalDate newDate = LocalDate.of(2025, 2, 1);
         requete.setDate(newDate);
         requete.setHeure("10:00");
         requete.setDuree("45min");
@@ -38,34 +40,33 @@ public class Requete_ADD_CONSULTATIONTest {
 
     @Test
     public void testConstructeurAvecValeursInvalides() {
-        Date date = new Date();
+        LocalDate date = LocalDate.now();
 
         assertThrows(IllegalArgumentException.class,
-                () -> new Requete_ADD_CONSULTATION(null, "09:00", "30min", 1),
-                "Une date nulle doit lever une exception");
+                () -> new Requete_ADD_CONSULTATION(null, "09:00", "30min", 1));
 
         assertThrows(IllegalArgumentException.class,
-                () -> new Requete_ADD_CONSULTATION(date, null, "30min", 1),
-                "Une heure nulle doit lever une exception");
+                () -> new Requete_ADD_CONSULTATION(date, null, "30min", 1));
 
         assertThrows(IllegalArgumentException.class,
-                () -> new Requete_ADD_CONSULTATION(date, "09:00", "", 1),
-                "Une durée vide doit lever une exception");
+                () -> new Requete_ADD_CONSULTATION(date, "09:00", "", 1));
 
         assertThrows(IllegalArgumentException.class,
-                () -> new Requete_ADD_CONSULTATION(date, "09:00", "30min", 0),
-                "Un nombre de consultations <= 0 doit lever une exception");
+                () -> new Requete_ADD_CONSULTATION(date, "09:00", "30min", 0));
     }
 
     @Test
     public void testToStringContientChamps() {
-        Date date = new Date();
+        LocalDate date = LocalDate.of(2025, 1, 1);
+
         Requete_ADD_CONSULTATION requete =
                 new Requete_ADD_CONSULTATION(date, "11:00", "60min", 1);
 
-        String toString = requete.toString();
-        assertTrue(toString.contains("11:00"), "Le toString doit contenir l'heure");
-        assertTrue(toString.contains("60min"), "Le toString doit contenir la durée");
-        assertTrue(toString.contains("1"), "Le toString doit contenir le nombre de consultations");
+        String str = requete.toString();
+
+        assertTrue(str.contains("11:00"));
+        assertTrue(str.contains("60min"));
+        assertTrue(str.contains("1"));
+        assertTrue(str.contains("Requete_ADD_CONSULTATION"));
     }
 }

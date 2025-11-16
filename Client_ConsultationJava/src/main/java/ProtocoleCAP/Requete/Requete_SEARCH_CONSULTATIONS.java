@@ -1,14 +1,11 @@
 package ProtocoleCAP.Requete;
 
-import protocol.Requete;
+import protocol.RequeteCAP;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-public class Requete_SEARCH_CONSULTATIONS implements Requete {
+public class Requete_SEARCH_CONSULTATIONS extends RequeteCAP {
     private static final long serialVersionUID = 1L;
-
-
 
     private Integer idPatient;
     private LocalDate date;
@@ -45,4 +42,6 @@ public class Requete_SEARCH_CONSULTATIONS implements Requete {
                 ", date=" + date +
                 '}';
     }
+
+
 }

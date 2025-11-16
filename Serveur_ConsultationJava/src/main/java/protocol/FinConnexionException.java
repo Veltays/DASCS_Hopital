@@ -1,4 +1,4 @@
-package ServeurGeneriqueTCP.protocol;
+package protocol;
 public class FinConnexionException extends Exception
 {
     private Reponse reponse;
