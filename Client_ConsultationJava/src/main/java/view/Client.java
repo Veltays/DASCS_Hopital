@@ -1,6 +1,8 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionListener;
 
 public class Client extends JFrame {
@@ -80,6 +82,11 @@ public class Client extends JFrame {
     public void updateConsultationTable(Object[][] data) {
         String[] colonnes = {"ID", "Date", "Heure", "Patient", "Raison", "Docteur","Duration"};
         TableOfConsultation.setModel(new javax.swing.table.DefaultTableModel(data, colonnes));
+
+        //tri
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(TableOfConsultation.getModel());
+        TableOfConsultation.setRowSorter(sorter);
+
         TableOfConsultation.revalidate();
         TableOfConsultation.repaint();
     }

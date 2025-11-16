@@ -17,6 +17,7 @@ public class UpdateConsultationsDialog extends JDialog {
     private JTextField TextIdPatient;
     private JTextField TextRaison;
 
+    // 👉 Constructeur par défaut (nécessaire pour le main et le FormDesigner)
     public UpdateConsultationsDialog() {
         setContentPane(contentPane);
         setModal(true);
@@ -26,56 +27,42 @@ public class UpdateConsultationsDialog extends JDialog {
         pack();
         setLocationRelativeTo(null);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
+        buttonCancel.addActionListener(e -> onCancel());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
+            public void windowClosing(WindowEvent e) { onCancel(); }
         });
 
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    // 👉 Constructeur pour pré-remplir les champs
+    public UpdateConsultationsDialog(String date, String heure, String patient, String raison) {
+        this(); // on appelle le constructeur par défaut !
+
+        TextDate.setText(date);
+        TextHeure.setText(heure);
+        TextIdPatient.setText(patient);
+        TextRaison.setText(raison);
     }
 
     // ============================================================
     // Getters pour le contrôleur
     // ============================================================
-
     public String getDate() { return TextDate.getText().trim(); }
     public String getHeure() { return TextHeure.getText().trim(); }
     public String getIdPatient() { return TextIdPatient.getText().trim(); }
     public String getRaison() { return TextRaison.getText().trim(); }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
+    private void onOK() { dispose(); }
+    private void onCancel() { dispose(); }
 
     public static void main(String[] args) {
-        UpdateConsultationsDialog dialog = new UpdateConsultationsDialog();
-        dialog.pack();
+        UpdateConsultationsDialog dialog = new UpdateConsultationsDialog(); // OK maintenant
         dialog.setVisible(true);
         System.exit(0);
     }

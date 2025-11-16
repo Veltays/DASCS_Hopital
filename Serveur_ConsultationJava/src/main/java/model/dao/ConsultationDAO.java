@@ -174,6 +174,7 @@ public class ConsultationDAO {
         catch (SQLException sqlException)
         {
             Logger.getLogger(ConsultationDAO.class.getName()).log(Level.SEVERE, null, sqlException);
+            throw sqlException;
         } catch (CAPException e) {
             throw new RuntimeException(e);
         }

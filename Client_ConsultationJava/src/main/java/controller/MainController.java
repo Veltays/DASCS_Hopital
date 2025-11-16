@@ -343,8 +343,15 @@ public class MainController {
         public void actionPerformed(ActionEvent e) {
             System.out.println("**********UPDATE_CONSULTATION**********");
 
+            int selectedRow = view.getTableConsultations().getSelectedRow();
+
+            Object nvdate = view.getTableConsultations().getValueAt(selectedRow,1);
+            Object nvheure = view.getTableConsultations().getValueAt(selectedRow,2);
+            Object nvidpatient = view.getTableConsultations().getValueAt(selectedRow,3);
+            Object nvraison = view.getTableConsultations().getValueAt(selectedRow,4);
+
             // ouvre la boite de dialogue
-            UpdateConsultationsDialog dialog = new UpdateConsultationsDialog();
+            UpdateConsultationsDialog dialog = new UpdateConsultationsDialog(nvdate.toString(), nvheure.toString(), nvidpatient.toString(), nvraison.toString());
             dialog.setVisible(true);
 
             //Recuperer les données
@@ -353,11 +360,12 @@ public class MainController {
             String idPatient = dialog.getIdPatient();
             String raison = dialog.getRaison();
 
-            int selectedRow = view.getTableConsultations().getSelectedRow();
+            selectedRow = view.getTableConsultations().getSelectedRow();
             Object value = view.getTableConsultations().getValueAt(selectedRow, 0);
             int idConsultation = Integer.parseInt(value.toString());
 
-            System.out.println(idPatient);
+
+
 
             if(nouvelleDate.isEmpty() || nouvelleHeure.isEmpty() || idPatient.isEmpty() || raison.isEmpty())
             {

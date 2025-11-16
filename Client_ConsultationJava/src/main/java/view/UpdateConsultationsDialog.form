@@ -64,7 +64,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="2025-10-08"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="fcb6c" class="javax.swing.JLabel" binding="LabelDate">
@@ -106,7 +106,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="9:00"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="3ff4e" class="javax.swing.JTextField" binding="TextIdPatient">
@@ -116,7 +116,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="2"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="d9169" class="javax.swing.JTextField" binding="TextRaison">
@@ -126,7 +126,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="caca"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
