@@ -45,10 +45,10 @@ public class MainController {
 
             try {
                 System.out.println("**********LOGIN***********");
-                Requete requete = new Requete_LOGIN(username, password, NewUser);
+                Requete requete = new Requete_LOGIN_REQUEST(username);
                 System.out.println("[CLIENT] Envoi de la requête de login...");
 
-                if (connectServer.Login(requete)) {
+                if (connectServer.LoginRequest(requete,username, password)) {
                     System.out.println("[CLIENT] Connexion réussie ");
                     dialog.dispose();
                     view.setVisible(true);
@@ -98,7 +98,7 @@ public class MainController {
                 }
 
                 System.out.println("[CLIENT] Envoi de la requête au serveur...");
-                Requete requete = new Requete_ADD_REPORT(Integer.parseInt(id), Integer.parseInt(idPatient), LocalDate.parse(date),description);
+                Requete requete = new Requete_ADD_REPORT(Integer.parseInt(id), Integer.parseInt(idPatient), LocalDate.parse(date),description, sessionKey);
 
                 if(connectServer.AddReport(requete))
                 {

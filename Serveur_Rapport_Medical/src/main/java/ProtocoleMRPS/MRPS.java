@@ -3,18 +3,27 @@ package ProtocoleMRPS;
 import ServeurGeneriqueTCP.logging.Logger;
 
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import ProtocoleMRPS.Requete.*;
 import ProtocoleMRPS.Reponse.*;
 import protocol.*;
 import model.dao.*;
 
+import static jdk.internal.jrtfs.JrtFileAttributeView.AttrID.size;
+
 
 public class MRPS implements Protocole
 {
     private final Logger logger;
     private final UserDAO userDAO;
+
+    private final ConcurrentHashMap<String, String> salts = new ConcurrentHashMap<>();
 
     public MRPS(Logger log)
     {
@@ -36,8 +45,16 @@ public class MRPS implements Protocole
 
         switch(requete)
         {
-            case Requete_LOGIN requeteLogin -> {
-                return TraiteRequeteLOGIN(requeteLogin, socket);
+            case Requete_LOGIN_REQUEST requeteLogin -> {
+                return TraiteRequeteLOGIN_REQUEST(requeteLogin, socket);
+            }
+
+            case Requete_LOGIN_AUTH requeteLoginAuth -> {
+                return TraiteRequeteLogin_Auth(requeteLoginAuth, socket);
+            }
+
+            case Requete_ADD_REPORT requeteAddReport -> {
+                return TraiteRequeteAddReprt(requeteAddReport, socket);
             }
 
             default -> {
@@ -53,14 +70,13 @@ public class MRPS implements Protocole
     ////////// LOGIN /////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
 
-    private synchronized Reponse_LOGIN TraiteRequeteLOGIN (Requete_LOGIN requete, Socket socket) {
-        logger.Trace("RequeteLOGIN reçue de " + requete.getUsername());
+    private synchronized Reponse_LOGIN_REQUEST TraiteRequeteLOGIN_REQUEST (Requete_LOGIN_REQUEST requete, Socket socket) {
+        logger.Trace("RequeteLOGIN_REQUEST reçue de " + requete.getUsername());
 
-        String password = requete.getPassword();
         String userName = requete.getUsername();
 
         // Vérifier l'utilisateur dans la DB
-        if (userDAO.checkOrCreateUser(userName, password, requete.isNewUser())) {
+        if (userDAO.checkLogin(userName)) {
 
             // Vérifier si déjà connecté
 //            if (clientsConnectes.containsKey(userName)) {
@@ -69,13 +85,64 @@ public class MRPS implements Protocole
 //            }
 
             // Construire la réponse
+            // on génère le sel et on le renvoie
+            SecureRandom random = new SecureRandom();
+            byte[] saltBytes = new byte[32];
+            random.nextBytes(saltBytes);
+            String salt = Base64.getEncoder().encodeToString(saltBytes);
 
-            return new Reponse_LOGIN(true);
+            //mémorier le sel du client
+            salts.put(userName,salt);
+
+            return new Reponse_LOGIN_REQUEST(salt,true);
         }
 
         else
         {
-            return new Reponse_LOGIN(false);
+            return new Reponse_LOGIN_REQUEST("000",false); // cas où le login n'existait pas
         }
     }
+
+    private synchronized Reponse_LOGIN_AUTH TraiteRequeteLogin_Auth (Requete_LOGIN_AUTH requete, Socket socket){
+        logger.Trace("RequeteLOGIN_AUTH reçue");
+
+        String username = requete.getUsername();
+        String digestRecu = requete.getDigest();
+
+        String password = userDAO.getPasswordByLogin(requete.getUsername());
+        String salt = salts.get(username);
+        if(salt==null) { return new Reponse_LOGIN_AUTH(false);}
+
+        try{
+            String digestAttendu = DigestHelper.generateDigest(username, password,salt);
+
+            if(digestAttendu.equals(digestRecu))
+            {
+                logger.Trace("Login OK pour " + username);
+                return new Reponse_LOGIN_AUTH(true);
+            } else {
+                logger.Trace("Login KO pour " + username + " : digest différent");
+                return new Reponse_LOGIN_AUTH(false);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Reponse_LOGIN_AUTH(false);
+        }
+    }
+
+    private synchronized Reponse_ADD_REPORT TraiteRequeteAddReprt(Requete_ADD_REPORT requete, Socket socket){
+        return new Reponse_ADD_REPORT(false);
+    }
+
+    public class DigestHelper {
+        public static String generateDigest(String username, String password, String salt)
+                throws Exception {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            String data = username + password + salt;
+            byte[] hash = md.digest(data.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hash);
+        }
+    }
+
 }

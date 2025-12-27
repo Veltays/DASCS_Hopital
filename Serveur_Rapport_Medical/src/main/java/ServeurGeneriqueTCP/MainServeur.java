@@ -6,9 +6,13 @@ import ServeurGeneriqueTCP.logging.ConsoleLogger;
 import ServeurGeneriqueTCP.logging.Logger;
 import ServeurGeneriqueTCP.utils.ConfigLoader;
 import protocol.Protocole;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import java.security.Security;
 
 public class MainServeur {
     public static void main(String[] args) {
+
+        Security.addProvider(new BouncyCastleProvider());
         try {
             ConfigLoader config = new ConfigLoader();
 

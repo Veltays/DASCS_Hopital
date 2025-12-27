@@ -65,13 +65,12 @@ public class UserDAO {
     }
 
     // ============================================================
-    // Vérifier un login existant
+    // Vérifier si le login existe en base de donnée
     // ============================================================
-    public boolean checkLogin(String login, String password) {
-        String sql = "SELECT 1 FROM users WHERE login = ? AND password = ?";
+    public boolean checkLogin(String login) {
+        String sql = "SELECT 1 FROM users WHERE login = ?";
         try (PreparedStatement stmt = connectDB.getConn().prepareStatement(sql)) {
             stmt.setString(1, login);
-            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             return rs.next();
         } catch (SQLException e) {
@@ -111,7 +110,24 @@ public class UserDAO {
             return setPasswordForFirstLogin(login, password);
         } else {
             // Cas normal : vérifie les identifiants
-            return checkLogin(login, password);
+            return checkLogin(login);
+        }
+    }
+
+    public String getPasswordByLogin(String username)
+    {
+        String sql = "SELECT password FROM users WHERE login = ?";
+        try (PreparedStatement stmt = connectDB.getConn().prepareStatement(sql)) {
+            stmt.setString(1, username);
+
+            try (ResultSet rs = stmt.executeQuery())
+            {
+                return rs.getString("password");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

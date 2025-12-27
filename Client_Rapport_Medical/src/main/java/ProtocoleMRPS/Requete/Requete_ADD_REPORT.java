@@ -1,52 +1,35 @@
 package ProtocoleMRPS.Requete;
 
-import protocol.Requete;
-
+import ProtocoleMRPS.MyCrypto;
+import protocol.*;
+import javax.crypto.SecretKey;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.time.LocalDate;
 public class Requete_ADD_REPORT implements Requete
 {
-    private Integer id;
-    private Integer idPatient;
-    private LocalDate date;
-    private String description;
-    // cryptés symétriquement + signature du médecin
+    private byte[] data;
+    // data cryptés symétriquement + signature du médecin
 
-    public Requete_ADD_REPORT(Integer id, Integer idPatient, LocalDate date, String description) {
-        this.id = id;
-        this.idPatient = idPatient;
-        this.date = date;
-        this.description = description;
+    public Requete_ADD_REPORT(Integer id, Integer idPatient, LocalDate date, String description, SecretKey sessionKey) throws Exception {
+
+        // on reçoit les données en clair puis on les crypte
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
+
+        dos.writeInt(id);
+        dos.writeInt(idPatient);
+        dos.writeUTF(date.toString());      // ISO 8601
+        dos.writeUTF(description);
+        dos.flush();
+
+        byte[] messageClair = baos.toByteArray();
+
+        this.data = MyCrypto.CryptSymAES(sessionKey, messageClair);
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getIdPatient() {
-        return idPatient;
-    }
-
-    public void setIdPatient(Integer idPatient) {
-        this.idPatient = idPatient;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public byte[] getData() {
+        return data;
     }
 }

@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Base64;
 
 public class ConnectServer {
     private final String host;
@@ -42,17 +45,38 @@ public class ConnectServer {
         return null;
     }
 
-    public boolean Login(Requete requete)
+    public boolean LoginRequest(Requete requete, String username, String password)
     {
-        Reponse_LOGIN reponse = (Reponse_LOGIN) sendRequest(requete);
-        if(reponse !=null && reponse.isValide())
+        Reponse_LOGIN_REQUEST reponse = (Reponse_LOGIN_REQUEST) sendRequest(requete);
+        if(reponse ==null && (!reponse.isValide()))
         {
-            System.out.println("[CLIENT] Réponse du serveur : connexion réussie!");
-            return true;
+            System.out.println("[CLIENT] Réponse du serveur : connexion refusée car login inconnu");
+            return false;
         }
-        System.out.println("[CLIENT] Réponse du serveur : connexion refusée");
-        return false;
+        String sel = reponse.getSel();
+
+        try
+        {
+            String digest = DigestHelper.generateDigest(username, password,sel);
+            // 4) Créer et envoyer la requête LOGIN_AUTH
+            Requete req = (Requete) new Requete_LOGIN_AUTH(username, digest);
+            Reponse_LOGIN_AUTH authRep = (Reponse_LOGIN_AUTH) sendRequest(req);
+
+            if (authRep != null && authRep.isValide()) {
+                System.out.println("[CLIENT] Authentification réussie");
+                return true;
+            } else {
+                System.out.println("[CLIENT] Authentification échouée");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("[CLIENT] Erreur lors du calcul du digest");
+            return false;
+        }
     }
+
+
 
     public boolean AddReport(Requete requete) {
         Reponse_ADD_REPORT reponse = (Reponse_ADD_REPORT) sendRequest(requete);
@@ -64,6 +88,16 @@ public class ConnectServer {
         else {
             System.out.println("[CLIENT]  pas ok!");
             return false;
+        }
+    }
+
+    public class DigestHelper {
+        public static String generateDigest(String username, String password, String salt)
+                throws Exception {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            String data = username + password + salt;
+            byte[] hash = md.digest(data.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hash);
         }
     }
 }

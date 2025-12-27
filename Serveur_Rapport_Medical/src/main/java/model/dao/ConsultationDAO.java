@@ -1,6 +1,6 @@
 package model.dao;
 
-import ProtocoleCAP.Exception.CAPException;
+import ProtocoleMRPS.Exception.CAPException;
 import model.entity.Consultation;
 import model.viewmodel.ConsultationSearchVM;
 
