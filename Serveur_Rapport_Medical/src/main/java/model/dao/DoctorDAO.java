@@ -45,6 +45,26 @@ public class DoctorDAO {
         return null;
     }
 
+    public Integer getDoctorIdByLogin(String login) throws SQLException {
+        String sqlUser = "SELECT id FROM users WHERE login = ?";
+        try (PreparedStatement psUser = connectDB.getConn().prepareStatement(sqlUser)) {
+            psUser.setString(1, login);
+            try (ResultSet rsUser = psUser.executeQuery()) {
+                if (!rsUser.next()) return null;
+                int userId = rsUser.getInt("id");
+
+                String sqlDoctor = "SELECT id FROM doctors WHERE user_id = ?";
+                try (PreparedStatement psDoc = connectDB.getConn().prepareStatement(sqlDoctor)) {
+                    psDoc.setInt(1, userId);
+                    try (ResultSet rsDoc = psDoc.executeQuery()) {
+                        if (!rsDoc.next()) return null;
+                        return rsDoc.getInt("id");
+                    }
+                }
+            }
+        }
+    }
+
     public ArrayList<Doctor> load(DoctorSearchVM doctorSearchVMParameter) throws SQLException {
         try {
 

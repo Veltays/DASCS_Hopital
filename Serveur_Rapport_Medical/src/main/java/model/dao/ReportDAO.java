@@ -118,6 +118,54 @@ public class ReportDAO {
     }
 
 
+    public void save(Report r)
+    {
+        try
+        {
+            String sql;
+            if(r != null)
+            {
+                if(r.getId() != null) // UPDATE
+                {
+                    sql = "UPDATE specialties SET name=? WHERE id=?";
+
+//                    PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
+//                    pStmt.setString(1, r.getName());
+//                    pStmt.setInt(2, r.getId());
+//
+//                    pStmt.executeUpdate();
+//                    pStmt.close();
+                }
+            }
+            else
+            {
+                sql = "INSERT INTO report (idPatient, idMedecin, date, description) VALUES (?, ?, ?, ?)";
+                PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+
+                pStmt.setInt(1, r.getIdPatient());
+                pStmt.setInt(2, r.getIdMedecin());
+                pStmt.setDate(3, java.sql.Date.valueOf(r.getDate())); // si LocalDate
+                pStmt.setString(4, r.getDescription());
+
+                pStmt.executeUpdate();
+
+                ResultSet rs = pStmt.getGeneratedKeys();
+                rs.next();
+                r.setId(rs.getInt(1));
+
+                rs.close();
+                pStmt.close();
+
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            Logger.getLogger(SpecialtyDAO.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+
+
+
+    }
 
 
 

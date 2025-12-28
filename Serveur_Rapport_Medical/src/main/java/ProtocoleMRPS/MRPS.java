@@ -2,40 +2,54 @@ package ProtocoleMRPS;
 
 import ServeurGeneriqueTCP.logging.Logger;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ProtocoleMRPS.Requete.*;
 import ProtocoleMRPS.Reponse.*;
+import model.entity.Report;
 import protocol.*;
 import model.dao.*;
 
-import static jdk.internal.jrtfs.JrtFileAttributeView.AttrID.size;
+import javax.crypto.SecretKey;
+
 
 
 public class MRPS implements Protocole
 {
     private final Logger logger;
     private final UserDAO userDAO;
+    private final ReportDAO reportDAO;
+    private final DoctorDAO doctorDAO;
+    private final ConsultationDAO consultationDAO;
 
     private final ConcurrentHashMap<String, String> salts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Socket, String> loginsParSocket = new ConcurrentHashMap<>();
 
+    private final ConcurrentHashMap<String, SecretKey> sessionKeys = new ConcurrentHashMap<>();
     public MRPS(Logger log)
     {
         logger = log;
         userDAO = new UserDAO();
+        reportDAO = new ReportDAO();
+        doctorDAO = new DoctorDAO();
+        consultationDAO = new ConsultationDAO();
     }
 
     @Override
     public String getNom() {
         return "MRPS";
     }
-    public synchronized Reponse TraiteRequete(Requete requete, Socket socket) throws FinConnexionException
+    public synchronized Reponse TraiteRequete(Requete requete, Socket socket)
     {
         if (requete == null) {
             logger.Trace("Requête reçue est null !");
@@ -54,7 +68,7 @@ public class MRPS implements Protocole
             }
 
             case Requete_ADD_REPORT requeteAddReport -> {
-                return TraiteRequeteAddReprt(requeteAddReport, socket);
+                return TraiteRequeteAddReport(requeteAddReport, socket);
             }
 
             default -> {
@@ -62,7 +76,6 @@ public class MRPS implements Protocole
                 return new Reponse_ERROR("Type de requête non reconnu : " + requete.getClass().getSimpleName());
             }
         }
-
 
     }
 
@@ -109,7 +122,17 @@ public class MRPS implements Protocole
         String username = requete.getUsername();
         String digestRecu = requete.getDigest();
 
-        String password = userDAO.getPasswordByLogin(requete.getUsername());
+        String password;
+        try {
+            password = userDAO.getPasswordByLogin(username);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Reponse_LOGIN_AUTH(false);
+        }
+
+        if (password == null) {
+            return new Reponse_LOGIN_AUTH(false);
+        }
         String salt = salts.get(username);
         if(salt==null) { return new Reponse_LOGIN_AUTH(false);}
 
@@ -118,6 +141,7 @@ public class MRPS implements Protocole
 
             if(digestAttendu.equals(digestRecu))
             {
+                loginsParSocket.put(socket, username);
                 logger.Trace("Login OK pour " + username);
                 return new Reponse_LOGIN_AUTH(true);
             } else {
@@ -131,8 +155,47 @@ public class MRPS implements Protocole
         }
     }
 
-    private synchronized Reponse_ADD_REPORT TraiteRequeteAddReprt(Requete_ADD_REPORT requete, Socket socket){
-        return new Reponse_ADD_REPORT(false);
+    private synchronized Reponse_ADD_REPORT TraiteRequeteAddReport(Requete_ADD_REPORT requete, Socket socket)  {
+        String login = loginsParSocket.get(socket);
+        if (login == null) {
+            return new Reponse_ADD_REPORT(false); // pas logué
+        }
+        SecretKey sessionKey = sessionKeys.get(login); // map login -> sessionKey
+        if (sessionKey == null) {
+            return new Reponse_ADD_REPORT(false); // handshake pas fait
+        }
+        try{byte[] messageClair = MyCrypto.DecryptSymAES(sessionKey, requete.getData());
+
+        // décrypter le message
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(messageClair);
+        DataInputStream dis = new DataInputStream(bais);
+
+        int id = dis.readInt();
+        int idPatient = dis.readInt();
+        LocalDate date = LocalDate.parse(dis.readUTF());
+        String description = dis.readUTF();
+        //recup l'id du medecin
+        Integer doctorID = doctorDAO.getDoctorIdByLogin(login);
+
+        // vérification à faire ici avec un booolean ok qu'on met à jour
+
+        boolean okConsult = consultationDAO.existsForDoctorAndPatient(doctorID,idPatient);
+
+        if(!okConsult)
+        {
+            return new Reponse_ADD_REPORT(false);
+        }
+
+        Report reportToAdd = new Report(id, idPatient, doctorID, date, description);
+        reportDAO.save(reportToAdd);
+        return new Reponse_ADD_REPORT(true);
+    }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new Reponse_ADD_REPORT(false);
+        }
+
     }
 
     public class DigestHelper {

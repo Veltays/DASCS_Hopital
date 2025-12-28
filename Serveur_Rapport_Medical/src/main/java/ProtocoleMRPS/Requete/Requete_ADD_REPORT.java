@@ -8,6 +8,7 @@ import java.io.DataOutputStream;
 import java.time.LocalDate;
 public class Requete_ADD_REPORT implements Requete
 {
+    private static final long serialVersionUID = 1L;
     private byte[] data;
     // data cryptés symétriquement + signature du médecin
 

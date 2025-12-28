@@ -1,6 +1,9 @@
 package ProtocoleMRPS.Requete;
 
-public class Requete_LOGIN_AUTH {
+import protocol.Requete;
+
+public class Requete_LOGIN_AUTH implements Requete {
+    private static final long serialVersionUID = 1L;
 
     private String username;
     private String digest; // hash(login + password + sel);

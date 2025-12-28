@@ -114,20 +114,18 @@ public class UserDAO {
         }
     }
 
-    public String getPasswordByLogin(String username)
-    {
+    public String getPasswordByLogin(String login) throws SQLException {
         String sql = "SELECT password FROM users WHERE login = ?";
-        try (PreparedStatement stmt = connectDB.getConn().prepareStatement(sql)) {
-            stmt.setString(1, username);
-
-            try (ResultSet rs = stmt.executeQuery())
-            {
-                return rs.getString("password");
+        try (PreparedStatement ps = connectDB.getConn().prepareStatement(sql)) {
+            ps.setString(1, login);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("password");
+                } else {
+                    return null; // login inexistant
+                }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
     }
+
 }

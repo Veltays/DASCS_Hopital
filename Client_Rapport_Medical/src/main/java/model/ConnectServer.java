@@ -4,17 +4,24 @@ import ProtocoleMRPS.Reponse.*;
 import ProtocoleMRPS.Requete.*;
 import protocol.Requete;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.Base64;
-
 public class ConnectServer {
     private final String host;
     private final int port;
+
+    private SecretKey sessionKey;          // <-- ajout
+    public SecretKey getSessionKey() {     // <-- ajout
+        return sessionKey;
+    }
 
     public ConnectServer(String host, int port) {
         this.host = host;
@@ -22,8 +29,6 @@ public class ConnectServer {
     }
 
     private Object sendRequest(Requete requete) {
-
-
         try (Socket socket = new Socket(host, port);
              ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
              ObjectInputStream dis = new ObjectInputStream(socket.getInputStream())) {
@@ -48,22 +53,27 @@ public class ConnectServer {
     public boolean LoginRequest(Requete requete, String username, String password)
     {
         Reponse_LOGIN_REQUEST reponse = (Reponse_LOGIN_REQUEST) sendRequest(requete);
-        if(reponse ==null && (!reponse.isValide()))
-        {
+        if (reponse == null || !reponse.isValide()) {
             System.out.println("[CLIENT] Réponse du serveur : connexion refusée car login inconnu");
             return false;
         }
         String sel = reponse.getSel();
 
-        try
-        {
-            String digest = DigestHelper.generateDigest(username, password,sel);
-            // 4) Créer et envoyer la requête LOGIN_AUTH
-            Requete req = (Requete) new Requete_LOGIN_AUTH(username, digest);
+        try {
+            String digest = DigestHelper.generateDigest(username, password, sel);
+            Requete req = new Requete_LOGIN_AUTH(username, digest);
             Reponse_LOGIN_AUTH authRep = (Reponse_LOGIN_AUTH) sendRequest(req);
 
             if (authRep != null && authRep.isValide()) {
                 System.out.println("[CLIENT] Authentification réussie");
+
+                // Générer une clé de session pour les futurs rapports
+                KeyGenerator cleGen = KeyGenerator.getInstance("AES");
+                cleGen.init(128, new SecureRandom());
+                this.sessionKey = cleGen.generateKey();
+                System.out.println("[CLIENT] sessionKey générée : " + sessionKey.getAlgorithm());
+
+                // (plus tard tu pourras l’envoyer chiffrée au serveur via une requête HANDSHAKE)
                 return true;
             } else {
                 System.out.println("[CLIENT] Authentification échouée");
@@ -76,22 +86,18 @@ public class ConnectServer {
         }
     }
 
-
-
     public boolean AddReport(Requete requete) {
         Reponse_ADD_REPORT reponse = (Reponse_ADD_REPORT) sendRequest(requete);
-        if(reponse !=null && reponse.isValide())
-        {
+        if (reponse != null && reponse.isValide()) {
             System.out.println("[CLIENT] ok!");
             return true;
-        }
-        else {
-            System.out.println("[CLIENT]  pas ok!");
+        } else {
+            System.out.println("[CLIENT] pas ok!");
             return false;
         }
     }
 
-    public class DigestHelper {
+    public static class DigestHelper {
         public static String generateDigest(String username, String password, String salt)
                 throws Exception {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

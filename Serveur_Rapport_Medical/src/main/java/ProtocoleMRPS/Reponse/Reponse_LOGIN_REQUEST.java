@@ -3,6 +3,7 @@ package ProtocoleMRPS.Reponse;
 import protocol.*;
 
 public class Reponse_LOGIN_REQUEST  implements Reponse{
+    private static final long serialVersionUID = 1L;
 
     private boolean isValide;
     private String sel;

@@ -259,6 +259,18 @@ public class ConsultationDAO {
         }
     }
 
+    public boolean existsForDoctorAndPatient(int doctorId, int patientId) throws SQLException {
+        String sql = "SELECT 1 FROM consultations WHERE doctor_id = ? AND patient_id = ? LIMIT 1";
+        try (PreparedStatement ps = connectDB.getConn().prepareStatement(sql)) {
+            ps.setInt(1, doctorId);
+            ps.setInt(2, patientId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // true si au moins une ligne
+            }
+        }
+    }
+
+
 
 }
 
