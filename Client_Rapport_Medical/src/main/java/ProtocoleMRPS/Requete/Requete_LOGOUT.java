@@ -1,4 +1,7 @@
 package ProtocoleMRPS.Requete;
 
-public class Requete_LOGOUT {
+import protocol.RequeteMRPS;
+
+public class Requete_LOGOUT extends RequeteMRPS
+{
 }

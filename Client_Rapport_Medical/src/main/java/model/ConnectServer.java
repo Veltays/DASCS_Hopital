@@ -1,26 +1,29 @@
 package model;
 
+import ProtocoleMRPS.MyCrypto;
 import ProtocoleMRPS.Reponse.*;
 import ProtocoleMRPS.Requete.*;
 import protocol.Requete;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
+import java.security.*;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+
 public class ConnectServer {
     private final String host;
     private final int port;
 
-    private SecretKey sessionKey;          // <-- ajout
-    public SecretKey getSessionKey() {     // <-- ajout
-        return sessionKey;
+    private SecretKey sessionKey;
+    private Integer IdConnexionWithServer;
+
+    static {
+        Security.addProvider(new BouncyCastleProvider());
     }
 
     public ConnectServer(String host, int port) {
@@ -28,7 +31,20 @@ public class ConnectServer {
         this.port = port;
     }
 
+    public SecretKey getSessionKey() {
+        return sessionKey;
+    }
+
+    public Integer getIdConnexionWithServer() {
+        return IdConnexionWithServer;
+    }
+
+    public void setIdConnexionWithServer(Integer idConnexionWithServer) {
+        IdConnexionWithServer = idConnexionWithServer;
+    }
+
     private Object sendRequest(Requete requete) {
+        requete.setIdConnexion(getIdConnexionWithServer());
         try (Socket socket = new Socket(host, port);
              ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
              ObjectInputStream dis = new ObjectInputStream(socket.getInputStream())) {
@@ -43,7 +59,7 @@ public class ConnectServer {
             return response;
 
         } catch (IOException e) {
-            System.err.println("Erreur d’E/S : " + e.getMessage());
+            System.err.println("Erreur d'E/S : " + e.getMessage());
         } catch (ClassNotFoundException e) {
             System.err.println("Classe non trouvée : " + e.getMessage());
         }
@@ -60,28 +76,47 @@ public class ConnectServer {
         String sel = reponse.getSel();
 
         try {
+            // 1) LOGIN_AUTH
             String digest = DigestHelper.generateDigest(username, password, sel);
-            Requete req = new Requete_LOGIN_AUTH(username, digest);
+            Requete_LOGIN_AUTH req = new Requete_LOGIN_AUTH(username, digest);
             Reponse_LOGIN_AUTH authRep = (Reponse_LOGIN_AUTH) sendRequest(req);
 
-            if (authRep != null && authRep.isValide()) {
-                System.out.println("[CLIENT] Authentification réussie");
-
-                // Générer une clé de session pour les futurs rapports
-                KeyGenerator cleGen = KeyGenerator.getInstance("AES");
-                cleGen.init(128, new SecureRandom());
-                this.sessionKey = cleGen.generateKey();
-                System.out.println("[CLIENT] sessionKey générée : " + sessionKey.getAlgorithm());
-
-                // (plus tard tu pourras l’envoyer chiffrée au serveur via une requête HANDSHAKE)
-                return true;
-            } else {
+            if (authRep == null || !authRep.isValide()) {
                 System.out.println("[CLIENT] Authentification échouée");
                 return false;
             }
+
+            System.out.println("[CLIENT] Authentification réussie");
+            setIdConnexionWithServer(authRep.getIdConnexion());
+
+            // 2) Générer clé de session AES
+            KeyGenerator cleGen = KeyGenerator.getInstance("AES");
+            cleGen.init(128, new SecureRandom());
+            this.sessionKey = cleGen.generateKey();
+            System.out.println("[CLIENT] sessionKey générée : " + sessionKey.getAlgorithm());
+
+            // 3) Charger la clé publique du serveur (CONVERTIE EN BC)
+            PublicKey clePubliqueServeur = loadServerPublicKey();
+
+            // 4) Chiffrer la clé de session avec RSA
+            byte[] sessionKeyBytes = sessionKey.getEncoded();
+            byte[] sessionKeyChiffree = MyCrypto.CryptAsymRSA(clePubliqueServeur, sessionKeyBytes);
+
+            // 5) Envoyer HANDSHAKE
+            Requete_HANDSHAKE reqHS = new Requete_HANDSHAKE(sessionKeyChiffree);
+            Reponse_HANDSHAKE repHS = (Reponse_HANDSHAKE) sendRequest(reqHS);
+
+            if (repHS == null || !repHS.isOk()) {
+                System.out.println("[CLIENT] Handshake échoué");
+                return false;
+            }
+
+            System.out.println("[CLIENT] Handshake réussi, clé de session partagée");
+            return true;
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("[CLIENT] Erreur lors du calcul du digest");
+            System.out.println("[CLIENT] Erreur lors du login/handshake");
             return false;
         }
     }
@@ -95,6 +130,28 @@ public class ConnectServer {
             System.out.println("[CLIENT] pas ok!");
             return false;
         }
+    }
+
+    // CHARGEMENT + CONVERSION de la clé publique en BC
+    private static PublicKey loadServerPublicKey() throws Exception {
+        InputStream is = ConnectServer.class.getClassLoader()
+                .getResourceAsStream("clePubliqueServeur.ser");
+        if (is == null) {
+            throw new FileNotFoundException("clePubliqueServeur.ser introuvable dans resources");
+        }
+
+        ObjectInputStream ois = new ObjectInputStream(is);
+        PublicKey cleTemp = (PublicKey) ois.readObject();
+        ois.close();
+
+        // CONVERSION vers BC
+        byte[] encoded = cleTemp.getEncoded();
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encoded);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA", "BC");
+        PublicKey cleBc = keyFactory.generatePublic(keySpec);
+
+        System.out.println("[CLIENT] Clé publique chargée : " + cleBc.getClass().getName());
+        return cleBc;
     }
 
     public static class DigestHelper {

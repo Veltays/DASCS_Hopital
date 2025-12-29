@@ -109,6 +109,8 @@ public class MainController {
             }
 
             System.out.println("[CLIENT] Envoi de la requête au serveur...");
+            System.out.println("[CLIENT DEBUG] id=" + id + ", idPatient=" + idPatient);
+
             Requete requete;
             try {
                 requete = new Requete_ADD_REPORT(

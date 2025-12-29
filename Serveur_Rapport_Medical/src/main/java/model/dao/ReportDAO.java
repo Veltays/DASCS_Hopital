@@ -122,51 +122,35 @@ public class ReportDAO {
     {
         try
         {
-            String sql;
-            if(r != null)
-            {
-                if(r.getId() != null) // UPDATE
-                {
-                    sql = "UPDATE specialties SET name=? WHERE id=?";
+            String sql = "INSERT INTO report (id, idPatient, idMedecin, date, description) VALUES (?,?, ?, ?, ?)";
+            PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-//                    PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
-//                    pStmt.setString(1, r.getName());
-//                    pStmt.setInt(2, r.getId());
-//
-//                    pStmt.executeUpdate();
-//                    pStmt.close();
-                }
-            }
-            else
-            {
-                sql = "INSERT INTO report (idPatient, idMedecin, date, description) VALUES (?, ?, ?, ?)";
-                PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+            pStmt.setInt(1, r.getId());
+            pStmt.setInt(2, r.getIdPatient());
+            pStmt.setInt(3, r.getIdMedecin());
+            pStmt.setDate(4, java.sql.Date.valueOf(r.getDate()));
+            pStmt.setString(5, r.getDescription());
 
-                pStmt.setInt(1, r.getIdPatient());
-                pStmt.setInt(2, r.getIdMedecin());
-                pStmt.setDate(3, java.sql.Date.valueOf(r.getDate())); // si LocalDate
-                pStmt.setString(4, r.getDescription());
+            int rowsAffected = pStmt.executeUpdate();
+            System.out.println("[DAO DEBUG] Lignes insérées dans report : " + rowsAffected);
 
-                pStmt.executeUpdate();
-
+            if (rowsAffected > 0) {
                 ResultSet rs = pStmt.getGeneratedKeys();
-                rs.next();
-                r.setId(rs.getInt(1));
-
+                if (rs.next()) {
+                    r.setId(rs.getInt(1));
+                    System.out.println("[DAO DEBUG] Report sauvegardé avec id=" + r.getId());
+                }
                 rs.close();
-                pStmt.close();
-
             }
+
+            pStmt.close();
         }
         catch (SQLException sqlException)
         {
-            Logger.getLogger(SpecialtyDAO.class.getName()).log(Level.SEVERE, null, sqlException);
+            System.err.println("[DAO ERREUR] Échec save report : " + sqlException.getMessage());
+            sqlException.printStackTrace();
         }
-
-
-
     }
-
 
 
 

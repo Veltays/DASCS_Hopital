@@ -1,6 +1,8 @@
 package ProtocoleMRPS.Requete;
 
-public class Requete_EDIT_REPORT
+import protocol.RequeteMRPS;
+
+public class Requete_EDIT_REPORT extends RequeteMRPS
 {
     private Integer idRapport;
 

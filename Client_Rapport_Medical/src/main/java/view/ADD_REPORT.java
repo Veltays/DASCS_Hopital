@@ -36,7 +36,7 @@ public class ADD_REPORT  extends JDialog{
 
     public String getIdReport() { return idReport.getText().trim();}
 
-    public String getIdPatient() { return idReport.getText().trim(); }
+    public String getIdPatient() { return idPatient.getText().trim(); }
 
     public String getDateReport() { return dateReport.getText().trim(); }
 

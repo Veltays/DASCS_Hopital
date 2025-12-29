@@ -1,6 +1,8 @@
 package ProtocoleMRPS.Requete;
 
-public class Requete_LIST_REPORT
+import protocol.RequeteMRPS;
+
+public class Requete_LIST_REPORT extends RequeteMRPS
 {
     //list des rapports ça faut faire la table pour savoir quels champs renvoyer
 }

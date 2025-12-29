@@ -7,6 +7,16 @@ public class Reponse_LOGIN_AUTH implements Reponse {
     private static final long serialVersionUID = 1L;
     private boolean isValide;
 
+    private Integer idConnexion;
+
+    public Integer getIdConnexion() {
+        return idConnexion;
+    }
+
+    public void setIdConnexion(Integer idConnexion) {
+        this.idConnexion = idConnexion;
+    }
+
     public Reponse_LOGIN_AUTH(boolean isValide) {
         this.isValide = isValide;
     }

@@ -6,7 +6,7 @@ import javax.crypto.SecretKey;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.time.LocalDate;
-public class Requete_ADD_REPORT implements Requete
+public class Requete_ADD_REPORT extends RequeteMRPS
 {
     private static final long serialVersionUID = 1L;
     private byte[] data;
