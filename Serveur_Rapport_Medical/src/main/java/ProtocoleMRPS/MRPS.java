@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ProtocoleMRPS.Requete.*;
 import ProtocoleMRPS.Reponse.*;
+import com.sun.jdi.event.ExceptionEvent;
 import model.entity.Report;
 import protocol.*;
 import model.dao.*;
@@ -90,6 +91,14 @@ public class MRPS implements Protocole
             }
             case Requete_HANDSHAKE requeteHS -> {
                 return TraiteRequeteHANDSHAKE(requeteHS, socket);
+            }
+
+            case Requete_EDIT_REPORT requeteEditReport -> {
+                return TraiteRequeteEditReport(requeteEditReport, socket);
+            }
+
+            case Requete_LOGOUT requeteLogout -> {
+                return TraiteRequeteLogout(requeteLogout, socket);
             }
 
             default -> {
@@ -179,6 +188,9 @@ public class MRPS implements Protocole
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////// Handshake ///////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     private synchronized Reponse_HANDSHAKE TraiteRequeteHANDSHAKE(Requete_HANDSHAKE requete, Socket socket) {
         logger.Trace("*** Requete_HANDSHAKE reçue ***");
 
@@ -209,6 +221,9 @@ public class MRPS implements Protocole
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////// Add Report ///////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
     private synchronized Reponse_ADD_REPORT TraiteRequeteAddReport(Requete_ADD_REPORT requete, Socket socket)  {
         logger.Trace("***** REQUETE ADD REPORT RECUE DU CLIENT *****");
@@ -260,6 +275,91 @@ public class MRPS implements Protocole
 
         }
 
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////// Edit Report ///////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+    private synchronized Reponse_EDIT_REPORT TraiteRequeteEditReport(Requete_EDIT_REPORT requete, Socket socket)
+    {
+        logger.Trace("*** REQUETE EDIT_REPORT ***");
+        String login = clientsConnectes.get(requete.getIdConnexion());
+        if (login == null) {
+            logger.Trace("Utilisateur non authentifié");
+            return new Reponse_EDIT_REPORT(false);
+        }
+
+        SecretKey sessionKey = sessionKeys.get(login);
+        if (sessionKey == null) {
+            logger.Trace("Clé de session manquante");
+            return new Reponse_EDIT_REPORT(false);
+        }
+        // 1er etape : dechiffrer le message crypté reçu à laide de myCrypto
+
+        try
+        {
+            byte[] messageClair = MyCrypto.DecryptSymAES(sessionKey, requete.getData());
+            ByteArrayInputStream bais = new ByteArrayInputStream(messageClair);
+            DataInputStream dis = new DataInputStream(bais);
+
+            int reportId = dis.readInt();
+            int idPatient = dis.readInt();
+            LocalDate date = LocalDate.parse(dis.readUTF());
+            String description = dis.readUTF();
+            //récupere l'id du médecin
+            Integer doctorId = doctorDAO.getDoctorIdByLogin(login);
+            if(doctorId == null)
+            {
+                logger.Trace("Médecin introuvable!");
+                return new Reponse_EDIT_REPORT(false);
+            }
+
+            // ia me dit de vérifier ici si rappport appartient bien au médecin mais tbh jsp si ça sert vrmt à qlq chose
+            // imo c'est logique que dans un rapport on ne puisse modifier que la description , je vois pas
+            //pourquoi tu changerais le id du patient ou la date pour moi c'est fixe mais on verra par apres
+            Report existingReport = reportDAO.findById(reportId);
+            existingReport.setDescription(description);
+
+            reportDAO.save(existingReport);
+            logger.Trace("Report modifié avec succès id=" + reportId);
+            return new Reponse_EDIT_REPORT(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.Trace("Erreur lors de l'édition du rapport");
+            return new Reponse_EDIT_REPORT(false);
+        }
+
+    }
+    //////////////////////////////////////////////////////////////////
+    ////////// LOGOUT ////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+
+    private synchronized Reponse_LOGOUT TraiteRequeteLogout(Requete_LOGOUT requete, Socket socket)
+    {
+        logger.Trace("***** Requete LOGOUT reçue *****");
+        try
+        {
+            String login = clientsConnectes.get(requete.getIdConnexion());
+            if(login==null)
+            {
+                logger.Trace("Session deja fermée ou inexistante...");
+                return new Reponse_LOGOUT(false,"login null");
+            }
+            // supprimer les ressources
+            clientsConnectes.remove(requete.getIdConnexion());
+            sessionKeys.remove(login);
+            salts.remove(login);
+
+            logger.Trace("déconnexion réussie pour l'user "+ login);
+            return new Reponse_LOGOUT(true,"OK");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            logger.Trace("Erreur inattendue lors du logout");
+            return new Reponse_LOGOUT(false,"exception serveur");
+        }
     }
 
     public class DigestHelper {

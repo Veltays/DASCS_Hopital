@@ -152,6 +152,39 @@ public class ReportDAO {
         }
     }
 
+    public Report findById(int reportId) throws SQLException {
+        String sql = "SELECT * FROM report WHERE id = ?";
+        try (PreparedStatement ps = connectDB.getConn().prepareStatement(sql)) {
+            ps.setInt(1, reportId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Report(
+                            rs.getInt("id"),
+                            rs.getInt("idPatient"),
+                            rs.getInt("idMedecin"),
+                            rs.getDate("date").toLocalDate(),
+                            rs.getString("description")
+                    );
+                }
+                return null;
+            }
+        }
+    }
+
+    public void update(Report r) throws SQLException {
+        String sql = "UPDATE report SET idPatient=?, date=?, description=? WHERE id=?";
+        try (PreparedStatement ps = connectDB.getConn().prepareStatement(sql)) {
+            ps.setInt(1, r.getIdPatient());
+            ps.setDate(2, java.sql.Date.valueOf(r.getDate()));
+            ps.setString(3, r.getDescription());
+            ps.setInt(4, r.getId());
+
+            int rows = ps.executeUpdate();
+            System.out.println("[DAO DEBUG] Report modifié, lignes affectées : " + rows);
+        }
+    }
+
+
 
 
 }

@@ -1,6 +1,10 @@
 package ProtocoleMRPS.Reponse;
 
-public class Reponse_EDIT_REPORT {
+import protocol.Reponse;
+
+public class Reponse_EDIT_REPORT implements Reponse {
+
+    private static final long serialVersionUID = 1L;
 
     private boolean isValid;
 

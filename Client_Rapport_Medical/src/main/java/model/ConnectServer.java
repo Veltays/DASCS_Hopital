@@ -132,6 +132,22 @@ public class ConnectServer {
         }
     }
 
+    public boolean Logout(Requete requete)
+    {
+        Reponse_LOGOUT reponse = (Reponse_LOGOUT) sendRequest(requete);
+        if(reponse!=null && reponse.isOk()){
+            System.out.println("[CLIENT] Déconnexion réussie!");
+
+            this.sessionKey = null;
+            this.setIdConnexionWithServer(null);
+            return true;
+        }
+        else {
+            System.out.println("[CLIENT] Erreur lors de la déconnexion...");
+            return false;
+        }
+    }
+
     // CHARGEMENT + CONVERSION de la clé publique en BC
     private static PublicKey loadServerPublicKey() throws Exception {
         InputStream is = ConnectServer.class.getClassLoader()

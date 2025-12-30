@@ -9,6 +9,8 @@ import javax.crypto.SecretKey;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 
 public class MainController {
@@ -25,6 +27,15 @@ public class MainController {
         showLoginDialog();
 
         view.getADDREPORTButton().addActionListener(new AddReportDialog());
+        view.getLOGOUTButton().addActionListener(new Logout());
+        view.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Requete requete = new Requete_LOGOUT();
+                connectServer.Logout(requete);
+                System.exit(0);
+            }
+        });
     }
 
     private void showLoginDialog() {
@@ -74,6 +85,28 @@ public class MainController {
 
         dialog.setVisible(true);
     }
+
+    //////////////////////////////////////////////
+    ////////////////////LOGOUT///////////////////
+    /////////////////////////////////////////////
+
+    class Logout implements ActionListener {
+        @Override
+        public void actionPerformed (ActionEvent e)
+        {
+            System.out.println("[CLIENT] Traitement de la requête LOGOUT");
+
+            Requete requete = new Requete_LOGOUT();
+
+            connectServer.Logout(requete);
+            view.setVisible(false);
+            showLoginDialog();
+        }
+    }
+
+    //////////////////////////////////////////////
+    ///////////////// add report ////////////////
+    /////////////////////////////////////////////
 
     class AddReportDialog implements ActionListener {
         @Override
