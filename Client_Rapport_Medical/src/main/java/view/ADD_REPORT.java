@@ -15,11 +15,9 @@ public class ADD_REPORT  extends JDialog{
         setTitle("Ajouter un rapport");
         setContentPane(panel1);
         setModal(true);
+        pack();
+        setLocationRelativeTo(null);
 
-//        // ✅ Taille et centrage
-//        setPreferredSize(new Dimension(400, 200));
-//        pack();
-//        setLocationRelativeTo(null); // centre la fenêtre sur l’écran
 
         enregisterButton.addActionListener(e -> dispose());
 
@@ -28,12 +26,6 @@ public class ADD_REPORT  extends JDialog{
 
     }
 
-
-
-    //////////////////////////
-    ////get///////////////
-    //////////////////////////
-
     public String getIdReport() { return idReport.getText().trim();}
 
     public String getIdPatient() { return idPatient.getText().trim(); }
@@ -41,9 +33,5 @@ public class ADD_REPORT  extends JDialog{
     public String getDateReport() { return dateReport.getText().trim(); }
 
     public String getDescription() { return description.getText().trim(); }
-
-
-
-
 
 }

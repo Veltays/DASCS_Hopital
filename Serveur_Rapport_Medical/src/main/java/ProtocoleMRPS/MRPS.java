@@ -308,8 +308,6 @@ public class MRPS implements Protocole
             DataInputStream dis = new DataInputStream(bais);
 
             int reportId = dis.readInt();
-            int idPatient = dis.readInt();
-            LocalDate date = LocalDate.parse(dis.readUTF());
             String description = dis.readUTF();
             //récupere l'id du médecin
             Integer doctorId = doctorDAO.getDoctorIdByLogin(login);
@@ -324,7 +322,7 @@ public class MRPS implements Protocole
             Report existingReport = reportDAO.findById(reportId);
             existingReport.setDescription(description);
 
-            reportDAO.save(existingReport);
+            reportDAO.updateDescription(existingReport);
             logger.Trace("Report modifié avec succès id=" + reportId);
             return new Reponse_EDIT_REPORT(true);
 

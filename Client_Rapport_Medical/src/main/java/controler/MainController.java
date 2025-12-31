@@ -187,14 +187,84 @@ public class MainController {
     /////////////////////////////////////////////
 
     class EditReportDialog implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("******** Edit Report*************");
+            System.out.println("******** EDIT_REPORT **********");
 
+            // 1) Vérifier sélection
+            int selectedRow = view.getTable().getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(view,
+                        "Veuillez sélectionner un rapport dans la liste",
+                        "Aucune sélection",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
+            // 2) Récupérer la description actuelle
+            Object currentDesc = view.getTable().getValueAt(selectedRow, 3);
+
+            // 3) Ouvrir la boîte de dialogue
+            EDIT_REPORT dialog = new EDIT_REPORT();
+            dialog.setVisible(true);
+
+            // 4) Récupérer les données
+            String nouvelleDescription = dialog.getDescription();
+
+            // 5) Récupérer l'ID du rapport sélectionné
+            selectedRow = view.getTable().getSelectedRow();
+            Object value = view.getTable().getValueAt(selectedRow, 0);
+            int reportId = Integer.parseInt(value.toString());
+
+            // 6) Validation
+            if (nouvelleDescription.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "La description ne peut pas être vide.",
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 7) Vérifier clé de session
+            SecretKey sessionKey = connectServer.getSessionKey();
+            if (sessionKey == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Clé de session absente",
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 8) Envoyer la requête
+            try {
+                System.out.println("[CLIENT] Envoi de la requête au serveur...");
+                Requete requete = new Requete_EDIT_REPORT(reportId, nouvelleDescription, sessionKey);
+
+                if (connectServer.EditReport(requete)) {
+                    JOptionPane.showMessageDialog(null,
+                            "Rapport modifié avec succès.",
+                            "Succès",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                    // Rafraîchir la table
+                    loadReports();
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Échec de la modification du rapport.",
+                            "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Erreur : " + ex.getMessage(),
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
         }
     }
+
 
     //////////////////////////////////////////////
     ///////////////// list report ////////////////

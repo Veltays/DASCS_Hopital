@@ -185,6 +185,18 @@ public class ReportDAO {
         }
     }
 
+    public void updateDescription(Report r) throws SQLException {
+        String sql = "UPDATE report SET description = ? WHERE id = ?";
+        try (PreparedStatement ps = connectDB.getConn().prepareStatement(sql)) {
+            ps.setString(1, r.getDescription());
+            ps.setInt(2, r.getId());
+
+            int rows = ps.executeUpdate();
+            System.out.println("[DAO] Description du rapport modifiée, lignes affectées : " + rows);
+        }
+    }
+
+
 
     public List<Report> findByDoctorId(Integer doctorId) throws SQLException {
         List<Report> reports = new ArrayList<>();

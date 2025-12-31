@@ -21,15 +21,13 @@ public class Requete_EDIT_REPORT extends RequeteMRPS
         this.data = data;
     }
 
-    public Requete_EDIT_REPORT(Integer reportId, Integer idPatient, LocalDate date, String description, SecretKey sessionKey) throws Exception
+    public Requete_EDIT_REPORT(Integer reportId, String newDescription, SecretKey sessionKey) throws Exception
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
 
         dos.writeInt(reportId);         // l'id du rapport à modifier
-        dos.writeInt(idPatient);
-        dos.writeUTF(date.toString());
-        dos.writeUTF(description);
+        dos.writeUTF(newDescription);
         dos.flush();
 
         byte[] messageClair = baos.toByteArray();

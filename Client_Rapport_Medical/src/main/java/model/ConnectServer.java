@@ -137,6 +137,16 @@ public class ConnectServer {
         }
     }
 
+    public boolean EditReport(Requete requete) {
+        Reponse_EDIT_REPORT reponse = (Reponse_EDIT_REPORT) sendRequest(requete);
+        if (reponse != null && reponse.isValid()) {
+            System.out.println("[CLIENT] Rapport modifié avec succès!");
+            return true;
+        }
+        return false;
+    }
+
+
     public boolean Logout(Requete requete)
     {
         Reponse_LOGOUT reponse = (Reponse_LOGOUT) sendRequest(requete);
@@ -152,6 +162,7 @@ public class ConnectServer {
             return false;
         }
     }
+
 
     public List<Report> ListReport() throws Exception {
         try{
