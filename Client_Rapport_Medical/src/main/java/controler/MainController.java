@@ -174,6 +174,12 @@ public class MainController {
                         "Rapport ajouté avec succès.",
                         "Succès",
                         JOptionPane.INFORMATION_MESSAGE);
+                // on recharge la table après un ajout d'un nv report successful
+                try {
+                    loadReports();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             } else {
                 JOptionPane.showMessageDialog(null,
                         "Échec de l'ajout du rapport.",
