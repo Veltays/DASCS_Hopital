@@ -3,17 +3,22 @@ package model;
 import ProtocoleMRPS.MyCrypto;
 import ProtocoleMRPS.Reponse.*;
 import ProtocoleMRPS.Requete.*;
+import model.entity.Report;
 import protocol.Requete;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.KeyGenerator;
+import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class ConnectServer {
     private final String host;
@@ -148,6 +153,51 @@ public class ConnectServer {
         }
     }
 
+    public List<Report> ListReport() throws Exception {
+        try{
+        Requete_LIST_REPORT req = new Requete_LIST_REPORT();
+        Reponse_LIST_REPORT rep = (Reponse_LIST_REPORT) sendRequest(req);
+
+        if (rep == null || !rep.isOk()) {
+            System.out.println("[CLIENT] Échec récupération liste");
+            return new ArrayList<>();
+        }
+
+        // Vérifier HMAC
+        String hmacCalcule = calculateHMAC(rep.getDataChiffree(), sessionKey);
+        if (!hmacCalcule.equals(rep.getHmac())) {
+            System.err.println("[CLIENT] ERREUR : HMAC invalide, données corrompues !");
+            return new ArrayList<>();
+        }
+
+        // Déchiffrer
+        byte[] messageClair = MyCrypto.DecryptSymAES(sessionKey, rep.getDataChiffree());
+
+        // Désérialiser
+        ByteArrayInputStream bais = new ByteArrayInputStream(messageClair);
+        DataInputStream dis = new DataInputStream(bais);
+
+        int count = dis.readInt();
+        List<Report> reports = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            int id = dis.readInt();
+            int idPatient = dis.readInt();
+            LocalDate date = LocalDate.parse(dis.readUTF());
+            String description = dis.readUTF();
+
+            reports.add(new Report(id, idPatient, null, date, description));
+        }
+
+        System.out.println("[CLIENT] " + reports.size() + " rapports reçus");
+        return reports;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ArrayList<>();
+    }
+    }
+
     // CHARGEMENT + CONVERSION de la clé publique en BC
     private static PublicKey loadServerPublicKey() throws Exception {
         InputStream is = ConnectServer.class.getClassLoader()
@@ -178,5 +228,12 @@ public class ConnectServer {
             byte[] hash = md.digest(data.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(hash);
         }
+    }
+
+    private String calculateHMAC(byte[] data, SecretKey key) throws Exception {
+        Mac mac = Mac.getInstance("HmacSHA256");
+        mac.init(key);
+        byte[] hmacBytes = mac.doFinal(data);
+        return Base64.getEncoder().encodeToString(hmacBytes);
     }
 }

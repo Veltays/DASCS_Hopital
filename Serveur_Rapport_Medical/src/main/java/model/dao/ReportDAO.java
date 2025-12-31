@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -185,6 +186,25 @@ public class ReportDAO {
     }
 
 
+    public List<Report> findByDoctorId(Integer doctorId) throws SQLException {
+        List<Report> reports = new ArrayList<>();
+        String sql = "SELECT * FROM report WHERE idMedecin = ? ORDER BY date DESC";
 
-
+        try (PreparedStatement ps = connectDB.getConn().prepareStatement(sql)) {
+            ps.setInt(1, doctorId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Report r = new Report(
+                            rs.getInt("id"),
+                            rs.getInt("idPatient"),
+                            rs.getInt("idMedecin"),
+                            rs.getDate("date").toLocalDate(),
+                            rs.getString("description")
+                    );
+                    reports.add(r);
+                }
+            }
+        }
+        return reports;
+    }
 }

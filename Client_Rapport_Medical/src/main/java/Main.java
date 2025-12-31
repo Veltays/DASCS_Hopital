@@ -12,7 +12,7 @@ public class Main {
     {
         Security.addProvider(new BouncyCastleProvider());
         MainView view = new MainView();
-        ConnectServer connectServer = new ConnectServer("localhost", 6769);
+        ConnectServer connectServer = new ConnectServer("localhost", 6770);
         new MainController (view,connectServer);
     }
 }

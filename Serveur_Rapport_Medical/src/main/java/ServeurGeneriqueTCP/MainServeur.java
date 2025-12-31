@@ -1,7 +1,7 @@
 package ServeurGeneriqueTCP;
 
 import ProtocoleMRPS.MRPS;
-import ServeurGeneriqueTCP.core.ThreadServeurPool;
+import ServeurGeneriqueTCP.core.ThreadServeurDemande;
 import ServeurGeneriqueTCP.logging.ConsoleLogger;
 import ServeurGeneriqueTCP.logging.Logger;
 import ServeurGeneriqueTCP.utils.ConfigLoader;
@@ -16,14 +16,13 @@ public class MainServeur {
         try {
             ConfigLoader config = new ConfigLoader();
 
-            int port = Integer.parseInt(config.get("PORT_CONSULTATION"));
-            int taillePool = Integer.parseInt(config.get("TAILLE_POOL"));
+            int port = Integer.parseInt(config.get("PORT_REPORT_SECURE"));
 
 
             Logger logger = new ConsoleLogger();
             Protocole protocole = new MRPS(logger); // le protocole que tu veux utiliser (CAP, etc.)
 
-            ThreadServeurPool serveur = new ThreadServeurPool(port, protocole, taillePool, logger);
+            ThreadServeurDemande serveur = new ThreadServeurDemande(port, protocole, logger);
             serveur.start();
 
             logger.Trace("Serveur Consultation lancé sur le port " + port);

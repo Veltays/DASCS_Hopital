@@ -11,6 +11,7 @@ import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,6 +22,7 @@ import model.entity.Report;
 import protocol.*;
 import model.dao.*;
 
+import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -79,27 +81,31 @@ public class MRPS implements Protocole
         switch(requete)
         {
             case Requete_LOGIN_REQUEST requeteLogin -> {
-                return TraiteRequeteLOGIN_REQUEST(requeteLogin, socket);
+                return TraiteRequeteLOGIN_REQUEST(requeteLogin);
             }
 
             case Requete_LOGIN_AUTH requeteLoginAuth -> {
-                return TraiteRequeteLogin_Auth(requeteLoginAuth, socket);
+                return TraiteRequeteLogin_Auth(requeteLoginAuth);
             }
 
             case Requete_ADD_REPORT requeteAddReport -> {
-                return TraiteRequeteAddReport(requeteAddReport, socket);
+                return TraiteRequeteAddReport(requeteAddReport);
             }
             case Requete_HANDSHAKE requeteHS -> {
-                return TraiteRequeteHANDSHAKE(requeteHS, socket);
+                return TraiteRequeteHANDSHAKE(requeteHS);
             }
 
             case Requete_EDIT_REPORT requeteEditReport -> {
-                return TraiteRequeteEditReport(requeteEditReport, socket);
+                return TraiteRequeteEditReport(requeteEditReport);
             }
 
-            case Requete_LOGOUT requeteLogout -> {
-                return TraiteRequeteLogout(requeteLogout, socket);
+            case Requete_LIST_REPORT requeteListReport -> {
+                return TraiteRequeteListReport(requeteListReport);
             }
+            case Requete_LOGOUT requeteLogout -> {
+                return TraiteRequeteLogout(requeteLogout);
+            }
+
 
             default -> {
                 logger.Trace("Requête de type inconnu reçue : " + requete.getClass().getName());
@@ -113,7 +119,7 @@ public class MRPS implements Protocole
     ////////// LOGIN /////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
 
-    private synchronized Reponse_LOGIN_REQUEST TraiteRequeteLOGIN_REQUEST (Requete_LOGIN_REQUEST requete, Socket socket) {
+    private synchronized Reponse_LOGIN_REQUEST TraiteRequeteLOGIN_REQUEST (Requete_LOGIN_REQUEST requete) {
         logger.Trace("***RequeteLOGIN_REQUEST reçue de " + requete.getUsername()+"***");
 
         String userName = requete.getUsername();
@@ -146,7 +152,7 @@ public class MRPS implements Protocole
         }
     }
 
-    private synchronized Reponse_LOGIN_AUTH TraiteRequeteLogin_Auth (Requete_LOGIN_AUTH requete, Socket socket){
+    private synchronized Reponse_LOGIN_AUTH TraiteRequeteLogin_Auth (Requete_LOGIN_AUTH requete){
         logger.Trace("*** RequeteLOGIN_AUTH reçue ***");
 
         String username = requete.getUsername();
@@ -191,7 +197,7 @@ public class MRPS implements Protocole
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////// Handshake ///////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    private synchronized Reponse_HANDSHAKE TraiteRequeteHANDSHAKE(Requete_HANDSHAKE requete, Socket socket) {
+    private synchronized Reponse_HANDSHAKE TraiteRequeteHANDSHAKE(Requete_HANDSHAKE requete) {
         logger.Trace("*** Requete_HANDSHAKE reçue ***");
 
         try {
@@ -225,7 +231,7 @@ public class MRPS implements Protocole
     ////////////////////// Add Report ///////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    private synchronized Reponse_ADD_REPORT TraiteRequeteAddReport(Requete_ADD_REPORT requete, Socket socket)  {
+    private synchronized Reponse_ADD_REPORT TraiteRequeteAddReport(Requete_ADD_REPORT requete)  {
         logger.Trace("***** REQUETE ADD REPORT RECUE DU CLIENT *****");
         String login = clientsConnectes.get(requete.getIdConnexion());
         if (login == null) {
@@ -281,8 +287,7 @@ public class MRPS implements Protocole
     ////////////////////// Edit Report ///////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    private synchronized Reponse_EDIT_REPORT TraiteRequeteEditReport(Requete_EDIT_REPORT requete, Socket socket)
-    {
+    private synchronized Reponse_EDIT_REPORT TraiteRequeteEditReport(Requete_EDIT_REPORT requete) {
         logger.Trace("*** REQUETE EDIT_REPORT ***");
         String login = clientsConnectes.get(requete.getIdConnexion());
         if (login == null) {
@@ -297,8 +302,7 @@ public class MRPS implements Protocole
         }
         // 1er etape : dechiffrer le message crypté reçu à laide de myCrypto
 
-        try
-        {
+        try {
             byte[] messageClair = MyCrypto.DecryptSymAES(sessionKey, requete.getData());
             ByteArrayInputStream bais = new ByteArrayInputStream(messageClair);
             DataInputStream dis = new DataInputStream(bais);
@@ -309,8 +313,7 @@ public class MRPS implements Protocole
             String description = dis.readUTF();
             //récupere l'id du médecin
             Integer doctorId = doctorDAO.getDoctorIdByLogin(login);
-            if(doctorId == null)
-            {
+            if (doctorId == null) {
                 logger.Trace("Médecin introuvable!");
                 return new Reponse_EDIT_REPORT(false);
             }
@@ -333,10 +336,59 @@ public class MRPS implements Protocole
 
     }
     //////////////////////////////////////////////////////////////////
+    ////////// LIST REPORT ///////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+     private synchronized  Reponse_LIST_REPORT TraiteRequeteListReport (Requete_LIST_REPORT requete)
+     {
+         logger.Trace("**** Requete LIST REPORT reçue");
+         String login = clientsConnectes.get(requete.getIdConnexion());
+         if(login==null) {
+             return new Reponse_LIST_REPORT(null,null,false);
+         }
+
+         SecretKey sessionKey = sessionKeys.get(login);
+         if (sessionKey == null) {
+             return new Reponse_LIST_REPORT(null, null, false);
+         }
+
+         try
+         {
+             Integer doctorId = doctorDAO.getDoctorIdByLogin(login);
+
+             // recup tous les rapports de ce médecin
+             List<Report> reports = reportDAO.findByDoctorId(doctorId);
+
+             // crypté la liste
+             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             DataOutputStream dos = new DataOutputStream(baos);
+
+             dos.writeInt(reports.size());  // nombre de rapports
+             for (Report r : reports) {
+                 dos.writeInt(r.getId());
+                 dos.writeInt(r.getIdPatient());
+                 dos.writeUTF(r.getDate().toString());
+                 dos.writeUTF(r.getDescription());
+             }
+             dos.flush();
+
+             byte[] messageClair = baos.toByteArray();
+             byte[] messageChiffre = MyCrypto.CryptSymAES(sessionKey, messageClair);
+             String hmac = calculateHMAC(messageChiffre, sessionKey);
+             logger.Trace("Liste de " + reports.size() + " rapports envoyée pour " + login);
+             return new Reponse_LIST_REPORT(messageChiffre, hmac, true);
+
+         }
+         catch (Exception e) {
+             e.printStackTrace();
+             return new Reponse_LIST_REPORT(null, null, false);
+         }
+
+     }
+    //////////////////////////////////////////////////////////////////
     ////////// LOGOUT ////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
 
-    private synchronized Reponse_LOGOUT TraiteRequeteLogout(Requete_LOGOUT requete, Socket socket)
+    private synchronized Reponse_LOGOUT TraiteRequeteLogout(Requete_LOGOUT requete)
     {
         logger.Trace("***** Requete LOGOUT reçue *****");
         try
@@ -372,4 +424,10 @@ public class MRPS implements Protocole
         }
     }
 
+    private String calculateHMAC(byte[] data, SecretKey key) throws Exception {
+        Mac mac = Mac.getInstance("HmacSHA256");
+        mac.init(key);
+        byte[] hmacBytes = mac.doFinal(data);
+        return Base64.getEncoder().encodeToString(hmacBytes);
+    }
 }

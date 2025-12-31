@@ -1,17 +1,21 @@
 package controler;
 
 import ProtocoleMRPS.Requete.*;
+import model.entity.Report;
+import org.bouncycastle.cert.ocsp.Req;
 import view.*;
 import model.*;
 import protocol.*;
 
 import javax.crypto.SecretKey;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
+import java.util.List;
 
 public class MainController {
 
@@ -28,6 +32,7 @@ public class MainController {
 
         view.getADDREPORTButton().addActionListener(new AddReportDialog());
         view.getLOGOUTButton().addActionListener(new Logout());
+        view.getEDITREPORTButton().addActionListener(new EditReportDialog());
         view.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -37,6 +42,10 @@ public class MainController {
             }
         });
     }
+
+    //////////////////////////////////////////////
+    ////////////////// login ///////////////////
+    /////////////////////////////////////////////
 
     private void showLoginDialog() {
         LoginDialog dialog = new LoginDialog();
@@ -59,11 +68,9 @@ public class MainController {
 
                 if (connectServer.LoginRequest(requete, username, password)) {
                     System.out.println("[CLIENT] Connexion réussie ");
+                    // quand le login est réussi on affiche directement les rapports du médecin
 
-                    // debug : vérifier la clé de session
-                    SecretKey sk = connectServer.getSessionKey();
-                    System.out.println("[CLIENT] sessionKey = " + sk +
-                            " algo=" + (sk != null ? sk.getAlgorithm() : "null"));
+                    loadReports();
 
                     dialog.dispose();
                     view.setVisible(true);
@@ -87,7 +94,7 @@ public class MainController {
     }
 
     //////////////////////////////////////////////
-    ////////////////////LOGOUT///////////////////
+    ////////////////// logout ///////////////////
     /////////////////////////////////////////////
 
     class Logout implements ActionListener {
@@ -173,6 +180,40 @@ public class MainController {
                         "Erreur",
                         JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+    //////////////////////////////////////////////
+    ///////////////// edit report ////////////////
+    /////////////////////////////////////////////
+
+    class EditReportDialog implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("******** Edit Report*************");
+
+
+        }
+    }
+
+    //////////////////////////////////////////////
+    ///////////////// list report ////////////////
+    /////////////////////////////////////////////
+
+    private void loadReports() throws Exception {
+        System.out.println("**** REQUETE LIST REPORT *****");
+
+        List<Report> reports = connectServer.ListReport();
+        DefaultTableModel model = (DefaultTableModel) view.getTable().getModel();
+        model.setRowCount(0);  // vider la table
+
+        for (Report r : reports) {
+            model.addRow(new Object[]{
+                    r.getId(),
+                    r.getIdPatient(),
+                    r.getDate(),
+                    r.getDescription()
+            });
         }
     }
 }
