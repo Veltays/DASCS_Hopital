@@ -1,4 +1,4 @@
-package ServeurGeneriqueTCP.utils;
+package utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.InputStream;
