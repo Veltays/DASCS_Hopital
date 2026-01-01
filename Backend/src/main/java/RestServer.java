@@ -25,10 +25,10 @@ public class RestServer {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
+        server.createContext("/api/specialties", new SpecialtiesAPI());
         server.createContext("/api/doctors", new DoctorsAPI());
-//        server.createContext("/api/patients", new PatientAPI());
-//        server.createContext("/api/specialties", new SpecialtiesAPI());
-//        server.createContext("/api/consultations", new ConsultationsAPI());
+        server.createContext("/api/patients", new PatientAPI());
+        server.createContext("/api/consultations", new ConsultationsAPI());
 
         // Démarrage du serveur
         server.start();

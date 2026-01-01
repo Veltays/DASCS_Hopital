@@ -6,7 +6,6 @@ import model.viewmodel.ConsultationSearchVM;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.logging.*;
 
@@ -130,7 +129,7 @@ public class ConsultationDAO {
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
                     pStmt.setInt(1, c.getDoctor_id());
                     if (c.getPatient_id() == null)
-                        pStmt.setNull(2, java.sql.Types.INTEGER);
+                        pStmt.setNull(2, Types.INTEGER);
                     else
                         pStmt.setInt(2, c.getPatient_id());
 
@@ -148,7 +147,7 @@ public class ConsultationDAO {
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                     pStmt.setInt(1, c.getDoctor_id());
                     if (c.getPatient_id() == null)
-                        pStmt.setNull(2, java.sql.Types.INTEGER);
+                        pStmt.setNull(2, Types.INTEGER);
                     else
                         pStmt.setInt(2, c.getPatient_id());
 
@@ -165,11 +164,16 @@ public class ConsultationDAO {
                     pStmt.close();
                 }
             }
+            else
+            {
+                throw new Exception("Erreur lors de l'ajout d'une consultation elle overlap une deja existante");
+            }
         }
         catch (SQLException sqlException)
         {
             Logger.getLogger(ConsultationDAO.class.getName()).log(Level.SEVERE, null, sqlException);
-            throw sqlException;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -12,7 +12,7 @@ import java.util.Map;
 public class RestAPI {
 
 
-    static Map<String, String> parseQueryParams(String query) {
+    protected static Map<String, String> parseQueryParams(String query) {
         Map<String, String> queryParams = new HashMap<>();
         if (query != null)
         {
@@ -31,7 +31,7 @@ public class RestAPI {
     }
 
 
-    static void sendResponse(HttpExchange exchange, int statusCode, String response) throws IOException {
+    protected static void sendResponse(HttpExchange exchange, int statusCode, String response) throws IOException {
         System.out.println("Envoi de la réponse (" + statusCode + ") : --" + response + "--");
         exchange.sendResponseHeaders(statusCode, response.length());
         OutputStream os = exchange.getResponseBody();
@@ -40,7 +40,7 @@ public class RestAPI {
     }
 
 
-    static String readRequestBody(HttpExchange exchange) throws IOException {
+    protected static String readRequestBody(HttpExchange exchange) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
         StringBuilder requestBody = new StringBuilder();
         String line;
@@ -53,4 +53,27 @@ public class RestAPI {
     }
 
 
+    protected static String getJsonValue(String json, String key) {
+
+        int start = json.indexOf("\"" + key + "\"");
+        if (start == -1) return null;
+
+        start = json.indexOf(":", start) + 1;
+
+        // ⬇️ FIX IMPORTANT
+        while (json.charAt(start) == ' ') start++;
+
+        // string
+        if (json.charAt(start) == '"') {
+            start++;
+            int end = json.indexOf("\"", start);
+            return json.substring(start, end);
+        }
+
+        // bool / number / null
+        int end = json.indexOf(",", start);
+        if (end == -1) end = json.indexOf("}", start);
+
+        return json.substring(start, end).trim();
+    }
 }

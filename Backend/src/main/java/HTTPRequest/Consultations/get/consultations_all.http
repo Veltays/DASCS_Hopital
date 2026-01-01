@@ -1,0 +1,3 @@
+### Get all available consultations
+GET http://localhost:8081/api/consultations
+Accept: application/json

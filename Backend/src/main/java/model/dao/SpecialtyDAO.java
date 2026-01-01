@@ -49,7 +49,7 @@ public class SpecialtyDAO {
             String sql = "SELECT id, name FROM specialties";
 
             if (specialtySearchVMParameter != null) {
-                String where = "WHERE 1=1";
+                String where = " WHERE 1=1";
 
                 if (specialtySearchVMParameter.getId() != null) {
                     where += " AND id = ?";

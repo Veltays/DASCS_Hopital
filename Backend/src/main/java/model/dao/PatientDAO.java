@@ -113,30 +113,27 @@ public class PatientDAO {
             String sql;
             if (p != null)
             {
-                if (p.getId() != null) // UPDATE
-                {
-
+                if (p.getId() != null) { // UPDATE
                     sql = "UPDATE patients SET last_name=?, first_name=?, birth_date=? WHERE id=?";
-
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql);
                     pStmt.setString(1, p.getLastname());
                     pStmt.setString(2, p.getFirstname());
+                    pStmt.setDate(3, new java.sql.Date(p.getBirthDate().getTime()));
                     pStmt.setInt(4, p.getId());
-
                     pStmt.executeUpdate();
                     pStmt.close();
                 }
-                else // CREATE
-                {
-                    sql = "INSERT INTO patients (last_name, first_name) VALUES (?, ?)";
+                else { // CREATE
+                    sql = "INSERT INTO patients (last_name, first_name, birth_date) VALUES (?, ?, ?)";
                     PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                     pStmt.setString(1, p.getLastname());
                     pStmt.setString(2, p.getFirstname());
+                    pStmt.setDate(3, new java.sql.Date(p.getBirthDate().getTime()));
                     pStmt.executeUpdate();
 
                     ResultSet rs = pStmt.getGeneratedKeys();
                     rs.next();
-                    p.setId((int) rs.getLong(1));
+                    p.setId(rs.getInt(1));
                     rs.close();
                     pStmt.close();
                 }

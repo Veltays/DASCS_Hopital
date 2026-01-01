@@ -1,0 +1,12 @@
+### Add new patient (newPatient = true)
+POST http://localhost:8081/api/patients
+Content-Type: application/json
+Accept: application/json
+
+{
+  "lastName": "Gran",
+  "firstName": "Yassine",
+  "birthDate": "11/02/2004",
+  "patientId": null,
+  "newPatient": true
+}

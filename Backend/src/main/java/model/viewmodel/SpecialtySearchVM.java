@@ -11,6 +11,10 @@ public class SpecialtySearchVM {
         setName(name);
     }
 
+    public SpecialtySearchVM() {
+
+    }
+
     // --- Getters ---
     public Integer getId() {
         return id;

@@ -1,0 +1,3 @@
+### Get all specialties
+GET http://localhost:8081/api/specialties
+Accept: application/json

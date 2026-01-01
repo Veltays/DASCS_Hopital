@@ -1,0 +1,3 @@
+### Get consultations by date
+GET http://localhost:8081/api/consultations?date=2025-10-30
+Accept: application/json

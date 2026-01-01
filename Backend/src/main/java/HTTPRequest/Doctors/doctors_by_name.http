@@ -1,0 +1,3 @@
+### Get doctors by last name
+GET http://localhost:8081/api/doctors?name=Maboul
+Accept: application/json

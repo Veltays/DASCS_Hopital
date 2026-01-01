@@ -1,0 +1,3 @@
+### Get all doctors
+GET http://localhost:8081/api/doctors
+Accept: application/json

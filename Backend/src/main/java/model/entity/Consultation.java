@@ -1,7 +1,7 @@
 package model.entity;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 
 public class Consultation implements Entity {
     private static final long serialVersionUID = 1L;
