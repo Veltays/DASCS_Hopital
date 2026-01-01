@@ -1,6 +1,5 @@
 package model.dao;
 
-import ProtocoleCAP.Exception.CAPException;
 import model.entity.Consultation;
 import model.viewmodel.ConsultationSearchVM;
 
@@ -166,17 +165,11 @@ public class ConsultationDAO {
                     pStmt.close();
                 }
             }
-            else
-            {
-                throw new CAPException("Erreur lors de l'ajout d'une consultation elle overlap une deja existante");
-            }
         }
         catch (SQLException sqlException)
         {
             Logger.getLogger(ConsultationDAO.class.getName()).log(Level.SEVERE, null, sqlException);
             throw sqlException;
-        } catch (CAPException e) {
-            throw new RuntimeException(e);
         }
     }
 
