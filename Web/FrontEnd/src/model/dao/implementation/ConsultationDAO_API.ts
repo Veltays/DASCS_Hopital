@@ -93,7 +93,12 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
     }
   }
 
-  // ===== DELETE =====
+
+
+
+
+
+
   public async delete(item: null | string | Consultation): Promise<void> {
     if (item == null) {
       throw new ConsultationsNotFoundError('Erreur de delete: paramètre nul')
@@ -101,19 +106,20 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
 
     let id: string
 
-    // cas 1 : id direct
     if (typeof item === 'string' || typeof item === 'number') {
       id = String(item)
-    }
-    // cas 2 : objet Consultation
-    else {
+    } else {
       if (item.id == null) {
         throw new ConsultationsNotFoundError('Erreur de delete: Consultation sans id')
       }
       id = String(item.id)
     }
 
-    const res = await fetch(`${this.API_ENDPOINT}/${id}`, {
+    // ✅ URLSearchParams (même pattern que load)
+    const params = new URLSearchParams()
+    params.append('id', id)
+
+    const res = await fetch(`${this.API_ENDPOINT}?${params.toString()}`, {
       method: 'DELETE',
     })
 
@@ -121,6 +127,6 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
       throw new ConsultationsNotFoundError(`Consultation avec id ${id} pas trouvée`)
     }
 
-    console.log(`Consultation ${id} supprimée avec succès`)
+    console.log(`Consultation ${id} libérée avec succès`)
   }
 }
