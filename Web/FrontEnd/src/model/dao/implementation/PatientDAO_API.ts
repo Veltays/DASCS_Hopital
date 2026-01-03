@@ -11,7 +11,7 @@ export class PatientsNotFoundError extends Error {
 
 export class PatientDAO_API implements PatientAccessLayer {
   private selectedPatients: Array<Patient>
-  private API_ENDPOINT: string = 'http://localhost:8081/api/patients'
+  private API_ENDPOINT: string = '/api/patients'
 
   constructor() {
     this.selectedPatients = []

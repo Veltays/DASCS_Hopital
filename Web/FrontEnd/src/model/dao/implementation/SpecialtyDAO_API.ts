@@ -14,7 +14,7 @@ export class SpecialtiesNotFoundError extends Error {
 
 export class SpecialtyDAO_API implements SpecialtiesAccessLayer {
   private selectedSpecialities: Array<Specialty>
-  private API_ENDPOINT: string = 'http://localhost:8081/api/specialties'
+  private API_ENDPOINT: string = '/api/specialties'
   constructor() {
     this.selectedSpecialities = []
   }

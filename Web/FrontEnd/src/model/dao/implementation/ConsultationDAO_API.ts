@@ -11,7 +11,7 @@ export class ConsultationsNotFoundError extends Error {
 
 export class ConsultationDAO_API implements ConsultationAccessLayer {
   private selectedConsultations: Array<Consultation>
-  private API_ENDPOINT: string = 'http://localhost:8081/api/consultations'
+  private API_ENDPOINT: string = '/api/consultations'
 
   constructor() {
     this.selectedConsultations = []

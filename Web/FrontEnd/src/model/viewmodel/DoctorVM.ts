@@ -1,4 +1,4 @@
-export interface DoctorVM {
+export type DoctorVM = {
   id?: number
   specialtyId?: number
   lastname?: string

@@ -1,4 +1,4 @@
-export interface ConsultationVM {
+export type ConsultationVM = {
   id?: number
   doctorId?: number
   patientId?: number

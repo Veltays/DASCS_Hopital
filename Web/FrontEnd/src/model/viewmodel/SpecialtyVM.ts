@@ -1,4 +1,4 @@
-export interface SpecialtyVM {
+export type SpecialtyVM ={
   id?: number
   name?: string
 }
