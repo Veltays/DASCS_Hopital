@@ -123,7 +123,7 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
       id = String(item.id)
     }
 
-// ✅ URLSearchParams (même pattern que load)
+  // URLSearchParams (même pattern que load)
     const params = new URLSearchParams()
     params.append('id', id)
 
