@@ -57,33 +57,36 @@ export class PatientDAO_API implements PatientAccessLayer {
     return this.selectedPatients
   }
 
-  // ===== SAVE (POST si nouveau / PUT si existant EXACTEMENT COMME SPECIALTY) =====
-  public async save(patientToSave: Patient): Promise<void> {
-    if (patientToSave.id == null) {
-      // ajout
-      const newPatient: Patient = {
-        id: -1,
-        firstname: patientToSave.firstname,
-        lastname: patientToSave.lastname,
-        birthDate: patientToSave.birthDate,
-      }
+  public async save(
+    patientToSave: Patient,
+    newPatient: boolean
+  ): Promise<number> {
 
-      const res = await fetch(this.API_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newPatient),
-      })
-
-      const patientAdded = await res.json()
-      console.log(patientAdded)
-    } else {
-      // modification
-      await fetch(`${this.API_ENDPOINT}/${patientToSave.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(patientToSave),
-      })
+    const body: any = {
+      lastName: patientToSave.lastname,
+      firstName: patientToSave.firstname,
+      birthDate: patientToSave.birthDate, // OBLIGATOIRE
+      newPatient: newPatient,
     }
+
+    if (!newPatient) {
+      body.patientId = patientToSave.id
+    }
+
+    const res = await fetch(this.API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      throw new PatientsNotFoundError(
+        'Erreur lors de la création / identification du patient'
+      )
+    }
+
+    const id = await res.json()
+    return Number(id)
   }
 
   // ===== DELETE (DELETE EXACTEMENT COMME SPECIALTY) =====

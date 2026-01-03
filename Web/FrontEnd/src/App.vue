@@ -40,11 +40,11 @@ async function handleLogin(payload: {
     id: payload.patientId ? Number(payload.patientId) : undefined,
     firstname: payload.firstname,
     lastname: payload.lastname,
-    birthDate: undefined,
+    birthDate: '01/01/2000', // OBLIGATOIRE POUR TON BACKEND
   }
 
-  // POST si nouveau / PUT si existant (logique API)
-  await daoPatient.save(patient)
+  const id = await daoPatient.save(patient, payload.isNewPatient)
+  patient.id = id
 
   connectedPatient.value = patient
   isConnected.value = true

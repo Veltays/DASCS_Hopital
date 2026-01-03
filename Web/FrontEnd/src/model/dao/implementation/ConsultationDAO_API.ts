@@ -21,7 +21,7 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
     return this.selectedConsultations
   }
 
-  // ===== LOAD (MÊME STRUCTURE QUE SPECIALTY) =====
+  // ===== LOAD =====
   public async load(vm?: ConsultationVM): Promise<Array<Consultation>> {
     this.selectedConsultations = []
 
@@ -61,7 +61,7 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
     return this.selectedConsultations
   }
 
-  // ===== SAVE (POST / PUT EXACTEMENT COMME SPECIALTY) =====
+  // ===== SAVE=====
   public async save(consultationToSave: Consultation): Promise<void> {
     if (consultationToSave.id == null) {
       // ajout
@@ -93,7 +93,7 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
     }
   }
 
-  // ===== DELETE (DELETE EXACTEMENT COMME SPECIALTY) =====
+  // ===== DELETE =====
   public async delete(item: null | string | Consultation): Promise<void> {
     if (item == null) {
       throw new ConsultationsNotFoundError('Erreur de delete: paramètre nul')
@@ -101,12 +101,16 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
 
     let id: string
 
-    if (typeof item === 'string') {
-      id = item
-    } else if (item.id) {
+    // cas 1 : id direct
+    if (typeof item === 'string' || typeof item === 'number') {
+      id = String(item)
+    }
+    // cas 2 : objet Consultation
+    else {
+      if (item.id == null) {
+        throw new ConsultationsNotFoundError('Erreur de delete: Consultation sans id')
+      }
       id = String(item.id)
-    } else {
-      throw new ConsultationsNotFoundError('Erreur de delete: Consultation sans id')
     }
 
     const res = await fetch(`${this.API_ENDPOINT}/${id}`, {

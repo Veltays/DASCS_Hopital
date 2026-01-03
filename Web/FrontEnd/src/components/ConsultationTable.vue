@@ -1,26 +1,79 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import type { Consultation } from '@/model/entity/Consultation'
+import { ref, computed, onMounted } from 'vue'
 
-// Props
+import type { Consultation } from '@/model/entity/Consultation'
+import type { Doctor } from '@/model/entity/Doctor'
+import type { Specialty } from '@/model/entity/Speciality'
+
+import { DoctorDAO_API } from '@/model/dao/implementation/DoctorDAO_API'
+import { SpecialtyDAO_API } from '@/model/dao/implementation/SpecialtyDAO_API'
+
+// =======================
+// PROPS
+// =======================
 const props = defineProps<{
   consultations: Consultation[]
 }>()
 
-// État local
-const selectedConsultationId = ref<string | null>(null)
+// =======================
+// STATE LOCAL
+// =======================
+const selectedConsultationId = ref<number  | null>(null)
+const doctors = ref<Doctor[]>([])
+const specialties = ref<Specialty[]>([])
 
-// Computed
+// =======================
+// DAO
+// =======================
+const doctorDAO = new DoctorDAO_API()
+const specialtyDAO = new SpecialtyDAO_API()
+
+// =======================
+// INIT
+// =======================
+onMounted(async () => {
+  doctors.value = await doctorDAO.load()
+  specialties.value = await specialtyDAO.load()
+})
+
+// =======================
+// COMPUTED
+// =======================
 const nbConsultations = computed(() => props.consultations.length)
 
-// Emits
+// =======================
+// UTILS (SIMPLES)
+// =======================
+function getDoctorName(doctorId: number): string {
+  const doctor = doctors.value.find(d => d.id === doctorId)
+  return doctor
+    ? `${doctor.firstname} ${doctor.lastname}`
+    : '—'
+}
+
+function getSpecialtyName(doctorId: number): string {
+  const doctor = doctors.value.find(d => d.id === doctorId)
+  if (!doctor) return '—'
+
+  const specialty = specialties.value.find(
+    s => s.id === doctor.specialtyId
+  )
+
+  return specialty ? specialty.name : '—'
+}
+
+// =======================
+// EMITS
+// =======================
 const emit = defineEmits<{
   (e: 'logout'): void
   (e: 'delete-consultation', id: string): void
   (e: 'new-consultation'): void
 }>()
 
-// Methods
+// =======================
+// METHODS
+// =======================
 function onDelete() {
   if (!selectedConsultationId.value) {
     alert('Veuillez sélectionner une consultation')
@@ -36,47 +89,46 @@ function onDelete() {
 <template>
   <div class="mt-5 composant">
     <h2>Mes rendez-vous</h2>
+
     <p class="text-muted">
       Nombre de consultations : {{ nbConsultations }}
     </p>
 
-    <div class="table-responsive">
-      <table class="table table-striped table-hover table-bordered">
-        <thead>
-        <tr>
-          <th>Date</th>
-          <th>Heure</th>
-          <th>Médecin</th>
-          <th>Spécialité</th>
-          <th>Raison</th>
-          <th>Sélection</th>
-        </tr>
-        </thead>
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Heure</th>
+        <th>Médecin</th>
+        <th>Spécialité</th>
+        <th>Raison</th>
+        <th>Sélection</th>
+      </tr>
+      </thead>
 
-        <tbody>
-        <tr
-          v-for="consultation in props.consultations"
-          :key="consultation.id"
-        >
-          <td>{{ consultation.date }}</td>
-          <td>{{ consultation.hour }}</td>
-          <td>{{ consultation.doctorName }}</td>
-          <td>{{ consultation.specialtyName }}</td>
-          <td>{{ consultation.reason }}</td>
-          <td class="text-center">
-            <input
-              type="radio"
-              name="selectedConsultation"
-              :value="consultation.id"
-              v-model="selectedConsultationId"
-            />
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+      <tbody>
+      <tr
+        v-for="consultation in consultations"
+        :key="consultation.id"
+      >
+        <td>{{ consultation.date }}</td>
+        <td>{{ consultation.hour }}</td>
+        <td>{{ getDoctorName(consultation.doctorId) }}</td>
+        <td>{{ getSpecialtyName(consultation.doctorId) }}</td>
+        <td>{{ consultation.reason }}</td>
+        <td class="text-center">
+          <input
+            type="radio"
+            name="selectedConsultation"
+            :value="consultation.id"
+            v-model="selectedConsultationId"
+          />
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
-    <!-- Boutons -->
+    <!-- BOUTONS -->
     <div class="buttons-container">
       <button class="btn btn-secondary" @click="emit('logout')">
         Logout
@@ -93,15 +145,11 @@ function onDelete() {
   </div>
 </template>
 
-<style>
+<style scoped>
 .composant {
-  background-color: #f8f9fa;
-  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 900px;
-  max-width: 95vw;
-  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
 .buttons-container {
