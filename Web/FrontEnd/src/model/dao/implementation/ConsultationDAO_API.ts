@@ -60,8 +60,7 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
 
     return this.selectedConsultations
   }
-
-  // ===== SAVE=====
+// ===== SAVE =====
   public async save(consultationToSave: Consultation): Promise<void> {
     if (consultationToSave.id == null) {
       // ajout
@@ -84,15 +83,24 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
       const consultationAdded = await res.json()
       console.log(consultationAdded)
     } else {
-      // modification
-      await fetch(`${this.API_ENDPOINT}/${consultationToSave.id}`, {
+      // modification (réservation)
+      const params = new URLSearchParams()
+      params.append('id', String(consultationToSave.id))
+
+      const res = await fetch(`${this.API_ENDPOINT}?${params.toString()}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(consultationToSave),
+        body: JSON.stringify({
+          patientId: consultationToSave.patientId,
+          reason: consultationToSave.reason,
+        }),
       })
+
+      if (!res.ok) {
+        throw new ConsultationsNotFoundError('Erreur lors de la réservation')
+      }
     }
   }
-
 
 
 
@@ -115,7 +123,7 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
       id = String(item.id)
     }
 
-    // ✅ URLSearchParams (même pattern que load)
+// ✅ URLSearchParams (même pattern que load)
     const params = new URLSearchParams()
     params.append('id', id)
 

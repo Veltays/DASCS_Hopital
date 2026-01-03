@@ -1,98 +1,54 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-
+import { ref } from 'vue'
 import type { Consultation } from '@/model/entity/Consultation'
 import type { Doctor } from '@/model/entity/Doctor'
 import type { Specialty } from '@/model/entity/Speciality'
 
-import { ConsultationDAO_API } from '@/model/dao/implementation/ConsultationDAO_API'
-import { DoctorDAO_API } from '@/model/dao/implementation/DoctorDAO_API'
-import { SpecialtyDAO_API } from '@/model/dao/implementation/SpecialtyDAO_API'
+// =======================
+// PROPS
+// =======================
 
-// =======================
-// PROPS / EMITS
-// =======================
-const props = defineProps<{
-  patientId: number
+
+defineProps<{
+  consultations: Consultation[]
+  doctors: Doctor[]
+  specialties: Specialty[]
 }>()
 
+
+// =======================
+// EMITS
+// =======================
 const emit = defineEmits<{
-  (e: 'reserved'): void
+  (e: 'search', doctorId: number | null, specialtyId: number | null): void
+  (e: 'reserve', consultationId: number, reason: string): void
   (e: 'cancel'): void
 }>()
 
 // =======================
-// STATE
+// STATE LOCAL (UI)
 // =======================
-const consultations = ref<Consultation[]>([])
-const doctors = ref<Doctor[]>([])
-const specialties = ref<Specialty[]>([])
-
-const selectedConsultationId = ref<number | null>(null)
 const selectedDoctorId = ref<number | null>(null)
 const selectedSpecialtyId = ref<number | null>(null)
+const selectedConsultationId = ref<number | null>(null)
 
 // =======================
-// DAO
+// ACTIONS
 // =======================
-const consultationDAO = new ConsultationDAO_API()
-const doctorDAO = new DoctorDAO_API()
-const specialtyDAO = new SpecialtyDAO_API()
-
-// =======================
-// INIT
-// =======================
-onMounted(async () => {
-  doctors.value = await doctorDAO.load()
-  specialties.value = await specialtyDAO.load()
-  await loadConsultations()
-})
-
-// =======================
-// LOAD CONSULTATIONS
-// =======================
-async function loadConsultations() {
-  consultations.value = await consultationDAO.load()
-
-  // garder uniquement celles qui ne sont pas réservées
-  consultations.value = consultations.value.filter(c => c.patientId == null)
+function search() {
+  emit('search', selectedDoctorId.value, selectedSpecialtyId.value)
 }
 
-// =======================
-// FILTER (APPEL MANUEL)
-// =======================
-async function applyFilters() {
-  consultations.value = await consultationDAO.load({
-    doctorId: selectedDoctorId.value ?? undefined,
-  })
-
-  consultations.value = consultations.value.filter(c => c.patientId == null)
-}
-
-// =======================
-// RESERVE
-// =======================
-async function reserve() {
+function reserve() {
   if (selectedConsultationId.value == null) {
     alert('Veuillez sélectionner une consultation')
     return
   }
 
   const reason = prompt('Raison de la consultation ?')
-  if (reason == null || reason === '') return
+  if (!reason) return
 
-  const consultation = consultations.value.find(
-    c => c.id === selectedConsultationId.value
-  )
-
-  if (!consultation) return
-
-  consultation.patientId = props.patientId
-  consultation.reason = reason
-
-  await consultationDAO.save(consultation)
-
-  emit('reserved')
+  emit('reserve', selectedConsultationId.value, reason)
 }
 </script>
 
@@ -124,7 +80,7 @@ async function reserve() {
         </option>
       </select>
 
-      <button class="btn btn-primary" @click="applyFilters">
+      <button class="btn btn-primary" @click="search">
         Rechercher
       </button>
     </div>
@@ -146,7 +102,7 @@ async function reserve() {
       >
         <td>{{ c.date }}</td>
         <td>{{ c.hour }}</td>
-        <td>{{ c.doctorName }}</td>
+        <td>{{ c.doctorId }}</td>
         <td class="text-center">
           <input
             type="radio"
