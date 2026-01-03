@@ -33,7 +33,7 @@ public class RestServer {
         // Démarrage du serveur
         server.start();
 
-        System.out.println("Serveur REST demarre sur http://localhost:8080");
+        System.out.println("Serveur REST demarre sur http://localhost:8081");
 
 
     }
