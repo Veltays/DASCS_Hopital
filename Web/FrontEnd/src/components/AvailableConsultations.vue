@@ -145,5 +145,24 @@ function reserve() {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  border-radius: 40px;
+}
+table th, table td
+{
+  border : 2px solid black;
+  padding : 8px;
+}
+h2
+{
+  text-decoration: underline;
+  border: 2px solid black;
+  text-align : center;
+}
+th
+{
+  font-weight:bolder;
+  background: dimgray;
+  color:black;
+  padding : 12px;
 }
 </style>

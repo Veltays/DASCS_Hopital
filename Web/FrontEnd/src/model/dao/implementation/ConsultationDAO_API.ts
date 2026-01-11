@@ -32,7 +32,7 @@ export class ConsultationDAO_API implements ConsultationAccessLayer {
         params.append('id', String(vm.id))
       }
       if (vm.doctorId) {
-        params.append('doctorId', String(vm.doctorId))
+        params.append('doctor_id', String(vm.doctorId))
       }
       if (vm.patientId) {
         params.append('patientId', String(vm.patientId))

@@ -3,7 +3,6 @@ import java.net.InetSocketAddress;
 import java.io.IOException;
 
 // APIs
-import api.TodoApi;
 import api.DoctorsAPI;
 import api.PatientAPI;
 import api.SpecialtiesAPI;
@@ -12,7 +11,7 @@ import utils.ConfigLoader;
 
 
 public class RestServer {
-    static void main() throws IOException {
+    public static void main(String args[]) throws IOException {
 
         System.out.println("Demarrage du serveur REST...");
 

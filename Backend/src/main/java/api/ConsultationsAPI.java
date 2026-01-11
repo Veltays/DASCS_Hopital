@@ -46,56 +46,68 @@ public class ConsultationsAPI extends RestAPI implements HttpHandler {
             if (queryParams.containsKey("date")) {
                 consultationVM.setDate(LocalDate.parse(queryParams.get("date")));
             }
-
+            // ---- filtres patients directs ----
             if (queryParams.containsKey("patientId")) {
                 consultationVM.setPatient_id(Integer.parseInt(queryParams.get("patientId")));
             }
 
-
+            if (queryParams.containsKey("doctor_id")) {
+                try {
+                    consultationVM.setDoctor_id(Integer.parseInt(queryParams.get("doctor_id")));
+                } catch (NumberFormatException e) {
+                    // ignore
+                }
+            }
                 // ---- filtre doctor ----
             if (queryParams.containsKey("doctor")) {
                 doctorVM.setLastname(queryParams.get("doctor"));
             }
 
-                // ---- filtre specialty ----
-            if (queryParams.containsKey("specialty")) {
-                specialtyVM.setName(queryParams.get("specialty"));
-
-                ArrayList<Specialty> specialties = null;
+            // ---- filtre specialty ----
+            if (queryParams.containsKey("specialty_id")) {
                 try {
-                    specialties = specialtyDAO.load(specialtyVM);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    Integer specialtyId = Integer.parseInt(queryParams.get("specialty_id"));
+                    doctorVM.setSpecialty_id(specialtyId);  // filtrage par spécialité
+                } catch (NumberFormatException e) {
+                    // ignore
                 }
-                if (specialties.isEmpty()) {
-                    sendResponse(exchange, ApiConstants.HTTP_OK, "[]");
-                    return;
-                }
-                doctorVM.setSpecialty_id(specialties.get(0).getId());
             }
 
-                // ---- si doctor ou specialty → récupérer doctors ----
-            if (queryParams.containsKey("doctor") || queryParams.containsKey("specialty")) {
-
+// ---- si doctor ou specialty → récupérer consultations correspondantes ----
+            if (queryParams.containsKey("doctor") || queryParams.containsKey("specialty_id")) {
                 ArrayList<Doctor> doctors = null;
                 try {
                     doctors = doctorDAO.load(doctorVM);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+
                 if (doctors.isEmpty()) {
                     sendResponse(exchange, ApiConstants.HTTP_OK, "[]");
                     return;
                 }
 
-                //  version simple : 1er doctor
-                consultationVM.setDoctor_id(doctors.get(0).getId());
+                ArrayList<Consultation> allConsultations = new ArrayList<>();
+                for (Doctor d : doctors) {
+                    consultationVM.setDoctor_id(d.getId());
+                    try {
+                        allConsultations.addAll(consultationDAO.load(consultationVM));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                sendResponse(exchange, ApiConstants.HTTP_OK, convertConsultationListToJson(allConsultations));
+                return;
             }
+
+
 
             // ---- récupération finale ----
             ArrayList<Consultation> consultations = null;
             try {
                 consultations = consultationDAO.load(consultationVM);
+                //System.out.println(consultations);
             }
             catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -111,7 +123,7 @@ public class ConsultationsAPI extends RestAPI implements HttpHandler {
                 ArrayList<Consultation> availableConsultations = new ArrayList<>();
 
                 for (Consultation c : consultations) {
-                    if (c.getPatient_id() == null) {
+                    if (c.getPatient_id() == 0) {
                         availableConsultations.add(c);
                     }
                 }
@@ -223,6 +235,7 @@ public class ConsultationsAPI extends RestAPI implements HttpHandler {
         for (int i = 0; i < consultations.size(); i++) {
             Consultation c = consultations.get(i);
 
+            //System.out.println(c);
             json.append("{")
                     .append("\"id\":").append(c.getId()).append(",")
                     .append("\"doctor_id\":").append(c.getDoctor_id()).append(",")

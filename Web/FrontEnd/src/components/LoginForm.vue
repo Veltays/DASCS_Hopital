@@ -26,8 +26,6 @@ function login() {
     isNewPatient: isNewPatient.value,
   })
 
-
-
 }
 </script>
 
@@ -87,12 +85,13 @@ btn{
 }
 
 .btn-primary{
-  background-color: #007bff;
+  background-color: darkslategray;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
+
 }
 
 </style>

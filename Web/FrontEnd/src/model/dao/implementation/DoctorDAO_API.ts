@@ -34,7 +34,7 @@ export class DoctorDAO_API implements DoctorAccessLayer {
         params.append('name', vm.lastname)
       }
       if (vm.specialtyId) {
-        params.append('specialty', String(vm.specialtyId))
+        params.append('specialty_id', String(vm.specialtyId))
       }
       if (vm.userId) {
         params.append('userId', String(vm.userId))
@@ -51,11 +51,19 @@ export class DoctorDAO_API implements DoctorAccessLayer {
       const res = await fetch(`${this.API_ENDPOINT}`)
 
       if (res.ok) {
-        this.selectedDoctors = await res.json()
+        const data = await res.json()
+        this.selectedDoctors = data.map((d: any) => ({
+          id: d.id,
+          firstname: d.firstname,
+          lastname: d.lastname,
+          specialtyId: d.specialty_id,
+          userId: d.user_id ?? d.userId,
+        }))
       } else {
         throw new DoctorsNotFoundError('Erreur de load')
       }
     }
+
 
     return this.selectedDoctors
   }

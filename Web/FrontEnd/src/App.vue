@@ -98,24 +98,59 @@ async function loadAvailableConsultations() {
 // =======================
 // FILTRES DISPONIBLES
 // =======================
-async function applyAvailableFilters() {
-  const params: any = {}
+async function applyAvailableFilters(
+  doctorId: number | null,
+  specialtyId: number | null
+) {
+  // CAS 1 : médecin + spécialité
+  if (doctorId !== null && specialtyId !== null) {
+    const doctor = doctors.value.find(d => d.id === doctorId)
 
-  if (selectedDoctorId.value != null) {
-    const doctor = doctors.value.find(d => d.id === selectedDoctorId.value)
-    if (doctor) params.doctor = doctor.lastname
+    // incohérence → aucun résultat
+    if (!doctor || doctor.specialtyId !== specialtyId) {
+      availableConsultations.value = []
+      return
+    }
+
+    // cohérent → charger consultations du médecin
+    availableConsultations.value =
+      (await daoConsultation.load({ doctorId }))
+        .filter(c => c.patientId == null)
+
+    return
   }
 
-  if (selectedSpecialtyId.value != null) {
-    const specialty = specialties.value.find(s => s.id === selectedSpecialtyId.value)
-    if (specialty) params.specialty = specialty.name
+  // CAS 2 : médecin seul
+  if (doctorId !== null) {
+    availableConsultations.value =
+      (await daoConsultation.load({ doctorId }))
+        .filter(c => c.patientId == null)
+    return
   }
 
-  availableConsultations.value = await daoConsultation.load(params)
-  availableConsultations.value = availableConsultations.value.filter(
-    c => c.patientId == null
-  )
+  // CAS 3 : spécialité seule
+  if (specialtyId !== null) {
+    const doctorIds = doctors.value
+      .filter(d => d.specialtyId === specialtyId)
+      .map(d => d.id)
+
+    availableConsultations.value = []
+
+    for (const id of doctorIds) {
+      const res = await daoConsultation.load({ doctorId: id })
+      availableConsultations.value.push(
+        ...res.filter(c => c.patientId == null)
+      )
+    }
+    return
+  }
+
+  // CAS 4 : aucun filtre
+  availableConsultations.value =
+    (await daoConsultation.load())
+      .filter(c => c.patientId == null)
 }
+
 
 // =======================
 // RESERVER
@@ -214,5 +249,11 @@ function logout() {
 <style scoped>
 .main-container {
   padding: 2rem;
+  font-family : Monospaced, Cursiva, serif;
+  font-size: 14px;
+  color: darkolivegreen;
+  background-color: darkgray;
+
+
 }
 </style>

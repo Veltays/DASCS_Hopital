@@ -157,4 +157,25 @@ function onDelete() {
   justify-content: space-between;
   margin-top: 20px;
 }
+
+table th, table td
+{
+  border : 2px solid black;
+  padding : 8px;
+}
+
+th
+{
+  font-weight:bolder;
+  background: dimgray;
+  color:black;
+  padding : 10px;
+}
+h2
+{
+  text-decoration: underline;
+  border: 2px solid black;
+  text-align : center;
+
+}
 </style>
