@@ -250,7 +250,6 @@ public class MRPS implements Protocole
         ByteArrayInputStream bais = new ByteArrayInputStream(messageClair);
         DataInputStream dis = new DataInputStream(bais);
 
-        int id = dis.readInt();
         int idPatient = dis.readInt();
         LocalDate date = LocalDate.parse(dis.readUTF());
         String description = dis.readUTF();
@@ -269,7 +268,7 @@ public class MRPS implements Protocole
 
         }
 
-        Report reportToAdd = new Report(id, idPatient, doctorID, date, description);
+        Report reportToAdd = new Report( idPatient, doctorID, date, description);
         reportDAO.save(reportToAdd);
         logger.Trace("est ce que on arrive bien ici au moins?");
         return new Reponse_ADD_REPORT(true);
@@ -300,15 +299,17 @@ public class MRPS implements Protocole
             logger.Trace("Clé de session manquante");
             return new Reponse_EDIT_REPORT(false);
         }
-        // 1er etape : dechiffrer le message crypté reçu à laide de myCrypto
 
+        // 1er etape : dechiffrer le message crypté reçu à laide de myCrypto
         try {
             byte[] messageClair = MyCrypto.DecryptSymAES(sessionKey, requete.getData());
             ByteArrayInputStream bais = new ByteArrayInputStream(messageClair);
             DataInputStream dis = new DataInputStream(bais);
 
             int reportId = dis.readInt();
+            System.out.println("reportId: " + reportId);
             String description = dis.readUTF();
+
             //récupere l'id du médecin
             Integer doctorId = doctorDAO.getDoctorIdByLogin(login);
             if (doctorId == null) {

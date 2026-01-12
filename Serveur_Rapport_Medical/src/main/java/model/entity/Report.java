@@ -15,8 +15,7 @@ public class Report implements Entity
     private String description;
 
 
-    public Report(Integer id, Integer idPatient, Integer idMedecin, LocalDate date, String description) {
-        this.id = id;
+    public Report(Integer idPatient, Integer idMedecin, LocalDate date, String description) {
         this.idPatient = idPatient;
         this.idMedecin = idMedecin;
         this.date = date;

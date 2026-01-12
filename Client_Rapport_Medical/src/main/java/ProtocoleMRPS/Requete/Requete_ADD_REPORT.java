@@ -12,14 +12,13 @@ public class Requete_ADD_REPORT extends RequeteMRPS
     private byte[] data;
     // data cryptés symétriquement + signature du médecin
 
-    public Requete_ADD_REPORT(Integer id, Integer idPatient, LocalDate date, String description, SecretKey sessionKey) throws Exception {
+    public Requete_ADD_REPORT(Integer idPatient, LocalDate date, String description, SecretKey sessionKey) throws Exception {
 
         // on reçoit les données en clair puis on les crypte
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
 
-        dos.writeInt(id);
         dos.writeInt(idPatient);
         dos.writeUTF(date.toString());      // ISO 8601
         dos.writeUTF(description);

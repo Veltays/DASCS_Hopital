@@ -15,12 +15,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MainController {
 
     private final MainView view;
     private final ConnectServer connectServer;
+
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public MainController (MainView view, ConnectServer connectServer)
     {
@@ -125,12 +128,11 @@ public class MainController {
             dialog.setVisible(true);
 
             // récupérer les données
-            String id = dialog.getIdReport();
             String idPatient = dialog.getIdPatient();
             String date = dialog.getDateReport();
             String description = dialog.getDescription();
 
-            if (id.isEmpty() || idPatient.isEmpty() || date.isEmpty() || description.isEmpty()) {
+            if ( idPatient.isEmpty() || date.isEmpty() || description.isEmpty()) {
                 JOptionPane.showMessageDialog(null,
                         "Tous les champs doivent être remplis!",
                         "Erreur",
@@ -149,12 +151,11 @@ public class MainController {
             }
 
             System.out.println("[CLIENT] Envoi de la requête au serveur...");
-            System.out.println("[CLIENT DEBUG] id=" + id + ", idPatient=" + idPatient);
+            System.out.println("[CLIENT DEBUG] idPatient=" + idPatient);
 
             Requete requete;
             try {
                 requete = new Requete_ADD_REPORT(
-                        Integer.parseInt(id),
                         Integer.parseInt(idPatient),
                         LocalDate.parse(date),
                         description,
@@ -281,13 +282,13 @@ public class MainController {
 
         List<Report> reports = connectServer.ListReport();
         DefaultTableModel model = (DefaultTableModel) view.getTable().getModel();
-        model.setRowCount(0);  // vider la table
+        model.setRowCount(0);
 
         for (Report r : reports) {
             model.addRow(new Object[]{
                     r.getId(),
                     r.getIdPatient(),
-                    r.getDate(),
+                    r.getDate().format(DATE_FORMAT),
                     r.getDescription()
             });
         }

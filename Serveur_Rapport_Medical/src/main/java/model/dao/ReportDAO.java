@@ -106,7 +106,8 @@ public class ReportDAO {
                 }
                 String description = rs.getString("description");
 
-                Report report = new Report(id, idPatient, idMedecin, dateReport, description);
+                Report report = new Report(idPatient, idMedecin, dateReport, description);
+                report.setId(id);
                 reportList.add(report);
             }
 
@@ -123,14 +124,13 @@ public class ReportDAO {
     {
         try
         {
-            String sql = "INSERT INTO report (id, idPatient, idMedecin, date, description) VALUES (?,?, ?, ?, ?)";
+            String sql = "INSERT INTO report (idPatient, idMedecin, date, description) VALUES (?, ?, ?, ?)";
             PreparedStatement pStmt = connectDB.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            pStmt.setInt(1, r.getId());
-            pStmt.setInt(2, r.getIdPatient());
-            pStmt.setInt(3, r.getIdMedecin());
-            pStmt.setDate(4, java.sql.Date.valueOf(r.getDate()));
-            pStmt.setString(5, r.getDescription());
+            pStmt.setInt(1, r.getIdPatient());
+            pStmt.setInt(2, r.getIdMedecin());
+            pStmt.setDate(3, java.sql.Date.valueOf(r.getDate()));
+            pStmt.setString(4, r.getDescription());
 
             int rowsAffected = pStmt.executeUpdate();
             System.out.println("[DAO DEBUG] Lignes insérées dans report : " + rowsAffected);
@@ -159,13 +159,16 @@ public class ReportDAO {
             ps.setInt(1, reportId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Report(
-                            rs.getInt("id"),
+                    Report r = new Report  (
                             rs.getInt("idPatient"),
                             rs.getInt("idMedecin"),
                             rs.getDate("date").toLocalDate(),
                             rs.getString("description")
                     );
+                    r.setId(reportId);
+                    return r;
+
+
                 }
                 return null;
             }
@@ -207,12 +210,12 @@ public class ReportDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Report r = new Report(
-                            rs.getInt("id"),
                             rs.getInt("idPatient"),
                             rs.getInt("idMedecin"),
                             rs.getDate("date").toLocalDate(),
                             rs.getString("description")
                     );
+                    r.setId(rs.getInt("id"));
                     reports.add(r);
                 }
             }
