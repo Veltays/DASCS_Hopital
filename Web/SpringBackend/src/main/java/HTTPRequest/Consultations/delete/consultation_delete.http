@@ -1,0 +1,3 @@
+### Free a consultation (make it available again)
+DELETE http://localhost:8082/api/consultations?id=1656
+Accept: text/plain

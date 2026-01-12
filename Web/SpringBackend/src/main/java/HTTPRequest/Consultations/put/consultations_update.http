@@ -1,0 +1,9 @@
+### Reserve consultation 1656
+PUT http://localhost:8081/api/consultations?id=1656
+Content-Type: application/json
+Accept: text/plain
+
+{
+  "patientId": 2,
+  "reason": "Contrôle annuel"
+}
